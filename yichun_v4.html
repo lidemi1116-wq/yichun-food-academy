@@ -1,0 +1,3520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一淳小养 · 食养学院</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* 佗寂风色盘 —— 参考 #CDBA9C / #7C6150 / #C3AE7C / #968359 */
+  --paper:        #ede6d8;   /* 浅燕麦底色（比原稿略深，更有质感） */
+  --paper-dark:   #e0d5c0;   /* 次层纸色 */
+  --paper-darker: #d0c4aa;   /* 深一档 */
+  --ink-brown:    #3d2e1e;   /* 墨色深棕（基于#7C6150加深） */
+  --ink-mid:      #7c6150;   /* 中棕 —— 直取配色 */
+  --accent:       #968359;   /* 橄榄褐 —— 主强调色，替代朱砂红 */
+  --accent-soft:  #c3ae7c;   /* 草木金 —— 次强调/高亮 */
+  --gold:         #c3ae7c;   /* 草木金 */
+  --sage:         #8a9070;   /* 苔藓绿（低调辅助） */
+  --line:         rgba(124,97,80,0.18);
+  --line-soft:    rgba(124,97,80,0.09);
+  /* 语义别名，兼容旧代码 */
+  --crimson:      #968359;
+  --crimson-soft: #c3ae7c;
+  --gold-brown:   #7c6150;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: #2a2420;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* 纸张肌理背景 */
+.paper-bg {
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+.phone {
+  width: 390px;
+  height: 844px;
+  border-radius: 44px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 12px #1a1510, 0 0 0 13px #2a2218;
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+  background: var(--paper);
+}
+.screen::-webkit-scrollbar { display: none; }
+
+.page { display: none; min-height: 100%; }
+.page.active { display: block; }
+
+/* 状态栏 */
+.status-bar {
+  height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-brown);
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 100;
+}
+
+/* 水墨装饰SVG */
+.ink-deco {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.12;
+}
+
+/* ============ 首页 ============ */
+.home-page {
+  padding-bottom: 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 顶部大Banner - 模仿小程序风格 */
+.home-banner {
+  position: relative;
+  height: 300px;
+  background: #c8b89a;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.banner-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #cdba9c 0%, #968359 40%, #7c6150 100%);
+}
+
+/* 背景宣纸纹 */
+.banner-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.banner-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 32px;
+  z-index: 2;
+}
+
+.banner-logo {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(61,46,30,0.55);
+  letter-spacing: 6px;
+  margin-bottom: 14px;
+}
+
+.banner-headline {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #3d2e1e;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  text-shadow: none;
+}
+
+.banner-sub {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(61,46,30,0.55);
+  line-height: 1.8;
+  letter-spacing: 1px;
+}
+
+/* 水墨竹子装饰 */
+.bamboo-deco {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1;
+  opacity: 0.2;
+}
+
+/* 段位横幅 */
+.rank-strip {
+  background: var(--ink-brown);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.rank-strip::before {
+  content: '養';
+  font-family: 'Noto Serif SC', serif;
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(242,235,224,0.04);
+  line-height: 1;
+}
+
+.rank-strip-left { display: flex; align-items: center; gap: 14px; }
+
+.rank-icon {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(184,148,95,0.5);
+  display: flex; align-items: center; justify-content: center;
+  color: #c3ae7c;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.rank-info {}
+.rank-title {
+  font-size: 11px;
+  color: rgba(242,235,224,0.5);
+  letter-spacing: 2px;
+  margin-bottom: 3px;
+}
+.rank-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f2ebe0;
+}
+
+.rank-strip-right { text-align: right; }
+.rank-progress-label {
+  font-size: 10px;
+  color: rgba(242,235,224,0.4);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.rank-bar {
+  width: 90px;
+  height: 3px;
+  background: rgba(242,235,224,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rank-bar-fill {
+  width: 62%;
+  height: 100%;
+  background: linear-gradient(90deg, #c3ae7c, #c3ae7c);
+  border-radius: 2px;
+}
+
+/* 板块标题 */
+.section-head {
+  padding: 28px 24px 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+}
+
+.section-head::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: var(--line);
+}
+
+.section-ch {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.section-en {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(90,66,50,0.45);
+  letter-spacing: 2px;
+}
+
+.section-more {
+  font-size: 11px;
+  color: var(--crimson);
+  letter-spacing: 1px;
+  padding-bottom: 2px;
+}
+
+/* 三大入口 - 仿小程序卡片风 */
+.entry-grid {
+  padding: 16px 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+}
+
+.entry-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 8px;
+  cursor: pointer;
+  position: relative;
+  border-right: 1px solid var(--line);
+  transition: all 0.2s;
+}
+
+.entry-item:last-child { border-right: none; }
+.entry-item:active { background: var(--paper-dark); }
+
+.entry-hanzi {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--crimson);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.entry-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-brown);
+  margin-bottom: 3px;
+  letter-spacing: 1px;
+}
+
+.entry-sub {
+  font-size: 10px;
+  color: rgba(90,66,50,0.5);
+  text-align: center;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+/* 每日一题 - 仿小程序的大图文卡片 */
+.daily-section {
+  padding: 0 20px;
+  margin-top: 20px;
+}
+
+.daily-card {
+  background: var(--paper-dark);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.daily-card:active { opacity: 0.9; }
+
+.daily-card-top {
+  padding: 18px 20px 14px;
+  position: relative;
+}
+
+.daily-badge {
+  display: inline-block;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  color: var(--crimson);
+  letter-spacing: 2px;
+  border-bottom: 1px solid var(--crimson);
+  padding-bottom: 2px;
+  margin-bottom: 12px;
+}
+
+.daily-q {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-brown);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.daily-action {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--crimson);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.daily-action::after {
+  content: '→';
+  font-style: normal;
+}
+
+/* 学习模块 NO.01 NO.02 风格 */
+.module-list {
+  padding: 0 20px;
+}
+
+.module-item {
+  border-bottom: 1px solid var(--line);
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.module-item:active { background: var(--paper-dark); margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
+
+.module-no {
+  font-family: 'IM Fell English', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--crimson);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 44px;
+}
+
+.module-info { flex: 1; }
+
+.module-ch {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.module-ch::before {
+  content: '「';
+  font-size: 16px;
+  color: var(--crimson);
+}
+.module-ch::after {
+  content: '」';
+  font-size: 16px;
+  color: var(--crimson);
+}
+
+.module-en {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(90,66,50,0.45);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.module-bar {
+  height: 2px;
+  background: var(--line);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.module-bar-fill {
+  height: 100%;
+  background: var(--crimson-soft);
+  border-radius: 1px;
+}
+
+.module-stat {
+  font-size: 10px;
+  color: rgba(90,66,50,0.5);
+  letter-spacing: 1px;
+}
+
+.module-arrow {
+  color: var(--crimson);
+  font-size: 20px;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* 底部导航 - 仿小程序 */
+.tab-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  display: flex;
+  padding: 6px 0 20px;
+  z-index: 50;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  color: rgba(90,66,50,0.4);
+  transition: color 0.2s;
+}
+
+.tab.active { color: var(--crimson); }
+
+.tab-icon {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tab-label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+/* ============ 刷题页 ============ */
+.quiz-page {
+  padding-bottom: 110px;
+  position: relative;
+}
+
+.page-nav {
+  padding: 4px 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 44px;
+  z-index: 10;
+}
+
+.back-btn {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-brown);
+  font-size: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.quiz-progress-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quiz-bar {
+  flex: 1;
+  height: 2px;
+  background: var(--line);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.quiz-bar-fill {
+  height: 100%;
+  background: var(--crimson);
+  border-radius: 1px;
+  transition: width 0.4s ease;
+}
+
+.quiz-counter {
+  font-family: 'IM Fell English', serif;
+  font-size: 14px;
+  color: var(--ink-mid);
+  font-variant-numeric: tabular-nums;
+}
+
+.quiz-counter em {
+  color: var(--crimson);
+  font-style: normal;
+}
+
+/* 题目 */
+.question-wrap {
+  padding: 28px 24px 0;
+}
+
+.q-category {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(90,66,50,0.45);
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.q-category::before {
+  content: '';
+  width: 16px;
+  height: 1px;
+  background: var(--crimson);
+  opacity: 0.5;
+}
+
+.q-no {
+  font-family: 'IM Fell English', serif;
+  font-size: 13px;
+  color: var(--crimson);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.q-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ink-brown);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+/* 舌图 */
+.tongue-img {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  position: relative;
+  background: linear-gradient(160deg, #c4a090 0%, #a87060 100%);
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tongue-img svg {
+  width: 65%;
+  height: 80%;
+}
+
+/* 选项 */
+.options { display: flex; flex-direction: column; gap: 10px; }
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--paper-dark);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.option:active { transform: scale(0.99); }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--ink-mid);
+  flex-shrink: 0;
+  background: var(--paper);
+}
+
+.opt-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--ink-brown);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.opt-mark {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+
+.option.correct {
+  border-color: var(--sage);
+  background: rgba(106,122,90,0.08);
+}
+.option.correct .opt-letter {
+  background: var(--sage);
+  border-color: var(--sage);
+  color: #f2ebe0;
+}
+.option.correct .opt-mark { color: var(--sage); opacity: 1; }
+
+.option.wrong {
+  border-color: var(--crimson);
+  background: rgba(139,32,32,0.06);
+}
+.option.wrong .opt-letter {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: #f2ebe0;
+}
+.option.wrong .opt-mark { color: var(--crimson); opacity: 1; }
+
+/* 注解 - 仿小程序深色卡 */
+.explanation {
+  margin: 24px 24px 0;
+  background: var(--ink-brown);
+  border-radius: 2px;
+  overflow: hidden;
+  display: none;
+  animation: fadeUp 0.5s ease;
+}
+
+.explanation.show { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.exp-block {
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(242,235,224,0.08);
+}
+
+.exp-block:last-child { border-bottom: none; }
+
+.exp-label {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 10px;
+  color: #c3ae7c;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exp-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(195,174,124,0.25);
+}
+
+.exp-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(242,235,224,0.88);
+}
+
+.exp-text strong { color: #c3ae7c; font-weight: 600; }
+
+.exp-quote {
+  margin-top: 10px;
+  border-left: 2px solid #c3ae7c;
+  padding: 10px 14px;
+  background: rgba(242,235,224,0.05);
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(242,235,224,0.9);
+  font-style: italic;
+}
+
+.exp-mnemonic {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #c3ae7c;
+  text-align: center;
+  letter-spacing: 2px;
+  padding: 4px 0;
+}
+
+/* 关联产品 - 仿小程序产品卡 */
+.rel-product {
+  margin: 16px 24px 0;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 16px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  background: var(--paper-dark);
+  cursor: pointer;
+  animation: fadeUp 0.5s ease 0.2s both;
+  transition: all 0.2s;
+}
+
+.rel-product.show { display: flex; }
+.rel-product:active { background: var(--paper-darker); }
+
+.rel-prod-thumb {
+  width: 58px; height: 58px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #cdba9c, #7c6150);
+  display: flex; align-items: center; justify-content: center;
+  color: #ede6d8;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.rel-prod-thumb.warm { background: linear-gradient(135deg, #cdba9c, #968359); color: #ede6d8; }
+.rel-prod-thumb.cool { background: linear-gradient(135deg, #968359, #3d2e1e); color: #c3ae7c; }
+
+.rel-prod-info { flex: 1; min-width: 0; }
+
+.rel-prod-label {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 10px;
+  color: var(--crimson);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.rel-prod-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  margin-bottom: 3px;
+}
+
+.rel-prod-sub {
+  font-size: 11px;
+  color: rgba(90,66,50,0.6);
+  line-height: 1.4;
+}
+
+.rel-prod-arrow { color: var(--crimson); font-size: 18px; opacity: 0.6; }
+
+/* 下一题 */
+.next-btn {
+  display: none;
+  margin: 20px 24px;
+  width: calc(100% - 48px);
+  height: 48px;
+  background: var(--ink-brown);
+  color: var(--paper);
+  border: none;
+  border-radius: 2px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  letter-spacing: 6px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.next-btn.show { display: flex; }
+.next-btn:active { background: var(--ink-mid); }
+
+/* ============ 聊天页 ============ */
+.chat-page {
+  padding-bottom: 90px;
+}
+
+.chat-header {
+  padding: 4px 20px 18px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.chat-title-block {}
+.chat-title-ch {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  letter-spacing: 2px;
+  margin-bottom: 3px;
+}
+.chat-title-en {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(90,66,50,0.45);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chat-title-en::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--sage);
+  border-radius: 50%;
+}
+
+.chat-msgs {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.msg-bot {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  animation: fadeUp 0.4s ease;
+}
+
+.bot-ava {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--ink-brown);
+  display: flex; align-items: center; justify-content: center;
+  color: #c3ae7c;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+  border: 1px solid rgba(195,174,124,0.3);
+}
+
+.bot-bubble {
+  background: var(--paper-dark);
+  border: 1px solid var(--line);
+  border-radius: 2px 10px 10px 10px;
+  padding: 13px 16px;
+  max-width: 78%;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-brown);
+  font-family: 'Noto Serif SC', serif;
+}
+
+.bot-bubble strong { color: var(--crimson); font-weight: 600; }
+
+.msg-user {
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeUp 0.4s ease;
+}
+
+.user-bubble {
+  background: var(--ink-brown);
+  color: var(--paper);
+  border-radius: 10px 2px 10px 10px;
+  padding: 13px 16px;
+  max-width: 72%;
+  font-size: 14px;
+  line-height: 1.7;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: 46px;
+  margin-top: -8px;
+  animation: fadeUp 0.5s ease 0.3s both;
+}
+
+.qr-btn {
+  padding: 9px 14px;
+  background: transparent;
+  border: 1px solid var(--crimson);
+  color: var(--crimson);
+  border-radius: 2px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.qr-btn:active {
+  background: var(--crimson);
+  color: var(--paper);
+  transform: scale(0.97);
+}
+
+.typing-wrap {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.typing-dots {
+  background: var(--paper-dark);
+  border: 1px solid var(--line);
+  border-radius: 2px 10px 10px 10px;
+  padding: 14px 18px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.dot {
+  width: 6px; height: 6px;
+  background: var(--ink-mid);
+  border-radius: 50%;
+  animation: pulse 1.2s infinite;
+  opacity: 0.4;
+}
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+  0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+  30%          { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ============ 结果页 ============ */
+.result-page {
+  padding-bottom: 90px;
+}
+
+/* 结果大标题区 - 仿小程序大图文风格 */
+.result-hero {
+  background: var(--ink-brown);
+  padding: 32px 28px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(184,148,95,0.18) 0%, transparent 70%);
+}
+
+.result-hero-deco {
+  position: absolute;
+  bottom: -30px;
+  right: -10px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 220px;
+  font-weight: 900;
+  color: rgba(242,235,224,0.04);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.result-label-en {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(184,148,95,0.7);
+  letter-spacing: 4px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.result-type-ch {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--paper);
+  line-height: 1.2;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.result-type-sub {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #c3ae7c;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.result-desc {
+  font-size: 13px;
+  line-height: 1.9;
+  color: rgba(242,235,224,0.75);
+  position: relative;
+  font-weight: 300;
+}
+
+/* 结果详情 */
+.result-body {
+  padding: 0 24px;
+}
+
+.result-section {
+  padding: 24px 0 0;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0;
+}
+
+.res-sec-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.res-sec-label::before {
+  content: '';
+  width: 14px; height: 2px;
+  background: var(--crimson);
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 24px; }
+
+.tag {
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  color: var(--ink-mid);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  border-radius: 2px;
+  background: var(--paper-dark);
+  letter-spacing: 1px;
+}
+
+/* 推荐产品 - NO.01 NO.02 风格 */
+.rec-prod {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rec-prod:last-child { border-bottom: none; }
+.rec-prod:active { opacity: 0.8; }
+
+.rec-prod-no {
+  font-family: 'IM Fell English', serif;
+  font-size: 22px;
+  color: var(--crimson);
+  flex-shrink: 0;
+  width: 44px;
+  line-height: 1.1;
+}
+
+.rec-prod-img {
+  width: 68px; height: 68px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 22px;
+}
+
+.rec-prod-img.warm { background: linear-gradient(135deg, #cdba9c, #7c6150); color: #f2ebe0; }
+.rec-prod-img.cool { background: linear-gradient(135deg, #968359, #3d2e1e); color: #c3ae7c; }
+
+.rec-prod-info { flex: 1; }
+
+.rec-prod-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rec-prod-name::before { content: '「'; color: var(--crimson); font-size: 14px; }
+.rec-prod-name::after  { content: '」'; color: var(--crimson); font-size: 14px; }
+
+.rec-prod-why {
+  font-size: 12px;
+  color: rgba(90,66,50,0.65);
+  line-height: 1.6;
+}
+
+/* 话术框 */
+.script-box {
+  background: var(--ink-brown);
+  padding: 20px;
+  margin: 24px 0;
+  border-radius: 2px;
+  position: relative;
+}
+
+.script-top {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 10px;
+  color: #c3ae7c;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.script-top::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(195,174,124,0.25);
+}
+
+.script-text {
+  font-size: 13px;
+  line-height: 1.9;
+  color: rgba(242,235,224,0.88);
+}
+.script-text strong { color: #c3ae7c; font-weight: 600; }
+
+.copy-btn {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid rgba(184,148,95,0.4);
+  color: #c3ae7c;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.2s;
+  background: transparent;
+}
+.copy-btn:active {
+  background: rgba(195,174,124,0.15);
+}
+
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 0 24px;
+}
+
+/* ============ 产品库 ============ */
+.products-page { padding-bottom: 90px; }
+
+.prod-filter {
+  display: flex;
+  gap: 8px;
+  padding: 14px 20px 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.prod-filter::-webkit-scrollbar { display: none; }
+
+.filter-chip {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  color: var(--ink-mid);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+  background: var(--paper-dark);
+}
+.filter-chip.active {
+  background: var(--ink-brown);
+  color: var(--paper);
+  border-color: var(--ink-brown);
+}
+.filter-chip:active { transform: scale(0.96); }
+
+/* 产品卡片 —— 仿小程序 NO.01「八珍粉」风格 */
+.prod-card {
+  margin: 0 20px 2px;
+  border-bottom: 1px solid var(--line);
+  padding: 22px 0;
+  display: flex;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.prod-card:last-child { border-bottom: none; }
+.prod-card:active { opacity: 0.8; }
+
+.prod-card-no {
+  font-family: 'IM Fell English', serif;
+  font-size: 20px;
+  color: var(--crimson);
+  flex-shrink: 0;
+  width: 36px;
+  line-height: 1.1;
+  padding-top: 2px;
+}
+
+.prod-card-img {
+  width: 80px; height: 80px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 26px;
+  position: relative;
+  overflow: hidden;
+}
+.prod-card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.15) 100%);
+}
+
+.prod-card-body { flex: 1; min-width: 0; }
+
+.prod-card-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  display: flex; align-items: center; gap: 4px;
+}
+.prod-card-name::before { content: '「'; color: var(--crimson); font-size: 14px; }
+.prod-card-name::after  { content: '」'; color: var(--crimson); font-size: 14px; }
+
+.prod-card-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background: rgba(139,32,32,0.08);
+  color: var(--crimson);
+  font-size: 10px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+  margin-bottom: 7px;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.prod-card-desc {
+  font-size: 12px;
+  color: rgba(90,66,50,0.65);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.prod-card-arrow {
+  position: absolute;
+  right: 0; top: 50%;
+  transform: translateY(-50%);
+  color: var(--crimson);
+  font-size: 18px;
+  opacity: 0.4;
+}
+
+/* 产品详情页 */
+.proddetail-page { padding-bottom: 100px; }
+
+.proddetail-hero {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.proddetail-hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.proddetail-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 32px;
+}
+
+.proddetail-hero-no {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.proddetail-hero-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: 2px;
+}
+
+.proddetail-hero-sub {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  font-weight: 300;
+  margin-top: 6px;
+  letter-spacing: 2px;
+  opacity: 0.75;
+}
+
+.proddetail-body { padding: 0 24px; }
+
+.pd-section {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pd-section:last-child { border-bottom: none; }
+
+.pd-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.pd-label::before {
+  content: '';
+  width: 12px; height: 2px;
+  background: var(--crimson);
+  flex-shrink: 0;
+}
+
+/* 功效标签 */
+.effect-list { display: flex; flex-direction: column; gap: 10px; }
+.effect-item {
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.effect-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--crimson);
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+.effect-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--ink-brown);
+  line-height: 1.65;
+}
+.effect-text strong { color: var(--crimson); font-weight: 600; }
+
+/* 适用人群 */
+.crowd-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.crowd-item {
+  background: var(--paper-dark);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 10px 12px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  color: var(--ink-mid);
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+.crowd-item::before {
+  content: '✓ ';
+  color: var(--sage);
+  font-weight: 700;
+}
+
+/* 话术区 */
+.prod-script-box {
+  background: var(--ink-brown);
+  border-radius: 2px;
+  padding: 18px 20px;
+}
+.prod-script-label {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 10px;
+  color: #c3ae7c;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.prod-script-label::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: rgba(195,174,124,0.25);
+}
+.prod-script-text {
+  font-size: 13px;
+  line-height: 1.9;
+  color: rgba(242,235,224,0.88);
+}
+.prod-script-text strong { color: #c3ae7c; font-weight: 600; }
+
+/* 禁忌小字 */
+.prod-caution {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(139,32,32,0.06);
+  border-left: 2px solid rgba(139,32,32,0.3);
+  font-size: 11px;
+  color: rgba(90,66,50,0.6);
+  line-height: 1.7;
+}
+
+/* ============ 错题本 ============ */
+.wrong-page { padding-bottom: 90px; }
+
+.wrong-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 32px;
+  gap: 14px;
+  text-align: center;
+}
+.wrong-empty-hanzi {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 64px;
+  font-weight: 900;
+  color: var(--line);
+  line-height: 1;
+}
+.wrong-empty-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  color: var(--ink-mid);
+  letter-spacing: 2px;
+}
+.wrong-empty-sub {
+  font-size: 12px;
+  color: rgba(90,66,50,0.45);
+  line-height: 1.7;
+}
+
+.wrong-item {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.wrong-item:active { background: var(--paper-dark); }
+.wrong-item:last-child { border-bottom: none; }
+
+.wrong-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.wrong-item-tag {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 10px;
+  color: var(--crimson);
+  letter-spacing: 2px;
+}
+.wrong-item-count {
+  font-size: 11px;
+  color: rgba(90,66,50,0.45);
+}
+.wrong-item-q {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-brown);
+  line-height: 1.6;
+  margin-bottom: 8px;
+  padding-right: 24px;
+}
+.wrong-item-ans {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+.wrong-ans-label { color: rgba(90,66,50,0.45); letter-spacing: 1px; }
+.wrong-ans-text { color: var(--sage); font-weight: 600; }
+.wrong-item-arrow {
+  position: absolute;
+  right: 24px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--crimson);
+  font-size: 18px;
+  opacity: 0.4;
+}
+
+/* 首页错题本入口卡片 */
+.wrong-entry-card {
+  margin: 0 20px 0;
+  background: var(--ink-brown);
+  border-radius: 2px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.wrong-entry-card:active { opacity: 0.9; }
+.wrong-entry-card::after {
+  content: '錯';
+  font-family: 'Noto Serif SC', serif;
+  position: absolute;
+  right: -8px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(242,235,224,0.04);
+  line-height: 1;
+}
+.wrong-entry-hanzi {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: #c06060;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.wrong-entry-info { flex: 1; }
+.wrong-entry-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--paper);
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+}
+.wrong-entry-sub {
+  font-size: 11px;
+  color: rgba(242,235,224,0.5);
+  letter-spacing: 1px;
+}
+.wrong-entry-badge {
+  background: var(--crimson);
+  color: var(--paper);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 700;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  display: none;
+}
+.wrong-entry-badge.has-wrong { display: flex; }
+
+</style>
+</head>
+<body>
+<div class="phone">
+<div class="screen" id="screen">
+
+<!-- ============ 首页 ============ -->
+<div class="page home-page paper-bg active" id="home">
+  <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
+
+  <!-- Banner -->
+  <div class="home-banner">
+    <div class="banner-bg" style="background:#ede8dc;"></div>
+
+    <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:1;" viewBox="0 0 390 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- 山药截面径向渐变 -->
+        <radialGradient id="yamFill" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#e8dcc8" stop-opacity="1"/>
+          <stop offset="70%" stop-color="#ddd0b8" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#c8b898" stop-opacity="1"/>
+        </radialGradient>
+        <!-- 外圈晕染 -->
+        <radialGradient id="yamGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="60%" stop-color="#ddd0b8" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#c8b898" stop-opacity="0.18"/>
+        </radialGradient>
+        <filter id="fSoft" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3"/>
+        </filter>
+      </defs>
+
+      <!-- ── 山药横切面主体（偏右居中，大气） ── -->
+      <g transform="translate(222, 18)" opacity="0.82">
+        <!-- 外皮层（最外圈，粗糙感） -->
+        <circle cx="86" cy="136" r="124" fill="none" stroke="#b0966e" stroke-width="1.6" opacity="0.25"/>
+        <circle cx="86" cy="136" r="120" fill="#ddd0b8" opacity="0.55"/>
+        <!-- 皮层纹理（不规则细线模拟粗皮） -->
+        <circle cx="86" cy="136" r="120" fill="none" stroke="#a08860" stroke-width="0.7" opacity="0.18" stroke-dasharray="3 6"/>
+
+        <!-- 淀粉质肉层（主体填色） -->
+        <circle cx="86" cy="136" r="112" fill="url(#yamFill)" opacity="0.9"/>
+
+        <!-- 同心纹路（维管束环） -->
+        <circle cx="86" cy="136" r="96"  fill="none" stroke="#b8a07a" stroke-width="0.9" opacity="0.35"/>
+        <circle cx="86" cy="136" r="78"  fill="none" stroke="#b8a07a" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="86" cy="136" r="60"  fill="none" stroke="#b0986e" stroke-width="0.75" opacity="0.28"/>
+        <circle cx="86" cy="136" r="44"  fill="none" stroke="#b0986e" stroke-width="0.7" opacity="0.25"/>
+        <circle cx="86" cy="136" r="28"  fill="none" stroke="#a89060" stroke-width="0.65" opacity="0.22"/>
+        <circle cx="86" cy="136" r="14"  fill="none" stroke="#a89060" stroke-width="0.6" opacity="0.2"/>
+
+        <!-- 放射状维管束纹（从中心放射） -->
+        <line x1="86" y1="136" x2="86" y2="24"   stroke="#b0986e" stroke-width="0.55" opacity="0.2"/>
+        <line x1="86" y1="136" x2="86" y2="248"  stroke="#b0986e" stroke-width="0.55" opacity="0.2"/>
+        <line x1="86" y1="136" x2="-26" y2="136" stroke="#b0986e" stroke-width="0.55" opacity="0.2"/>
+        <line x1="86" y1="136" x2="198" y2="136" stroke="#b0986e" stroke-width="0.55" opacity="0.2"/>
+        <line x1="86" y1="136" x2="7"   y2="57"  stroke="#b0986e" stroke-width="0.5" opacity="0.16"/>
+        <line x1="86" y1="136" x2="165" y2="57"  stroke="#b0986e" stroke-width="0.5" opacity="0.16"/>
+        <line x1="86" y1="136" x2="7"   y2="215" stroke="#b0986e" stroke-width="0.5" opacity="0.16"/>
+        <line x1="86" y1="136" x2="165" y2="215" stroke="#b0986e" stroke-width="0.5" opacity="0.16"/>
+        <!-- 次级放射 -->
+        <line x1="86" y1="136" x2="48"  y2="29"  stroke="#b0986e" stroke-width="0.4" opacity="0.12"/>
+        <line x1="86" y1="136" x2="124" y2="29"  stroke="#b0986e" stroke-width="0.4" opacity="0.12"/>
+        <line x1="86" y1="136" x2="-16" y2="97"  stroke="#b0986e" stroke-width="0.4" opacity="0.12"/>
+        <line x1="86" y1="136" x2="-16" y2="175" stroke="#b0986e" stroke-width="0.4" opacity="0.12"/>
+        <line x1="86" y1="136" x2="188" y2="97"  stroke="#b0986e" stroke-width="0.4" opacity="0.12"/>
+        <line x1="86" y1="136" x2="188" y2="175" stroke="#b0986e" stroke-width="0.4" opacity="0.12"/>
+        <line x1="86" y1="136" x2="48"  y2="243" stroke="#b0986e" stroke-width="0.4" opacity="0.12"/>
+        <line x1="86" y1="136" x2="124" y2="243" stroke="#b0986e" stroke-width="0.4" opacity="0.12"/>
+
+        <!-- 散落维管束点（按环分布） -->
+        <!-- 外环点 r≈96 -->
+        <circle cx="86"  cy="40"  r="2.2" fill="#a89060" opacity="0.38"/>
+        <circle cx="174" cy="89"  r="2"   fill="#a89060" opacity="0.35"/>
+        <circle cx="174" cy="183" r="2"   fill="#a89060" opacity="0.35"/>
+        <circle cx="86"  cy="232" r="2.2" fill="#a89060" opacity="0.38"/>
+        <circle cx="-2"  cy="183" r="2"   fill="#a89060" opacity="0.35"/>
+        <circle cx="-2"  cy="89"  r="2"   fill="#a89060" opacity="0.35"/>
+        <circle cx="136" cy="48"  r="1.8" fill="#a89060" opacity="0.3"/>
+        <circle cx="36"  cy="48"  r="1.8" fill="#a89060" opacity="0.3"/>
+        <circle cx="166" cy="136" r="1.8" fill="#a89060" opacity="0.3"/>
+        <circle cx="6"   cy="136" r="1.8" fill="#a89060" opacity="0.3"/>
+        <!-- 中环点 r≈60 -->
+        <circle cx="86"  cy="76"  r="1.8" fill="#a89060" opacity="0.32"/>
+        <circle cx="141" cy="101" r="1.6" fill="#a89060" opacity="0.28"/>
+        <circle cx="141" cy="171" r="1.6" fill="#a89060" opacity="0.28"/>
+        <circle cx="86"  cy="196" r="1.8" fill="#a89060" opacity="0.32"/>
+        <circle cx="31"  cy="171" r="1.6" fill="#a89060" opacity="0.28"/>
+        <circle cx="31"  cy="101" r="1.6" fill="#a89060" opacity="0.28"/>
+        <!-- 内环点 r≈28 -->
+        <circle cx="86"  cy="108" r="1.4" fill="#a89060" opacity="0.26"/>
+        <circle cx="112" cy="122" r="1.2" fill="#a89060" opacity="0.22"/>
+        <circle cx="112" cy="150" r="1.2" fill="#a89060" opacity="0.22"/>
+        <circle cx="86"  cy="164" r="1.4" fill="#a89060" opacity="0.26"/>
+        <circle cx="60"  cy="150" r="1.2" fill="#a89060" opacity="0.22"/>
+        <circle cx="60"  cy="122" r="1.2" fill="#a89060" opacity="0.22"/>
+
+        <!-- 花芯（中心小圆） -->
+        <circle cx="86" cy="136" r="6" fill="#c8b090" opacity="0.5"/>
+        <circle cx="86" cy="136" r="3" fill="#b8a080" opacity="0.6"/>
+
+        <!-- 外圈晕染遮罩（边缘柔化） -->
+        <circle cx="86" cy="136" r="120" fill="url(#yamGlow)"/>
+      </g>
+
+      <!-- 右侧超出边界的弧线（增加大气感，像一个更大的圆被裁切） -->
+      <circle cx="390" cy="150" r="155" fill="none" stroke="#b0986e" stroke-width="0.8" opacity="0.12"/>
+      <circle cx="390" cy="150" r="168" fill="none" stroke="#b0986e" stroke-width="0.5" opacity="0.08"/>
+
+      <!-- 极细标注线（设计感点缀，类似植物图鉴风格） -->
+      <g opacity="0.2" stroke="#8a7050" stroke-width="0.65">
+        <!-- 右上角标注线 -->
+        <line x1="348" y1="32" x2="380" y2="18"/>
+        <line x1="380" y1="18" x2="390" y2="18"/>
+        <!-- 右下角标注线 -->
+        <line x1="360" y1="252" x2="382" y2="268"/>
+        <line x1="382" y1="268" x2="390" y2="268"/>
+      </g>
+      <!-- 标注文字（极小，植物图鉴感） -->
+      <text x="308" y="14" font-family="serif" font-size="7" fill="#8a7050" opacity="0.22" letter-spacing="1">Dioscorea opposita</text>
+      <text x="308" y="23" font-family="serif" font-size="6.5" fill="#8a7050" opacity="0.18" letter-spacing="0.5">山 药 · 铁 棍</text>
+    </svg>
+
+    <div class="banner-content">
+      <div class="banner-logo">一 淳 小 养</div>
+      <div class="banner-headline">「以食为养<br>始于东方」</div>
+      <div class="banner-sub">听身体的"心声"<br>比忙着听别人的建议更重要</div>
+    </div>
+  </div>
+
+  <!-- 段位条 -->
+  <div class="rank-strip">
+    <div class="rank-strip-left">
+      <div class="rank-icon">林</div>
+      <div class="rank-info">
+        <div class="rank-title">当 前 段 位</div>
+        <div class="rank-name">食养探索者</div>
+      </div>
+    </div>
+    <div class="rank-strip-right">
+      <div class="rank-progress-label">距「食养达人」 186/300</div>
+      <div class="rank-bar"><div class="rank-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- 三大入口 -->
+  <div class="section-head">
+    <div>
+      <div class="section-ch">食养探索</div>
+      <div class="section-en">Dietary Nourishment</div>
+    </div>
+  </div>
+
+  <div class="entry-grid">
+    <div class="entry-item" onclick="goPage('quiz')">
+      <div class="entry-hanzi">問</div>
+      <div class="entry-name">刷题</div>
+      <div class="entry-sub">中医知识<br>舌诊·面诊·五行</div>
+    </div>
+    <div class="entry-item" onclick="goPage('chat')">
+      <div class="entry-hanzi">診</div>
+      <div class="entry-name">体质测评</div>
+      <div class="entry-sub">AI引导<br>3分钟</div>
+    </div>
+    <div class="entry-item">
+      <div class="entry-hanzi">舌</div>
+      <div class="entry-name">舌诊</div>
+      <div class="entry-sub">拍照即<br>得分析</div>
+    </div>
+  </div>
+
+  <hr class="divider" style="margin-top:16px;">
+
+  <!-- 每日一题 -->
+  <div class="section-head" style="padding-bottom:14px;">
+    <div>
+      <div class="section-ch">每日一题</div>
+      <div class="section-en">每日一练</div>
+    </div>
+    <div class="section-more">已连续 23 天 ›</div>
+  </div>
+
+  <div class="daily-section">
+    <div class="daily-card" onclick="goPage('quiz')">
+      <div class="daily-card-top">
+        <div class="daily-badge">NO.23 · 舌诊进阶</div>
+        <div class="daily-q">朋友说自己"明明很瘦却小肚子鼓鼓的"，该判断为哪种体质？</div>
+        <div class="daily-action">立即作答</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 必修模块 -->
+  <div class="section-head" style="margin-top:8px;">
+    <div>
+      <div class="section-ch">知识图谱</div>
+      <div class="section-en">Knowledge Map</div>
+    </div>
+    <div class="section-more">全部 ›</div>
+  </div>
+
+  <!-- 错题本入口 -->
+  <div class="wrong-entry-card" onclick="goPage('wrongbook')" style="margin-bottom:0;">
+    <div class="wrong-entry-hanzi">錯</div>
+    <div class="wrong-entry-info">
+      <div class="wrong-entry-title">我的错题本</div>
+      <div class="wrong-entry-sub" id="wrongEntrySub">暂无错题，继续刷题吧</div>
+    </div>
+    <div class="wrong-entry-badge" id="wrongEntryBadge">0</div>
+  </div>
+
+  <div class="module-list">
+    <div class="module-item" onclick="goPage('quiz')">
+      <div class="module-no">01</div>
+      <div class="module-info">
+        <div class="module-ch">舌诊入门</div>
+        <div class="module-en">Tongue Diagnosis</div>
+        <div class="module-bar"><div class="module-bar-fill" style="width:75%"></div></div>
+        <div class="module-stat">68 题 · 已完成 75%</div>
+      </div>
+      <div class="module-arrow">›</div>
+    </div>
+    <div class="module-item">
+      <div class="module-no">02</div>
+      <div class="module-info">
+        <div class="module-ch">面诊基础</div>
+        <div class="module-en">Face Reading</div>
+        <div class="module-bar"><div class="module-bar-fill" style="width:40%"></div></div>
+        <div class="module-stat">52 题 · 已完成 40%</div>
+      </div>
+      <div class="module-arrow">›</div>
+    </div>
+    <div class="module-item">
+      <div class="module-no">03</div>
+      <div class="module-info">
+        <div class="module-ch">阴阳五行</div>
+        <div class="module-en">Yin Yang & Five Elements</div>
+        <div class="module-bar"><div class="module-bar-fill" style="width:22%"></div></div>
+        <div class="module-stat">46 题 · 已完成 22%</div>
+      </div>
+      <div class="module-arrow">›</div>
+    </div>
+    <div class="module-item" style="border-bottom:none;">
+      <div class="module-no">04</div>
+      <div class="module-info">
+        <div class="module-ch">情志与身体</div>
+        <div class="module-en">Emotions & Health</div>
+        <div class="module-bar"><div class="module-bar-fill" style="width:88%"></div></div>
+        <div class="module-stat">38 题 · 已完成 88%</div>
+      </div>
+      <div class="module-arrow">›</div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab active"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+  </div>
+</div>
+
+<!-- ============ 产品库 ============ -->
+<div class="page products-page paper-bg" id="products">
+  <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
+  <div class="page-nav" style="border-bottom:1px solid var(--line);">
+    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div style="flex:1;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;color:var(--ink-brown);letter-spacing:2px;">臻品食养矩阵</div>
+      <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:rgba(90,66,50,0.45);letter-spacing:2px;margin-top:2px;">Product Collection</div>
+    </div>
+  </div>
+
+  <!-- 体质筛选 -->
+  <div class="prod-filter">
+    <div class="filter-chip active" onclick="filterProducts('all',this)">全部</div>
+    <div class="filter-chip" onclick="filterProducts('气虚',this)">气虚</div>
+    <div class="filter-chip" onclick="filterProducts('痰湿',this)">痰湿</div>
+    <div class="filter-chip" onclick="filterProducts('血虚',this)">血虚</div>
+    <div class="filter-chip" onclick="filterProducts('气郁',this)">气郁</div>
+    <div class="filter-chip" onclick="filterProducts('肾虚',this)">肾虚</div>
+  </div>
+
+  <div id="prodList" style="padding: 0 20px;"></div>
+
+  <div class="tab-bar">
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
+    <div class="tab active"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+  </div>
+</div>
+
+<!-- ============ 产品详情页 ============ -->
+<div class="page proddetail-page paper-bg" id="proddetail">
+  <div class="status-bar" id="pdStatusBar"><span>9:41</span><span>●●●● 5G</span></div>
+
+  <!-- Hero区 -->
+  <div class="proddetail-hero" id="pdHero">
+    <div class="proddetail-hero-bg" id="pdHeroBg"></div>
+    <div class="proddetail-hero-content">
+      <div class="proddetail-hero-no" id="pdNo">NO.01</div>
+      <div class="proddetail-hero-name" id="pdName">八珍粉</div>
+      <div class="proddetail-hero-sub" id="pdSub">健脾养胃 · 益气祛湿</div>
+    </div>
+  </div>
+
+  <!-- 导航 -->
+  <div class="page-nav" style="border-bottom:1px solid var(--line);">
+    <div class="back-btn" id="pdBackBtn" onclick="goPage('products')">‹</div>
+    <div style="flex:1;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--ink-brown);letter-spacing:1px;" id="pdNavName">八珍粉</div>
+      <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:rgba(90,66,50,0.45);letter-spacing:2px;" id="pdNavEn">Product Detail</div>
+    </div>
+  </div>
+
+  <div class="proddetail-body">
+    <!-- 核心功效 -->
+    <div class="pd-section">
+      <div class="pd-label">核心功效</div>
+      <div class="effect-list" id="pdEffects"></div>
+    </div>
+
+    <!-- 适用人群 -->
+    <div class="pd-section">
+      <div class="pd-label">适合这样的你</div>
+      <div class="crowd-grid" id="pdCrowd"></div>
+      <div class="prod-caution" id="pdCaution"></div>
+    </div>
+
+    <!-- 分享话术 -->
+    <div class="pd-section" style="border-bottom:none;">
+      <div class="pd-label">分享话术</div>
+      <div class="prod-script-box">
+        <div class="prod-script-label">Share · 分享给朋友</div>
+        <div class="prod-script-text" id="pdScript"></div>
+      </div>
+      <button class="copy-btn" style="margin-top:12px;background:transparent;" onclick="copyProdScript()">一键复制 ⎘</button>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
+    <div class="tab active" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+  </div>
+</div>
+
+<!-- ============ 错题本页 ============ -->
+<div class="page wrong-page paper-bg" id="wrongbook">
+  <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
+  <div class="page-nav">
+    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div style="flex:1;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;color:var(--ink-brown);letter-spacing:2px;">错题本</div>
+      <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:rgba(90,66,50,0.45);letter-spacing:2px;margin-top:2px;">错题 · 重新挑战</div>
+    </div>
+    <div id="wrongClearBtn" onclick="clearWrongBook()" style="display:none;font-size:12px;color:rgba(90,66,50,0.45);letter-spacing:1px;cursor:pointer;padding:4px 8px;">清空</div>
+  </div>
+
+  <!-- 空状态 -->
+  <div class="wrong-empty" id="wrongEmpty">
+    <div class="wrong-empty-hanzi">無</div>
+    <div class="wrong-empty-text">暂无错题</div>
+    <div class="wrong-empty-sub">答错的题目会自动收录在这里<br>答对后会自动从错题本移除</div>
+    <button class="next-btn show" style="margin-top:8px;width:auto;padding:0 28px;" onclick="goPage('quiz')">去刷题 →</button>
+  </div>
+
+  <!-- 错题列表 -->
+  <div id="wrongList" style="display:none;"></div>
+
+  <div class="tab-bar">
+    <div class="tab active" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
+    <div class="tab"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+  </div>
+</div>
+
+<!-- ============ 错题复习页 ============ -->
+<div class="page quiz-page paper-bg" id="review">
+  <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
+  <div class="page-nav">
+    <div class="back-btn" onclick="goPage('wrongbook')">‹</div>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-bar"><div class="quiz-bar-fill" id="reviewBarFill" style="width:0%"></div></div>
+      <div class="quiz-counter"><em id="revCurrent">1</em> / <span id="revTotal">?</span></div>
+    </div>
+  </div>
+
+  <div class="question-wrap" id="reviewWrap">
+    <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:var(--crimson);letter-spacing:2px;margin-bottom:8px;">錯題複習 · Wrong Review</div>
+    <div class="q-no" id="revNo">错题 · 舌诊入门</div>
+    <div class="q-text" id="revText"></div>
+    <div class="options" id="revOptions"></div>
+  </div>
+
+  <div class="explanation" id="revExplanation">
+    <div class="exp-block">
+      <div class="exp-label">为什么是这样</div>
+      <div class="exp-text" id="revExpExplain"></div>
+    </div>
+    <div class="exp-block">
+      <div class="exp-label">怎么跟朋友说</div>
+      <div class="exp-text"><div class="exp-quote" id="revExpScript"></div></div>
+    </div>
+    <div class="exp-block">
+      <div class="exp-label">记住这一句</div>
+      <div class="exp-mnemonic" id="revExpMnemonic"></div>
+    </div>
+  </div>
+
+  <div class="rel-product" id="revRelProduct">
+    <div class="rel-prod-thumb warm" id="revProdThumb">湿</div>
+    <div class="rel-prod-info">
+      <div class="rel-prod-label">对应食养</div>
+      <div class="rel-prod-name" id="revProdName"></div>
+      <div class="rel-prod-sub" id="revProdSub"></div>
+    </div>
+    <div class="rel-prod-arrow">›</div>
+  </div>
+
+  <!-- 答对提示 -->
+  <div id="revCorrectTip" style="display:none;margin:12px 24px 0;padding:12px 16px;background:rgba(106,122,90,0.1);border:1px solid var(--sage);border-radius:2px;">
+    <div style="font-family:'Noto Serif SC',serif;font-size:13px;color:var(--sage);font-weight:600;letter-spacing:1px;">✓ 答对了！已从错题本移除</div>
+  </div>
+
+  <button class="next-btn" id="revNextBtn" onclick="nextReview()">继 续 复 习</button>
+</div>
+
+<!-- ============ 刷题页 ============ -->
+<div class="page quiz-page paper-bg" id="quiz">
+  <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
+  <div class="page-nav">
+    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-bar"><div class="quiz-bar-fill" id="quizBarFill" style="width:0%"></div></div>
+      <div class="quiz-counter"><em id="qCurrent">1</em> / <span id="qTotal">10</span></div>
+    </div>
+  </div>
+
+  <!-- 加载状态 -->
+  <div id="quizLoading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;gap:20px;">
+    <div style="display:flex;gap:6px;align-items:center;">
+      <div class="dot" style="background:var(--crimson);width:8px;height:8px;"></div>
+      <div class="dot" style="background:var(--crimson);width:8px;height:8px;animation-delay:0.2s;"></div>
+      <div class="dot" style="background:var(--crimson);width:8px;height:8px;animation-delay:0.4s;"></div>
+    </div>
+    <div style="font-family:'Noto Serif SC',serif;font-size:14px;color:var(--ink-mid);letter-spacing:3px;">正在生成题目…</div>
+  </div>
+
+  <!-- 题目区 -->
+  <div class="question-wrap" id="questionWrap" style="display:none;">
+    <div class="q-category">SHE ZHEN · TONGUE DIAGNOSIS</div>
+    <div class="q-no" id="qNo">No.01 · 舌诊入门</div>
+    <div class="q-text" id="qText"></div>
+    <div class="options" id="options"></div>
+  </div>
+
+  <!-- 注解 -->
+  <div class="explanation" id="explanation">
+    <div class="exp-block">
+      <div class="exp-label">为什么是这样</div>
+      <div class="exp-text" id="expExplain"></div>
+    </div>
+    <div class="exp-block">
+      <div class="exp-label">怎么跟朋友说</div>
+      <div class="exp-text"><div class="exp-quote" id="expScript"></div></div>
+    </div>
+    <div class="exp-block">
+      <div class="exp-label">记住这一句</div>
+      <div class="exp-mnemonic" id="expMnemonic"></div>
+    </div>
+  </div>
+
+  <!-- 关联产品 -->
+  <div class="rel-product" id="relProduct">
+    <div class="rel-prod-thumb" id="prodThumb">湿</div>
+    <div class="rel-prod-info">
+      <div class="rel-prod-label">对应食养</div>
+      <div class="rel-prod-name" id="prodName">五指毛桃茯湿膏</div>
+      <div class="rel-prod-sub" id="prodSub">祛湿＋补气双效合一</div>
+    </div>
+    <div class="rel-prod-arrow">›</div>
+  </div>
+
+  <!-- 下一题 / 完成 -->
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">下 一 题</button>
+
+  <!-- 完成结算 -->
+  <div id="quizDone" style="display:none;padding:32px 24px 0;">
+    <div style="background:var(--ink-brown);border-radius:2px;padding:28px 24px;text-align:center;position:relative;overflow:hidden;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:11px;color:#c3ae7c;letter-spacing:4px;margin-bottom:16px;">本轮完成</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:48px;font-weight:900;color:var(--paper);line-height:1;" id="scoreNum">8</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:14px;color:rgba(242,235,224,0.6);margin-top:6px;letter-spacing:2px;">/ 10 题答对</div>
+      <div style="margin-top:20px;font-size:13px;color:rgba(242,235,224,0.75);line-height:1.8;" id="scoreComment"></div>
+      <div style="position:absolute;bottom:-20px;right:-10px;font-family:'Noto Serif SC',serif;font-size:160px;font-weight:900;color:rgba(242,235,224,0.04);line-height:1;pointer-events:none;">善</div>
+    </div>
+    <button class="next-btn show" style="margin-top:16px;" onclick="restartQuiz()">再 刷 一 组</button>
+  </div>
+</div>
+
+<!-- ============ AI测评 ============ -->
+<div class="page chat-page paper-bg" id="chat">
+  <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
+  <div class="chat-header" style="position:sticky;top:44px;background:var(--paper);z-index:10;border-bottom:1px solid var(--line);">
+    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div class="chat-title-block">
+      <div class="chat-title-ch">小淳 · AI 体质测评</div>
+      <div class="chat-title-en">Constitution Assessment · 约 3 分钟</div>
+    </div>
+    <!-- 问题进度 -->
+    <div id="chatProgress" style="font-family:'IM Fell English',serif;font-size:12px;color:var(--crimson);letter-spacing:1px;display:none;">
+      <span id="chatProgressNum">1</span>/10
+    </div>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="tab-bar">
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab active"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
+    <div class="tab"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+  </div>
+</div>
+
+<!-- ============ 结果页 ============ -->
+<div class="page result-page paper-bg" id="result">
+  <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
+  <div class="chat-header" style="position:sticky;top:44px;background:var(--paper);z-index:10;border-bottom:1px solid var(--line);">
+    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div class="chat-title-block">
+      <div class="chat-title-ch">体质测评报告</div>
+      <div class="chat-title-en" style="font-style:italic;font-family:'IM Fell English',serif;font-size:11px;color:rgba(90,66,50,0.45);letter-spacing:2px;" id="resultDate">2026.05.23 · Completed</div>
+    </div>
+  </div>
+
+  <!-- 加载中 -->
+  <div id="resultLoading" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;gap:20px;">
+    <div style="display:flex;gap:6px;">
+      <div class="dot" style="background:var(--crimson);width:8px;height:8px;"></div>
+      <div class="dot" style="background:var(--crimson);width:8px;height:8px;animation-delay:0.2s;"></div>
+      <div class="dot" style="background:var(--crimson);width:8px;height:8px;animation-delay:0.4s;"></div>
+    </div>
+    <div style="font-family:'Noto Serif SC',serif;font-size:14px;color:var(--ink-mid);letter-spacing:3px;">正在分析体质…</div>
+  </div>
+
+  <!-- 结果内容 -->
+  <div id="resultContent" style="display:none;">
+    <div class="result-hero">
+      <div class="result-label-en">Constitution Analysis</div>
+      <div class="result-type-ch" id="rTypeCh">—</div>
+      <div class="result-type-sub" id="rTypeSub">—</div>
+      <div class="result-desc" id="rDesc">—</div>
+      <div class="result-hero-deco" id="rDeco">體</div>
+    </div>
+    <div class="result-body">
+
+      <!-- 第一步：体质解读 -->
+      <div class="result-section" style="border-bottom:1px solid var(--line);">
+        <div class="res-sec-label">体质解读</div>
+        <!-- 生活类比一句话 -->
+        <div id="rMetaphor" style="font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--crimson);line-height:1.6;margin-bottom:14px;padding:14px 16px;background:var(--paper-dark);border-left:3px solid var(--crimson);border-radius:2px;"></div>
+        <!-- 深度解读 -->
+        <div id="rInsight" style="font-size:13px;color:var(--ink-mid);line-height:1.9;margin-bottom:20px;padding-bottom:4px;"></div>
+        <!-- 症状标签 -->
+        <div class="tags" id="rTags" style="padding-bottom:24px;"></div>
+      </div>
+
+      <!-- 第二步：产品推荐 -->
+      <div class="result-section">
+        <div class="res-sec-label">专属食养方案</div>
+        <div id="rProducts"></div>
+      </div>
+
+      <div class="result-section" style="border-bottom:none;">
+        <div class="res-sec-label">分享话术</div>
+        <div class="script-box">
+          <div class="script-top">Share · 分享给朋友</div>
+          <div class="script-text" id="rScript">—</div>
+          <button class="copy-btn" onclick="copyScript()">一键复制 ⎘</button>
+        </div>
+        <button class="next-btn show" style="margin-top:16px;" onclick="restartChat()">重 新 测 评</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab active"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+  </div>
+</div>
+
+<!-- ============ 「我的」页面 ============ -->
+<div class="page paper-bg" id="mine" style="padding-bottom:90px;">
+  <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
+  <div class="page-nav" style="border-bottom:1px solid var(--line);">
+    <div style="flex:1;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;color:var(--ink-brown);letter-spacing:2px;">我的食养</div>
+      <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:rgba(124,97,80,0.45);letter-spacing:2px;margin-top:2px;">My Journey</div>
+    </div>
+  </div>
+
+  <!-- 段位卡 -->
+  <div style="margin:16px 20px 0;background:var(--ink-brown);border-radius:2px;padding:24px;position:relative;overflow:hidden;">
+    <div style="position:absolute;bottom:-30px;right:-10px;font-family:'Noto Serif SC',serif;font-size:160px;font-weight:900;color:rgba(237,230,216,0.04);line-height:1;pointer-events:none;" id="mineDecoChar">養</div>
+    <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:10px;color:#c3ae7c;letter-spacing:3px;margin-bottom:10px;">Current Rank</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px;">
+      <div>
+        <div style="font-family:'Noto Serif SC',serif;font-size:26px;font-weight:900;color:#ede6d8;letter-spacing:2px;" id="mineRankName">食养探索者</div>
+        <div style="font-size:11px;color:rgba(237,230,216,0.5);margin-top:4px;letter-spacing:1px;" id="mineRankSub">LV.1 · 继续刷题升级</div>
+      </div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:40px;font-weight:900;color:#c3ae7c;line-height:1;" id="mineRankScore">0</div>
+    </div>
+    <!-- 段位进度条 -->
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(237,230,216,0.4);margin-bottom:6px;letter-spacing:1px;">
+      <span id="mineRankFrom"></span>
+      <span id="mineRankTo"></span>
+    </div>
+    <div style="height:4px;background:rgba(237,230,216,0.12);border-radius:2px;overflow:hidden;">
+      <div id="mineRankBar" style="height:100%;background:linear-gradient(90deg,#c3ae7c,#968359);border-radius:2px;transition:width 0.6s ease;width:0%;"></div>
+    </div>
+    <!-- 段位节点 -->
+    <div style="display:flex;justify-content:space-between;margin-top:10px;">
+      <div id="mineRankNode0" style="text-align:center;opacity:1;">
+        <div style="width:8px;height:8px;border-radius:50%;background:#c3ae7c;margin:0 auto 4px;"></div>
+        <div style="font-size:9px;color:rgba(237,230,216,0.5);letter-spacing:0.5px;">探索者</div>
+      </div>
+      <div id="mineRankNode1" style="text-align:center;opacity:0.4;">
+        <div style="width:8px;height:8px;border-radius:50%;background:rgba(237,230,216,0.2);margin:0 auto 4px;"></div>
+        <div style="font-size:9px;color:rgba(237,230,216,0.4);letter-spacing:0.5px;">学徒</div>
+      </div>
+      <div id="mineRankNode2" style="text-align:center;opacity:0.4;">
+        <div style="width:8px;height:8px;border-radius:50%;background:rgba(237,230,216,0.2);margin:0 auto 4px;"></div>
+        <div style="font-size:9px;color:rgba(237,230,216,0.4);letter-spacing:0.5px;">顾问</div>
+      </div>
+      <div id="mineRankNode3" style="text-align:center;opacity:0.4;">
+        <div style="width:8px;height:8px;border-radius:50%;background:rgba(237,230,216,0.2);margin:0 auto 4px;"></div>
+        <div style="font-size:9px;color:rgba(237,230,216,0.4);letter-spacing:0.5px;">掌门</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 数据统计 -->
+  <div style="margin:12px 20px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+    <div style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 12px;text-align:center;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:26px;font-weight:900;color:var(--ink-brown);line-height:1;" id="statTotal">0</div>
+      <div style="font-size:10px;color:var(--ink-mid);margin-top:5px;letter-spacing:1px;">总刷题数</div>
+    </div>
+    <div style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 12px;text-align:center;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:26px;font-weight:900;color:var(--ink-brown);line-height:1;" id="statAccuracy">—</div>
+      <div style="font-size:10px;color:var(--ink-mid);margin-top:5px;letter-spacing:1px;">答对率</div>
+    </div>
+    <div style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 12px;text-align:center;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:26px;font-weight:900;color:var(--ink-brown);line-height:1;" id="statStreak">0</div>
+      <div style="font-size:10px;color:var(--ink-mid);margin-top:5px;letter-spacing:1px;">连续打卡</div>
+    </div>
+  </div>
+
+  <!-- 今日进度 -->
+  <div style="margin:12px 20px 0;background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:16px 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:14px;font-weight:700;color:var(--ink-brown);letter-spacing:1px;">今日学习</div>
+      <div style="font-size:11px;color:var(--ink-mid);" id="statTodayDate"></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div style="flex:1;height:6px;background:rgba(124,97,80,0.1);border-radius:3px;overflow:hidden;">
+        <div id="statTodayBar" style="height:100%;background:linear-gradient(90deg,#968359,#c3ae7c);border-radius:3px;transition:width 0.5s;width:0%;"></div>
+      </div>
+      <div style="font-size:12px;color:var(--ink-mid);flex-shrink:0;"><span id="statTodayCount">0</span>/10 题</div>
+    </div>
+    <div style="font-size:11px;color:rgba(124,97,80,0.5);margin-top:8px;letter-spacing:0.5px;" id="statTodayTip">今天还没开始，去刷一组吧 🌿</div>
+  </div>
+
+  <!-- 快捷入口 -->
+  <div style="margin:12px 20px 0;">
+    <div style="font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--ink-brown);letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+      <span style="width:12px;height:2px;background:var(--crimson);display:inline-block;"></span>快捷入口
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div onclick="goPage('wrongbook')" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+        <span style="font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;color:var(--crimson);">錯</span>
+        <div>
+          <div style="font-family:'Noto Serif SC',serif;font-size:13px;font-weight:600;color:var(--ink-brown);">错题本</div>
+          <div style="font-size:10px;color:var(--ink-mid);margin-top:2px;" id="mineWrongCount">暂无错题</div>
+        </div>
+      </div>
+      <div onclick="goPage('products')" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+        <span style="font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;color:var(--crimson);">品</span>
+        <div>
+          <div style="font-family:'Noto Serif SC',serif;font-size:13px;font-weight:600;color:var(--ink-brown);">产品库</div>
+          <div style="font-size:10px;color:var(--ink-mid);margin-top:2px;">5款食养产品</div>
+        </div>
+      </div>
+      <div onclick="goPage('chat')" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+        <span style="font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;color:var(--crimson);">診</span>
+        <div>
+          <div style="font-family:'Noto Serif SC',serif;font-size:13px;font-weight:600;color:var(--ink-brown);">体质测评</div>
+          <div style="font-size:10px;color:var(--ink-mid);margin-top:2px;">重新测一次</div>
+        </div>
+      </div>
+      <div onclick="resetUserData()" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+        <span style="font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;color:rgba(124,97,80,0.35);">清</span>
+        <div>
+          <div style="font-family:'Noto Serif SC',serif;font-size:13px;font-weight:600;color:var(--ink-brown);">重置数据</div>
+          <div style="font-size:10px;color:var(--ink-mid);margin-top:2px;">清空学习记录</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab active"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+  </div>
+</div>
+
+<!-- 升段动画 overlay -->
+<div id="rankUpOverlay" style="display:none;position:absolute;inset:0;background:rgba(61,46,30,0.85);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:16px;animation:fadeIn 0.3s ease;">
+  <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:13px;color:#c3ae7c;letter-spacing:4px;">Rank Up !</div>
+  <div style="font-family:'Noto Serif SC',serif;font-size:42px;font-weight:900;color:#ede6d8;letter-spacing:4px;" id="rankUpName">食养学徒</div>
+  <div style="font-size:13px;color:rgba(237,230,216,0.65);letter-spacing:2px;" id="rankUpSub">恭喜升段 🎉</div>
+  <button onclick="document.getElementById('rankUpOverlay').style.display='none'" style="margin-top:8px;padding:10px 28px;background:transparent;border:1px solid rgba(195,174,124,0.5);color:#c3ae7c;font-family:'Noto Serif SC',serif;font-size:13px;letter-spacing:3px;cursor:pointer;border-radius:2px;">继 续</button>
+</div>
+
+</div>
+</div>
+
+<script>
+// ============ 页面导航（由聊天系统重定义，此处为占位） ============
+
+// ============ 产品库映射 ============
+const PRODUCTS = {
+  '八珍粉':       { thumb:'珍', sub:'健脾养胃·益气祛湿，适合消化差、脸色黄、易疲劳人群', cls:'warm' },
+  '五指毛桃茯湿膏':{ thumb:'湿', sub:'祛湿＋补气双效，专调"又虚又湿"复合体质', cls:'cool' },
+  '玫瑰玉灵膏':   { thumb:'玫', sub:'气血同补·疏肝养颜，适合气滞血瘀、经期不适女性', cls:'warm' },
+  '黄芪鲜阿胶':   { thumb:'胶', sub:'气血双补·非遗鲜制，适合面色暗黄、手脚冰凉人群', cls:'warm' },
+  '黄精黑养膏':   { thumb:'黑', sub:'滋阴补肾·乌发养发，适合熬夜、掉发、早生白发人群', cls:'cool' },
+};
+
+// ============ 完整产品数据 ============
+const PRODUCT_DB = [
+  {
+    id: 'bazhen',
+    no: 'NO.01',
+    name: '八珍粉',
+    sub: '调补双效 · 健脾养胃 益气祛湿',
+    constitution: ['气虚','痰湿'],
+    heroBg: 'linear-gradient(160deg, #cdba9c 0%, #7c6150 100%)',
+    heroColor: '#ede6d8',
+    thumbChar: '珍',
+    thumbCls: 'warm',
+    effects: [
+      { title: '健脾养胃', desc: '改善消化不良、吃点就胀、大便溏稀，<strong>修复肠道屏障</strong>' },
+      { title: '益气祛湿', desc: '化解身体困重、虚胖水肿、舌苔厚腻，<strong>祛湿不伤正气</strong>' },
+      { title: '提亮气色', desc: '缓解面色萎黄、暗沉无光，<strong>告别脾虚蜡黄脸</strong>' },
+      { title: '缓解疲劳', desc: '改善换季易累、精力不济，<strong>恢复身体元气</strong>' },
+    ],
+    crowd: ['脾胃差·消化不良', '脸色萎黄暗沉', '身体困重·湿气重', '气血亏虚上班族', '产后/术后女性', '儿童挑食·厌食'],
+    caution: '孕妇、14周岁以下儿童（儿童食用建议咨询）、血糖不稳定者、感冒发烧期间暂停',
+    script: '亲爱的，你知道吗，脾胃就像身体的"大厨"——大厨累了，吃进去的食物都变不成能量，只会堆在那里变成湿气和脂肪。\n\n八珍粉里铁棍山药占了40%以上，专门给这位"大厨"加能量；薏米超过20%，帮身体排出多余的水湿。两个搭配，一边补、一边清，所以吃了以后不只是消化变好，整个人都会轻盈很多、气色也会好起来～',
+  },
+  {
+    id: 'wuzhi',
+    no: 'NO.02',
+    name: '五指毛桃茯湿膏',
+    sub: '祛湿补气双效 · 专调"又虚又湿"体质',
+    constitution: ['痰湿','气虚'],
+    heroBg: 'linear-gradient(160deg, #968359 0%, #5a4a32 100%)',
+    heroColor: '#ede6d8',
+    thumbChar: '湿',
+    thumbCls: 'cool',
+    effects: [
+      { title: '健脾祛湿', desc: '排走身体湿气，改善<strong>虚胖水肿、身体困重、大便黏腻</strong>' },
+      { title: '补气安神', desc: '补足元气，缓解<strong>易疲劳、精力不济</strong>，改善睡眠' },
+      { title: '滋阴润燥', desc: '<strong>祛湿不伤阴</strong>，避免口干舌燥，适合长期调养' },
+      { title: '理气消食', desc: '化解膏方滋腻，改善<strong>消化不良、腹胀嗳气</strong>' },
+    ],
+    crowd: ['湿气重·身体困重', '虚胖·小肚子鼓', '大便黏腻不成形', '舌苔厚腻·齿痕舌', '气虚+痰湿复合体质', '3岁以上儿童及控糖人群'],
+    caution: '孕妇慎用；感冒发烧期间暂停；阴虚燥热者不宜单独大量使用',
+    script: '亲爱的，普通祛湿产品有个大坑——单纯祛湿越喝越虚，因为湿气排掉了，气也跟着跑了。\n\n这款特别加了人参和灵芝，一边排湿一边补气，就像给手机边用边充电，不会出现"祛湿后更没力气"的情况。而且0蔗糖，酸甜口感来自天然桑葚，小朋友和控糖的人都可以放心喝～',
+  },
+  {
+    id: 'meigui',
+    no: 'NO.03',
+    name: '玫瑰玉灵膏',
+    sub: '通调双效 · 气血同补 疏肝养颜',
+    constitution: ['气郁','血虚'],
+    heroBg: 'linear-gradient(160deg, #c3ae7c 0%, #7c6150 100%)',
+    heroColor: '#ede6d8',
+    thumbChar: '玫',
+    thumbCls: 'warm',
+    effects: [
+      { title: '补气养血', desc: '气血双补，改善<strong>面色暗沉、精力不足</strong>' },
+      { title: '安神助眠', desc: '补益心脾，缓解<strong>失眠多梦、熬夜疲劳</strong>' },
+      { title: '疏肝养颜', desc: '理气解郁，改善<strong>气滞血瘀、经期不适</strong>' },
+      { title: '温而不燥', desc: '科学配伍，中和温性，<strong>怕冷女生、熬夜男生</strong>放心吃' },
+    ],
+    crowd: ['气色差·面色暗沉', '痛经·月经量少色暗', '情绪起伏·爱叹气', '失眠多梦·熬夜党', '手脚冰凉', '气血亏虚上班族'],
+    caution: '孕妇禁用；14周岁以下儿童禁用；血糖不稳定者慎用；感冒发烧期间暂停',
+    script: '亲爱的，你有没有发现，情绪不好的时候脸色就特别差，月经也会乱？这其实是"肝气郁结"在搞鬼——肝一堵，气血就流不顺，全身都受影响。\n\n玫瑰玉灵膏里平阴头茬玫瑰占了30%以上，专门疏通肝气；桂圆肉补血安神；西洋参补气不上火。三个一起，情绪顺了、气血通了，脸色自然就亮起来了～干吃冲饮都好吃，像甜品一样。',
+  },
+  {
+    id: 'ejiao',
+    no: 'NO.04',
+    name: '黄芪鲜阿胶',
+    sub: '气血双补 · 非遗鲜制 开袋即食',
+    constitution: ['血虚','气虚'],
+    heroBg: 'linear-gradient(160deg, #cdba9c 0%, #968359 100%)',
+    heroColor: '#ede6d8',
+    thumbChar: '胶',
+    thumbCls: 'warm',
+    effects: [
+      { title: '补气养血', desc: '改善<strong>脸色暗黄、手脚冰凉、乏力没精神</strong>，养出好气色' },
+      { title: '调经养颜', desc: '改善<strong>月经量少色淡、经期不适</strong>，滋养容颜' },
+      { title: '增强免疫', desc: '提升机体抵抗力，<strong>抗疲劳、改善缺氧耐力</strong>' },
+    ],
+    crowd: ['气血双亏·脸色暗黄', '手脚冰凉·怕冷', '月经量少·颜色淡', '产后调养', '体虚易感冒', '减脂期补充营养'],
+    caution: '孕妇禁用；14周岁以下儿童禁用；感冒发烧期、消化不良时暂停；糖尿病患者慎用',
+    script: '亲爱的，市面上很多阿胶糕，看着是阿胶，其实里面全是芝麻核桃红枣，真正的阿胶含量不到10%，热量还超高。\n\n这款阿胶含量58%以上，配上内蒙古黄芪，一边补血一边补气，气血双管齐下效果好太多了。而且是鲜制的，不用晒干，软糯Q弹像养生软糖，直接吃就行，热量只有普通阿胶糕的五分之一，减脂期也能放心吃～',
+  },
+  {
+    id: 'huangjing',
+    no: 'NO.05',
+    name: '黄精黑养膏',
+    sub: '以黑养黑 · 从根滋养 焕发神采',
+    constitution: ['肾虚'],
+    heroBg: 'linear-gradient(160deg, #7c6150 0%, #3d2e1e 100%)',
+    heroColor: '#ede6d8',
+    thumbChar: '黑',
+    thumbCls: 'cool',
+    effects: [
+      { title: '乌发养发', desc: '根源补肾精，滋养毛囊，改善<strong>掉发严重、白发早生、发质干枯</strong>' },
+      { title: '滋养元气', desc: '温和滋养，改善<strong>熬夜、压力大</strong>导致的易疲劳、没精神' },
+      { title: '抗氧化养颜', desc: '高效清除自由基，<strong>提亮肤色、改善暗沉</strong>' },
+      { title: '调理肠道', desc: '促进肠道有益菌增殖，通过"肠-肾轴"<strong>实现内调外养</strong>' },
+    ],
+    crowd: ['掉发严重·发缝变宽', '白发早生', '熬夜透支·黑眼圈', '腰膝酸软', '压力大·易疲劳', '素食者也可食用'],
+    caution: '孕妇慎用；脾胃虚寒、腹泻者减量使用；感冒发烧期间暂停',
+    script: '亲爱的，掉发其实是身体在发信号——肾精不够了。中医说"发为血之余，肾之华在发"，头发的根本在肾。\n\n黄精黑养膏选了6种黑色食材，黄精经过九蒸九晒，黑果枸杞含大量花青素，黑芝麻、黑米、黑大豆、桑椹……全部"以黑养黑"，从根源补肾精、滋养毛囊。坚持吃半个月，掉发明显减少，整个人精神状态也会好很多～',
+  },
+];
+
+let currentProdId = null;
+let prodBackPage = 'products';
+
+// ============ 产品库逻辑 ============
+function renderProductList(filter) {
+  const list = filter === 'all'
+    ? PRODUCT_DB
+    : PRODUCT_DB.filter(p => p.constitution.some(c => c.includes(filter)));
+
+  const container = document.getElementById('prodList');
+  if (!container) return;
+
+  container.innerHTML = list.map((p, i) => `
+    <div class="prod-card" onclick="openProduct('${p.id}','products')">
+      <div class="prod-card-no">${p.no}</div>
+      <div class="prod-card-img" style="background:${p.heroBg};color:${p.heroColor};">
+        <span style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:26px;position:relative;z-index:1;">${p.thumbChar}</span>
+      </div>
+      <div class="prod-card-body">
+        <div class="prod-card-name">${p.name}</div>
+        <div class="prod-card-tag">${p.constitution.join(' · ')}</div>
+        <div class="prod-card-desc">${p.sub}</div>
+      </div>
+      <div class="prod-card-arrow">›</div>
+    </div>
+  `).join('');
+}
+
+function filterProducts(type, el) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderProductList(type);
+}
+
+function openProduct(id, backPage) {
+  const p = PRODUCT_DB.find(x => x.id === id);
+  if (!p) return;
+  currentProdId = id;
+  prodBackPage = backPage || 'products';
+
+  // Hero
+  document.getElementById('pdHeroBg').style.background = p.heroBg;
+  document.getElementById('pdHero').style.color = p.heroColor;
+  document.getElementById('pdNo').textContent = p.no;
+  document.getElementById('pdName').textContent = p.name;
+  document.getElementById('pdSub').textContent = p.sub;
+  document.getElementById('pdNavName').textContent = p.name;
+
+  // 功效
+  document.getElementById('pdEffects').innerHTML = p.effects.map(e => `
+    <div class="effect-item">
+      <div class="effect-dot"></div>
+      <div class="effect-text"><strong>${e.title}</strong>：${e.desc}</div>
+    </div>
+  `).join('');
+
+  // 人群
+  document.getElementById('pdCrowd').innerHTML = p.crowd.map(c => `
+    <div class="crowd-item">${c}</div>
+  `).join('');
+
+  document.getElementById('pdCaution').textContent = '⚠ 注意：' + p.caution;
+
+  // 话术
+  document.getElementById('pdScript').innerHTML = p.script.replace(/\n/g, '<br>').replace(/「(.+?)」/g, '<strong>「$1」</strong>');
+
+  // 返回按钮指向来源页
+  document.getElementById('pdBackBtn').setAttribute('onclick', `goPage('${prodBackPage}')`);
+
+  goPage('proddetail');
+}
+
+function copyProdScript() {
+  const p = PRODUCT_DB.find(x => x.id === currentProdId);
+  if (!p) return;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(p.script).then(() => {
+      const btns = document.querySelectorAll('#proddetail .copy-btn');
+      btns.forEach(btn => {
+        btn.textContent = '已复制 ✓';
+        setTimeout(() => btn.textContent = '一键复制 ⎘', 2000);
+      });
+    });
+  }
+}
+
+// ============ AI题库系统 ============
+const TOTAL = 10;
+let quizBank = [];       // AI生成的题目数组
+let currentIdx = 0;
+let score = 0;
+let answered = false;
+
+const SYSTEM_PROMPT = `你是「一淳小养食养学院」的出题老师，专门帮零中医基础的食养你学习舌诊知识。
+
+你需要生成舌诊入门题目，题目场景化、接地气，用真实生活场景出题（比如"朋友发来舌头照片说……"、"自己照镜子发现……"、"家人最近老是……"）。
+
+每道题必须包含：
+- question：题干，场景化描述，20-50字
+- difficulty：基础 或 进阶（70%基础，30%进阶）
+- options：甲乙丙丁四个选项，只有一个正确
+- answer：正确答案的序号（0=甲，1=乙，2=丙，3=丁）
+- explain：大白话解释，用生活中的类比，60-100字，不用"您"，口语化
+- script：分享给朋友时，开头必须是"亲爱的，"，50-80字，像闺蜜聊天但说的是专业内容
+- mnemonic：记忆口诀，一句话，格式：[舌象特征] ＝ [身体信号]，20字以内
+- product：从以下5款产品中选最对症的一款（必须精确匹配，只返回产品名称）：
+  * 八珍粉（健脾养胃，脾虚消化差，脸色萎黄）
+  * 五指毛桃茯湿膏（祛湿补气，痰湿体质，湿气重又气虚）
+  * 玫瑰玉灵膏（气血同补疏肝，气滞血瘀，女性经期）
+  * 黄芪鲜阿胶（补气养血，气血不足，手脚冰凉）
+  * 黄精黑养膏（滋阴补肾，掉发白发，熬夜透支）
+
+舌诊题目范围：
+- 基础：舌色（淡白/红/绛/紫）、舌形（胖大/齿痕/瘦薄/裂纹）、舌苔（白苔/黄苔/厚苔/腻苔/少苔/无苔）
+- 进阶：综合判断（舌色+舌苔组合）、对应症状推断、体质判断
+
+返回严格JSON，不要加任何其他内容：
+{"questions":[{"question":"...","difficulty":"基础","options":["甲...","乙...","丙...","丁..."],"answer":1,"explain":"...","script":"亲爱的，...","mnemonic":"...＝...","product":"产品名"},...]}`;
+
+async function generateQuestions() {
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: SYSTEM_PROMPT,
+      messages: [{
+        role: 'user',
+        content: `请生成${TOTAL}道舌诊入门题目，其中7道基础题、3道进阶题，题目不要重复，要覆盖不同的舌象特征。直接返回JSON，不要任何其他文字。`
+      }]
+    })
+  });
+  const data = await resp.json();
+  const raw = data.content.map(b => b.text || '').join('');
+  const clean = raw.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean).questions;
+}
+
+async function initQuiz() {
+  // 重置状态
+  currentIdx = 0;
+  score = 0;
+  answered = false;
+  quizBank = [];
+
+  // 隐藏完成页，显示加载
+  document.getElementById('quizDone').style.display = 'none';
+  document.getElementById('quizLoading').style.display = 'flex';
+  document.getElementById('questionWrap').style.display = 'none';
+  document.getElementById('explanation').classList.remove('show');
+  document.getElementById('relProduct').classList.remove('show');
+  document.getElementById('nextBtn').classList.remove('show');
+
+  try {
+    quizBank = await generateQuestions();
+    showQuestion(0);
+  } catch(e) {
+    document.getElementById('quizLoading').innerHTML = `
+      <div style="font-family:'Noto Serif SC',serif;font-size:14px;color:var(--crimson);text-align:center;letter-spacing:2px;line-height:2;">
+        生成题目时出现问题<br>
+        <span style="font-size:12px;color:var(--ink-mid);">请检查网络后重试</span>
+      </div>
+      <button class="next-btn show" style="margin-top:16px;" onclick="initQuiz()">重 新 加 载</button>
+    `;
+  }
+}
+
+function showQuestion(idx) {
+  const q = quizBank[idx];
+  answered = false;
+
+  // 更新进度
+  document.getElementById('qCurrent').textContent = idx + 1;
+  document.getElementById('qTotal').textContent = TOTAL;
+  document.getElementById('quizBarFill').style.width = ((idx) / TOTAL * 100) + '%';
+  document.getElementById('qNo').textContent = `No.${String(idx+1).padStart(2,'0')} · 舌诊入门 · ${q.difficulty}`;
+  document.getElementById('qText').textContent = q.question;
+
+  // 渲染选项
+  const letters = ['甲','乙','丙','丁'];
+  const optHtml = q.options.map((opt, i) => `
+    <div class="option" data-idx="${i}" onclick="pick(this,${i === q.answer})">
+      <div class="opt-letter">${letters[i]}</div>
+      <div class="opt-text">${opt}</div>
+      <span class="opt-mark">${i === q.answer ? '✓' : '✗'}</span>
+    </div>
+  `).join('');
+  document.getElementById('options').innerHTML = optHtml;
+
+  // 注解
+  document.getElementById('expExplain').innerHTML = q.explain.replace(/「(.+?)」/g, '<strong>「$1」</strong>');
+  document.getElementById('expScript').textContent = q.script;
+  document.getElementById('expMnemonic').textContent = q.mnemonic;
+
+  // 关联产品
+  const prod = PRODUCTS[q.product] || PRODUCTS['八珍粉'];
+  document.getElementById('prodThumb').textContent = prod.thumb;
+  document.getElementById('prodThumb').className = `rel-prod-thumb ${prod.cls}`;
+  document.getElementById('prodName').textContent = q.product;
+  document.getElementById('prodSub').textContent = prod.sub;
+
+  // 重置注解和按钮
+  document.getElementById('explanation').classList.remove('show');
+  document.getElementById('relProduct').classList.remove('show');
+  document.getElementById('nextBtn').classList.remove('show');
+
+  // 切换显示
+  document.getElementById('quizLoading').style.display = 'none';
+  document.getElementById('questionWrap').style.display = 'block';
+  document.getElementById('screen').scrollTop = 0;
+}
+
+function pick(el, correct) {
+  if (answered) return;
+  answered = true;
+
+  // 接入用户数据系统（含升段检测）
+  recordAnswer(correct);
+
+  if (correct) {
+    score++;
+    removeFromWrongBook(quizBank[currentIdx]);
+  } else {
+    saveToWrongBook(quizBank[currentIdx]);
+  }
+
+  document.querySelectorAll('#options .option').forEach(o => {
+    o.style.pointerEvents = 'none';
+    const isAns = o.getAttribute('onclick').includes('true');
+    if (o === el) o.classList.add(correct ? 'correct' : 'wrong');
+    else if (isAns && !correct) o.classList.add('correct');
+  });
+
+  setTimeout(() => document.getElementById('explanation').classList.add('show'), 300);
+  setTimeout(() => document.getElementById('relProduct').classList.add('show'), 500);
+  setTimeout(() => {
+    const btn = document.getElementById('nextBtn');
+    btn.textContent = currentIdx < TOTAL - 1 ? '下 一 题' : '查 看 成 绩';
+    btn.classList.add('show');
+  }, 700);
+
+  setTimeout(() => {
+    document.getElementById('screen').scrollTo({ top: document.getElementById('screen').scrollHeight, behavior: 'smooth' });
+  }, 800);
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= TOTAL) {
+    showDone();
+  } else {
+    showQuestion(currentIdx);
+  }
+}
+
+function showDone() {
+  document.getElementById('questionWrap').style.display = 'none';
+  document.getElementById('explanation').classList.remove('show');
+  document.getElementById('relProduct').classList.remove('show');
+  document.getElementById('nextBtn').classList.remove('show');
+  document.getElementById('quizDone').style.display = 'block';
+  document.getElementById('scoreNum').textContent = score;
+
+  const comments = [
+    ['需要加油，多刷几遍，慢慢就熟了 🌱', 0, 4],
+    ['不错的起步！再多刷几遍，日常中更得心应手 💪', 5, 7],
+    ['很棒！这些知识已经能真正懂食养了了 🌿', 8, 9],
+    ['满分！你已经是真正的食养顾问了 ✨', 10, 10],
+  ];
+  const comment = comments.find(([,min,max]) => score >= min && score <= max);
+  document.getElementById('scoreComment').textContent = comment ? comment[0] : '';
+  document.getElementById('quizBarFill').style.width = '100%';
+  document.getElementById('screen').scrollTop = 0;
+}
+
+function restartQuiz() {
+  initQuiz();
+}
+
+// ============ 错题本系统 ============
+const WRONG_KEY = 'yichun_wrong_book';
+
+function getWrongBook() {
+  try {
+    return JSON.parse(localStorage.getItem(WRONG_KEY) || '[]');
+  } catch { return []; }
+}
+
+function saveWrongBook(list) {
+  localStorage.setItem(WRONG_KEY, JSON.stringify(list));
+  updateWrongEntryBadge();
+}
+
+function saveToWrongBook(q) {
+  if (!q) return;
+  let list = getWrongBook();
+  // 用题目内容做唯一key，避免重复
+  const key = q.question.slice(0, 20);
+  const exists = list.find(w => w.question.slice(0, 20) === key);
+  if (exists) {
+    exists.wrongCount = (exists.wrongCount || 1) + 1;
+    exists.lastWrong = Date.now();
+  } else {
+    list.unshift({ ...q, wrongCount: 1, lastWrong: Date.now() });
+  }
+  // 最多保留50题
+  if (list.length > 50) list = list.slice(0, 50);
+  saveWrongBook(list);
+}
+
+function removeFromWrongBook(q) {
+  if (!q) return;
+  let list = getWrongBook();
+  const key = q.question.slice(0, 20);
+  list = list.filter(w => w.question.slice(0, 20) !== key);
+  saveWrongBook(list);
+}
+
+function updateWrongEntryBadge() {
+  const list = getWrongBook();
+  const badge = document.getElementById('wrongEntryBadge');
+  const sub = document.getElementById('wrongEntrySub');
+  if (!badge || !sub) return;
+  if (list.length > 0) {
+    badge.textContent = list.length;
+    badge.classList.add('has-wrong');
+    sub.textContent = `共 ${list.length} 道题待攻克`;
+  } else {
+    badge.classList.remove('has-wrong');
+    sub.textContent = '暂无错题，继续刷题吧';
+  }
+}
+
+function renderWrongBook() {
+  const list = getWrongBook();
+  const empty = document.getElementById('wrongEmpty');
+  const listEl = document.getElementById('wrongList');
+  const clearBtn = document.getElementById('wrongClearBtn');
+
+  if (list.length === 0) {
+    empty.style.display = 'flex';
+    listEl.style.display = 'none';
+    if (clearBtn) clearBtn.style.display = 'none';
+    return;
+  }
+
+  empty.style.display = 'none';
+  listEl.style.display = 'block';
+  if (clearBtn) clearBtn.style.display = 'block';
+
+  const letters = ['甲','乙','丙','丁'];
+  listEl.innerHTML = list.map((q, i) => `
+    <div class="wrong-item" onclick="startReview(${i})">
+      <div class="wrong-item-top">
+        <div class="wrong-item-tag">舌诊入门 · ${q.difficulty || '基础'}</div>
+        <div class="wrong-item-count">错了 ${q.wrongCount || 1} 次</div>
+      </div>
+      <div class="wrong-item-q">${q.question}</div>
+      <div class="wrong-item-ans">
+        <span class="wrong-ans-label">正确答案</span>
+        <span class="wrong-ans-text">${letters[q.answer]} · ${q.options ? q.options[q.answer] : ''}</span>
+      </div>
+      <div class="wrong-item-arrow">›</div>
+    </div>
+  `).join('');
+}
+
+function clearWrongBook() {
+  if (confirm('确定清空所有错题？')) {
+    saveWrongBook([]);
+    renderWrongBook();
+  }
+}
+
+// ============ 错题复习 ============
+let reviewList = [];
+let reviewIdx = 0;
+let reviewAnswered = false;
+
+function startReview(startIdx) {
+  reviewList = getWrongBook();
+  reviewIdx = startIdx;
+  reviewAnswered = false;
+  document.getElementById('revExplanation').classList.remove('show');
+  document.getElementById('revRelProduct').classList.remove('show');
+  document.getElementById('revNextBtn').classList.remove('show');
+  document.getElementById('revCorrectTip').style.display = 'none';
+  renderReviewQuestion();
+  goPage('review');
+}
+
+function renderReviewQuestion() {
+  if (reviewIdx >= reviewList.length) {
+    goPage('wrongbook');
+    return;
+  }
+  const q = reviewList[reviewIdx];
+  reviewAnswered = false;
+
+  // 进度
+  document.getElementById('revCurrent').textContent = reviewIdx + 1;
+  document.getElementById('revTotal').textContent = reviewList.length;
+  document.getElementById('reviewBarFill').style.width = (reviewIdx / reviewList.length * 100) + '%';
+  document.getElementById('revNo').textContent = `错题复习 · ${q.difficulty || '基础'}`;
+  document.getElementById('revText').textContent = q.question;
+
+  // 选项
+  const letters = ['甲','乙','丙','丁'];
+  document.getElementById('revOptions').innerHTML = (q.options || []).map((opt, i) => `
+    <div class="option" onclick="pickReview(this,${i === q.answer},${reviewIdx})">
+      <div class="opt-letter">${letters[i]}</div>
+      <div class="opt-text">${opt}</div>
+      <span class="opt-mark">${i === q.answer ? '✓' : '✗'}</span>
+    </div>
+  `).join('');
+
+  // 注解
+  document.getElementById('revExpExplain').innerHTML = (q.explain || '').replace(/「(.+?)」/g, '<strong>「$1」</strong>');
+  document.getElementById('revExpScript').textContent = q.script || '';
+  document.getElementById('revExpMnemonic').textContent = q.mnemonic || '';
+
+  // 产品
+  const prod = PRODUCTS[q.product] || { thumb: q.product?.[0] || '养', cls: 'warm', sub: '' };
+  document.getElementById('revProdThumb').textContent = prod.thumb;
+  document.getElementById('revProdThumb').className = `rel-prod-thumb ${prod.cls}`;
+  document.getElementById('revProdName').textContent = q.product || '';
+  document.getElementById('revProdSub').textContent = prod.sub;
+
+  // 重置
+  document.getElementById('revExplanation').classList.remove('show');
+  document.getElementById('revRelProduct').classList.remove('show');
+  document.getElementById('revNextBtn').classList.remove('show');
+  document.getElementById('revCorrectTip').style.display = 'none';
+  document.getElementById('screen').scrollTop = 0;
+}
+
+function pickReview(el, correct, qIdx) {
+  if (reviewAnswered) return;
+  reviewAnswered = true;
+
+  document.querySelectorAll('#revOptions .option').forEach(o => {
+    o.style.pointerEvents = 'none';
+    const isAns = o.getAttribute('onclick') && o.getAttribute('onclick').includes('true,');
+    if (o === el) o.classList.add(correct ? 'correct' : 'wrong');
+    else if (isAns && !correct) o.classList.add('correct');
+  });
+
+  if (correct) {
+    // 答对，从错题本移除
+    removeFromWrongBook(reviewList[qIdx]);
+    reviewList = getWrongBook();
+    document.getElementById('revCorrectTip').style.display = 'block';
+  }
+
+  setTimeout(() => document.getElementById('revExplanation').classList.add('show'), 300);
+  setTimeout(() => document.getElementById('revRelProduct').classList.add('show'), 500);
+  setTimeout(() => {
+    const btn = document.getElementById('revNextBtn');
+    const remaining = getWrongBook().length;
+    btn.textContent = reviewIdx + 1 < reviewList.length && remaining > 0 ? '继 续 复 习' : '返 回 错 题 本';
+    btn.classList.add('show');
+  }, 700);
+
+  setTimeout(() => {
+    document.getElementById('screen').scrollTo({ top: document.getElementById('screen').scrollHeight, behavior: 'smooth' });
+  }, 800);
+}
+
+function nextReview() {
+  reviewIdx++;
+  const remaining = getWrongBook();
+  if (reviewIdx >= reviewList.length || remaining.length === 0) {
+    renderWrongBook();
+    goPage('wrongbook');
+  } else {
+    reviewList = getWrongBook();
+    if (reviewIdx >= reviewList.length) reviewIdx = 0;
+    renderReviewQuestion();
+  }
+}
+
+// ============ 聊天测评系统 ============
+const CHAT_SYSTEM = `你是「一淳小养」的专属食养体质顾问小淳，正在为用户提供专属体质测评服务。
+
+用户是普通消费者（非中医从业者），25-45岁女性为主，关注自身健康和家人健康。
+
+【你的任务】通过10轮温暖的对话，了解她的身体状况，最终给出专属体质分析报告和食养建议。
+
+【对话规则】
+1. 语气：像一个懂中医的贴心闺蜜，温暖、真诚、不说教，用"你"不用"您"
+2. 每次只问一个问题，给出3-4个选项，选项简短（不超过12字）
+3. 偶尔在过渡语中给出小共鸣，比如"很多人都有这种感受呢～"让用户感觉被理解
+4. 第1-10问收集信息，第11轮给出最终分析
+5. 问题按此顺序覆盖：
+   - 第1问：精力状态（早晨起床感受）
+   - 第2问：睡眠质量（入睡/深睡/多梦）
+   - 第3问：消化食欲（吃饭情况/腹胀）
+   - 第4问：面色气色（脸色/嘴唇颜色）
+   - 第5问：手脚温度（冷热情况）
+   - 第6问：体型水肿（身材/水肿感）
+   - 第7问：情绪压力（心情/烦躁/叹气）
+   - 第8问：头发皮肤（掉发/肤色/痘痘）
+   - 第9问：女性专项（月经量色/经期感受，如用户明显是男性则问腰膝酸软）
+   - 第10问：最困扰的身体信号（让用户自选最符合的1个）
+
+【5种体质判断标准】
+- 气虚质：容易累、气短、不爱说话、脸色偏黄白、容易感冒、消化弱
+- 痰湿质：身体困重、小肚子鼓、大便黏腻、舌苔厚腻、齿痕舌、虚胖
+- 血虚质：脸色苍白/萎黄、头晕眼花、月经量少色淡、手脚麻木、指甲无光
+- 气郁质：情绪起伏大、胸口闷、爱叹气、睡眠差多梦、经前胸胀、肋部不舒
+- 肾虚质：掉发/早白发、腰膝酸软、熬夜透支、黑眼圈重、耳鸣、怕冷怕热
+
+体质可以兼夹，比如"气虚兼痰湿"、"血虚兼气郁"，要综合所有回答判断。
+
+【产品对应（严格匹配，产品名称不能改动）】
+- 八珍粉 → 气虚质为主（脾胃虚弱、消化差、脸色萎黄）
+- 五指毛桃茯湿膏 → 痰湿质为主（也适合气虚+痰湿复合）
+- 黄芪鲜阿胶 → 血虚质为主（气血双亏、手脚冰凉、月经量少）
+- 玫瑰玉灵膏 → 气郁质为主（女性气滞血瘀、疏肝养颜、经期调理）
+- 黄精黑养膏 → 肾虚质为主（熬夜透支、掉发白发、滋阴补肾）
+
+【JSON返回格式，只返回JSON，不要任何其他文字】
+
+问题轮次（第1-10问）：
+{"type":"question","step":数字,"bubble":"1句温暖的过渡语或共鸣语，20字以内，第1问时为空字符串","question":"这一问的问题内容","options":["选项A","选项B","选项C","选项D"]}
+
+最终分析（第11轮，收到第10问答案后触发）：
+{"type":"result","constitution":"主体质名称（如：血虚质）","subtitle":"兼夹说明 · 调养方向（如：兼气郁 · 补血疏肝）","insight":"先说体质是什么、为什么会这样，用身边的生活比喻，让用户恍然大悟，80字以内","metaphor":"一句话生动比喻这种体质状态，20字以内","tags":["用户最明显的6个症状标签，每个4字以内"],"products":[{"name":"首推产品名（严格按产品库）","reason":"结合用户具体回答说为什么适合她，30字","match":数字},{"name":"搭配产品名","reason":"搭配使用的理由，25字","match":数字}],"script":"亲爱的，开头，120-150字，先用一个生活比喻共情她的感受，再解释这是什么体质，最后自然带出产品推荐，语气像闺蜜发微信，不说"您"","deco":"一个最能代表这种体质的汉字（如：虚/湿/郁/血/肾）"}`;
+
+let chatHistory = [];   // 对话历史
+let chatStep = 0;       // 当前第几问（0=未开始）
+let lastScript = '';    // 最终话术，用于复制
+
+function botAva() {
+  return `<div class="bot-ava" style="width:34px;height:34px;border-radius:50%;background:var(--ink-brown);display:flex;align-items:center;justify-content:center;color:#c3ae7c;font-family:'Noto Serif SC',serif;font-weight:700;font-size:14px;flex-shrink:0;border:1px solid rgba(195,174,124,0.3);">淳</div>`;
+}
+
+function appendBotBubble(html) {
+  const msgs = document.getElementById('chatMsgs');
+  const div = document.createElement('div');
+  div.className = 'msg-bot';
+  div.innerHTML = `${botAva()}<div class="bot-bubble">${html}</div>`;
+  msgs.appendChild(div);
+  scrollChat();
+}
+
+function appendUserBubble(text) {
+  const msgs = document.getElementById('chatMsgs');
+  const div = document.createElement('div');
+  div.className = 'msg-user';
+  div.innerHTML = `<div class="user-bubble">${text}</div>`;
+  msgs.appendChild(div);
+  scrollChat();
+}
+
+function appendQuickReplies(options, onPick) {
+  const msgs = document.getElementById('chatMsgs');
+  const wrap = document.createElement('div');
+  wrap.className = 'quick-replies';
+  wrap.id = 'activeReplies';
+  options.forEach(opt => {
+    const btn = document.createElement('div');
+    btn.className = 'qr-btn';
+    btn.textContent = opt;
+    btn.onclick = () => onPick(opt, wrap);
+    wrap.appendChild(btn);
+  });
+  msgs.appendChild(wrap);
+  scrollChat();
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chatMsgs');
+  const tw = document.createElement('div');
+  tw.className = 'typing-wrap';
+  tw.id = 'typingIndicator';
+  tw.innerHTML = `${botAva()}<div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  msgs.appendChild(tw);
+  scrollChat();
+  return tw;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+function scrollChat() {
+  setTimeout(() => {
+    document.getElementById('screen').scrollTo({ top: 99999, behavior: 'smooth' });
+  }, 100);
+}
+
+async function callChatAI(userMsg) {
+  chatHistory.push({ role: 'user', content: userMsg });
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: CHAT_SYSTEM,
+      messages: chatHistory
+    })
+  });
+  const data = await resp.json();
+  const raw = data.content.map(b => b.text || '').join('');
+  const clean = raw.replace(/```json|```/g, '').trim();
+  const parsed = JSON.parse(clean);
+  chatHistory.push({ role: 'assistant', content: raw });
+  return parsed;
+}
+
+async function initChat() {
+  chatHistory = [];
+  chatStep = 0;
+  lastScript = '';
+  document.getElementById('chatMsgs').innerHTML = '';
+  document.getElementById('chatProgress').style.display = 'none';
+
+  // 开场白（客户视角，温暖服务感）
+  appendBotBubble(`嗨，欢迎来到一淳小养专属体质测评 🌿<br><br>我是小淳，你的私人食养顾问。<br><br>接下来我会问你 <strong>10个小问题</strong>，大约 3 分钟，帮你找到最适合自己的食养方案——不是千篇一律的推荐，是真正根据<strong>你的身体状态</strong>量身定制的 ✨<br><br>准备好了吗？`);
+  appendQuickReplies(['好的，开始 →'], (opt, wrap) => {
+    wrap.remove();
+    appendUserBubble(opt);
+    startAssessment();
+  });
+}
+
+async function startAssessment() {
+  const tw = showTyping();
+  try {
+    const res = await callChatAI('开始测评');
+    removeTyping();
+    handleChatResponse(res);
+  } catch(e) {
+    removeTyping();
+    appendBotBubble('网络有点不稳定，点下方重试一下吧～');
+    appendQuickReplies(['重新开始'], () => initChat());
+  }
+}
+
+function handleChatResponse(res) {
+  if (res.type === 'question') {
+    chatStep = res.step;
+    // 更新进度
+    document.getElementById('chatProgress').style.display = 'block';
+    document.getElementById('chatProgressNum').textContent = res.step;
+
+    // 显示过渡语 + 问题
+    const bubbleHtml = res.bubble
+      ? `${res.bubble}<br><br><strong>第${res.step}问</strong><br><br>${res.question}`
+      : `<strong>第${res.step}问</strong><br><br>${res.question}`;
+    appendBotBubble(bubbleHtml);
+
+    appendQuickReplies(res.options, async (opt, wrap) => {
+      wrap.remove();
+      appendUserBubble(opt);
+      const tw = showTyping();
+      try {
+        const nextRes = await callChatAI(opt);
+        removeTyping();
+        if (nextRes.type === 'result') {
+          handleResult(nextRes);
+        } else {
+          handleChatResponse(nextRes);
+        }
+      } catch(e) {
+        removeTyping();
+        appendBotBubble('出了点小问题，我们继续～');
+        appendQuickReplies(['继续'], async (_, w) => {
+          w.remove();
+          const tw2 = showTyping();
+          const r = await callChatAI('继续');
+          removeTyping();
+          handleChatResponse(r);
+        });
+      }
+    });
+  } else if (res.type === 'result') {
+    handleResult(res);
+  }
+}
+
+async function handleResult(res) {
+  appendBotBubble(`好啦，10个问题都回答完了 🌿<br><br>我已经帮你分析好了，点下方看你的专属体质报告～`);
+  await new Promise(r => setTimeout(r, 1200));
+
+  lastScript = res.script || '';
+
+  // Hero区
+  document.getElementById('rTypeCh').textContent = res.constitution || '—';
+  document.getElementById('rTypeSub').textContent = res.subtitle || '';
+  document.getElementById('rDesc').textContent = res.metaphor || '';
+  document.getElementById('rDeco').textContent = res.deco || '體';
+
+  // 体质解读
+  document.getElementById('rMetaphor').textContent = res.metaphor || '';
+  document.getElementById('rInsight').textContent = res.insight || '';
+
+  // 症状标签
+  const tagsEl = document.getElementById('rTags');
+  tagsEl.innerHTML = (res.tags || []).map(t => `<div class="tag">${t}</div>`).join('');
+
+  // 推荐产品
+  const prodsEl = document.getElementById('rProducts');
+  const nos = ['01','02'];
+  prodsEl.innerHTML = (res.products || []).slice(0,2).map((p, i) => {
+    const info = PRODUCTS[p.name] || { thumb: p.name[0], cls: 'warm' };
+    const dbProd = PRODUCT_DB.find(x => x.name === p.name);
+    const clickAttr = dbProd ? `onclick="openProduct('${dbProd.id}','result')"` : '';
+    const isLast = i === Math.min((res.products.length - 1), 1);
+    return `<div class="rec-prod" style="${isLast ? 'border-bottom:none;' : ''}cursor:pointer;" ${clickAttr}>
+      <div class="rec-prod-no">${nos[i]}</div>
+      <div class="rec-prod-img ${info.cls}">${info.thumb}</div>
+      <div class="rec-prod-info">
+        <div class="rec-prod-name">${p.name}</div>
+        <div class="rec-prod-why">${p.reason}，${p.match}% 匹配</div>
+      </div>
+      <div style="color:var(--crimson);font-size:18px;opacity:0.4;flex-shrink:0;">›</div>
+    </div>`;
+  }).join('');
+
+  // 话术
+  const scriptEl = document.getElementById('rScript');
+  scriptEl.innerHTML = lastScript.replace(/\n/g, '<br>').replace(/「(.+?)」/g, '<strong>「$1」</strong>');
+
+  // 显示结果页
+  document.getElementById('resultLoading').style.display = 'none';
+  document.getElementById('resultContent').style.display = 'block';
+  goPage('result');
+}
+
+function restartChat() {
+  goPage('chat');
+}
+
+function copyScript() {
+  const text = document.getElementById('rScript').textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      btn.textContent = '已复制 ✓';
+      setTimeout(() => btn.textContent = '一键复制 ⎘', 2000);
+    });
+  }
+}
+
+// 进入chat页时初始化
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('screen').scrollTop = 0;
+  if (id === 'quiz') initQuiz();
+  if (id === 'chat') initChat();
+  if (id === 'wrongbook') { renderWrongBook(); updateWrongEntryBadge(); }
+  if (id === 'home') { refreshHomeUI(); }
+  if (id === 'products') renderProductList('all');
+  if (id === 'mine') renderMine();
+  if (id === 'result') {
+    document.getElementById('resultLoading').style.display = 'none';
+  }
+}
+
+// ============ 用户数据系统 ============
+const USER_KEY = 'yichun_user_data';
+const DAILY_KEY = 'yichun_daily';
+
+const RANKS = [
+  { name: '食养探索者', min: 0,   max: 99,  lv: 1, decoChar: '探' },
+  { name: '食养学徒',   min: 100, max: 199, lv: 2, decoChar: '學' },
+  { name: '食养顾问',   min: 200, max: 299, lv: 3, decoChar: '顧' },
+  { name: '食养掌门',   min: 300, max: 9999,lv: 4, decoChar: '掌' },
+];
+
+function getUserData() {
+  try {
+    return JSON.parse(localStorage.getItem(USER_KEY) || '{}');
+  } catch { return {}; }
+}
+
+function saveUserData(data) {
+  localStorage.setItem(USER_KEY, JSON.stringify(data));
+}
+
+function getDailyData() {
+  try {
+    return JSON.parse(localStorage.getItem(DAILY_KEY) || '{}');
+  } catch { return {}; }
+}
+
+function saveDailyData(data) {
+  localStorage.setItem(DAILY_KEY, JSON.stringify(data));
+}
+
+function getTodayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
+
+function getCurrentRank(score) {
+  return RANKS.find(r => score >= r.min && score <= r.max) || RANKS[0];
+}
+
+// 答题后更新用户数据
+function recordAnswer(correct) {
+  const data = getUserData();
+  data.totalAnswered = (data.totalAnswered || 0) + 1;
+  data.totalCorrect  = (data.totalCorrect  || 0) + (correct ? 1 : 0);
+  const prevScore = data.score || 0;
+  if (correct) data.score = prevScore + 1;
+
+  // 打卡逻辑
+  const today = getTodayStr();
+  const daily = getDailyData();
+  if (!daily[today]) {
+    daily[today] = { answered: 0, correct: 0 };
+    // 连续打卡
+    const yesterday = (() => {
+      const d = new Date(); d.setDate(d.getDate()-1);
+      return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    })();
+    data.streak = daily[yesterday] ? (data.streak || 0) + 1 : 1;
+  }
+  daily[today].answered++;
+  if (correct) daily[today].correct++;
+  saveDailyData(daily);
+  saveUserData(data);
+
+  // 检查升段
+  if (correct) {
+    const prevRank = getCurrentRank(prevScore);
+    const newRank  = getCurrentRank(data.score);
+    if (newRank.lv > prevRank.lv) {
+      showRankUp(newRank);
+    }
+  }
+  refreshHomeUI();
+}
+
+function showRankUp(rank) {
+  const overlay = document.getElementById('rankUpOverlay');
+  document.getElementById('rankUpName').textContent = rank.name;
+  document.getElementById('rankUpSub').textContent = `恭喜升段！继续加油 🎉`;
+  overlay.style.display = 'flex';
+}
+
+function refreshHomeUI() {
+  const data = getUserData();
+  const score = data.score || 0;
+  const rank  = getCurrentRank(score);
+
+  // 首页段位条
+  const rankNameEl = document.querySelector('.rank-name');
+  const rankBarFill = document.querySelector('.rank-bar-fill');
+  const rankProgressLabel = document.querySelector('.rank-progress-label');
+  if (rankNameEl) rankNameEl.textContent = rank.name;
+
+  const pct = rank.max < 9999
+    ? Math.min(100, ((score - rank.min) / (rank.max - rank.min + 1)) * 100)
+    : 100;
+  if (rankBarFill) rankBarFill.style.width = pct + '%';
+  if (rankProgressLabel) {
+    const next = RANKS[rank.lv] || null;
+    rankProgressLabel.textContent = next
+      ? `距「${next.name}」 ${score}/${next.min}`
+      : `${rank.name} · 已满级 ✨`;
+  }
+
+  // 每日一题更新
+  refreshDailyQuestion();
+  updateWrongEntryBadge();
+}
+
+// ============ 每日一题 AI 生成 ============
+const DAILY_Q_KEY = 'yichun_daily_q';
+
+async function refreshDailyQuestion() {
+  const today = getTodayStr();
+  let dq = null;
+  try { dq = JSON.parse(localStorage.getItem(DAILY_Q_KEY) || 'null'); } catch {}
+
+  // 当天已有就直接用
+  if (dq && dq.date === today) {
+    renderDailyCard(dq.q);
+    return;
+  }
+  // 否则AI生成一道新题
+  renderDailyCard(null); // 先占位
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        system: `你是食养知识出题老师，生成1道舌诊入门题，场景化，返回JSON：{"question":"题干20-35字","difficulty":"基础或进阶"}。只返回JSON。`,
+        messages: [{ role: 'user', content: `今天是${today}，生成一道今日练习题，要和昨天的不同。` }]
+      })
+    });
+    const d = await resp.json();
+    const raw = d.content.map(b => b.text||'').join('');
+    const q = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    localStorage.setItem(DAILY_Q_KEY, JSON.stringify({ date: today, q }));
+    renderDailyCard(q);
+  } catch {
+    renderDailyCard({ question: '照镜子发现自己舌苔厚白、胃口变差，可能是什么原因？', difficulty: '基础' });
+  }
+}
+
+function renderDailyCard(q) {
+  const badge = document.querySelector('.daily-badge');
+  const qEl   = document.querySelector('.daily-q');
+  if (!badge || !qEl) return;
+  const today = getTodayStr();
+  const d = new Date();
+  badge.textContent = `${d.getMonth()+1}月${d.getDate()}日 · 舌诊${q?.difficulty || '基础'}`;
+  qEl.textContent   = q?.question || '正在生成今日题目…';
+}
+
+// ============ 「我的」页面渲染 ============
+function renderMine() {
+  const data  = getUserData();
+  const score = data.score || 0;
+  const rank  = getCurrentRank(score);
+  const today = getTodayStr();
+  const daily = getDailyData();
+
+  // 段位卡
+  document.getElementById('mineRankName').textContent = rank.name;
+  document.getElementById('mineRankScore').textContent = score;
+  document.getElementById('mineDecoChar').textContent = rank.decoChar;
+  document.getElementById('mineRankSub').textContent = `LV.${rank.lv} · ${rank.lv < 4 ? '继续刷题升级' : '已满级 ✨'}`;
+
+  const pct = rank.max < 9999
+    ? Math.min(100, ((score - rank.min) / (rank.max - rank.min + 1)) * 100)
+    : 100;
+  document.getElementById('mineRankBar').style.width = pct + '%';
+
+  const next = RANKS[rank.lv] || null;
+  document.getElementById('mineRankFrom').textContent = `${rank.name} ${rank.min}分`;
+  document.getElementById('mineRankTo').textContent   = next ? `${next.name} ${next.min}分` : '满级';
+
+  // 段位节点高亮
+  for (let i = 0; i < 4; i++) {
+    const node = document.getElementById(`mineRankNode${i}`);
+    if (!node) continue;
+    const unlocked = rank.lv > i;
+    node.style.opacity = unlocked ? '1' : '0.35';
+    const dot = node.querySelector('div');
+    if (dot) dot.style.background = unlocked ? '#c3ae7c' : 'rgba(237,230,216,0.2)';
+  }
+
+  // 统计数据
+  const total    = data.totalAnswered || 0;
+  const correct  = data.totalCorrect  || 0;
+  const accuracy = total > 0 ? Math.round(correct/total*100) + '%' : '—';
+  document.getElementById('statTotal').textContent    = total;
+  document.getElementById('statAccuracy').textContent = accuracy;
+  document.getElementById('statStreak').textContent   = data.streak || 0;
+
+  // 今日进度
+  const todayData = daily[today] || { answered: 0 };
+  const todayPct  = Math.min(100, (todayData.answered / 10) * 100);
+  document.getElementById('statTodayBar').style.width  = todayPct + '%';
+  document.getElementById('statTodayCount').textContent = todayData.answered || 0;
+  document.getElementById('statTodayDate').textContent  = (() => {
+    const d = new Date();
+    return `${d.getMonth()+1}月${d.getDate()}日`;
+  })();
+  document.getElementById('statTodayTip').textContent = todayData.answered >= 10
+    ? '今日目标达成！明天继续 🌿'
+    : todayData.answered > 0
+    ? `已完成 ${todayData.answered} 题，距今日目标还差 ${10 - todayData.answered} 题`
+    : '今天还没开始，去刷一组吧 🌿';
+
+  // 错题数
+  const wrongCount = getWrongBook().length;
+  document.getElementById('mineWrongCount').textContent = wrongCount > 0 ? `${wrongCount} 道待复习` : '暂无错题';
+}
+
+function resetUserData() {
+  if (confirm('确定清空所有学习记录？错题本也会一并清空。')) {
+    localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(DAILY_KEY);
+    localStorage.removeItem(DAILY_Q_KEY);
+    localStorage.removeItem(WRONG_KEY);
+    renderMine();
+    refreshHomeUI();
+    alert('已重置');
+  }
+}
+
+// 页面首次加载时
+window.addEventListener('DOMContentLoaded', () => {
+  updateWrongEntryBadge();
+  refreshHomeUI();
+});
+</script>
+</body>
+</html>
