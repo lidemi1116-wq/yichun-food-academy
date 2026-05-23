@@ -1889,7 +1889,7 @@ hr.divider {
   </div>
 
   <!-- 错题本入口 -->
-  <div class="wrong-entry-card" onclick="goPage('wrongbook')" style="margin-bottom:0;">
+  <div class="wrong-entry-card" onclick="goBack()" style="margin-bottom:0;">
     <div class="wrong-entry-hanzi">錯</div>
     <div class="wrong-entry-info">
       <div class="wrong-entry-title">我的错题本</div>
@@ -1944,7 +1944,7 @@ hr.divider {
   <div class="tab-bar">
     <div class="tab active"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goBack()"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
@@ -1953,7 +1953,7 @@ hr.divider {
 <div class="page products-page paper-bg" id="products">
   <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
   <div class="page-nav" style="border-bottom:1px solid var(--line);">
-    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div class="back-btn" onclick="goBack()">‹</div>
     <div style="flex:1;">
       <div style="font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;color:var(--ink-brown);letter-spacing:2px;">臻品食养矩阵</div>
       <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:rgba(90,66,50,0.45);letter-spacing:2px;margin-top:2px;">Product Collection</div>
@@ -1973,7 +1973,7 @@ hr.divider {
   <div id="prodList" style="padding: 0 20px;"></div>
 
   <div class="tab-bar">
-    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
     <div class="tab active"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
@@ -1996,7 +1996,7 @@ hr.divider {
 
   <!-- 导航 -->
   <div class="page-nav" style="border-bottom:1px solid var(--line);">
-    <div class="back-btn" id="pdBackBtn" onclick="goPage('products')">‹</div>
+    <div class="back-btn" id="pdBackBtn" onclick="goBack()">‹</div>
     <div style="flex:1;">
       <div style="font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--ink-brown);letter-spacing:1px;" id="pdNavName">八珍粉</div>
       <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:rgba(90,66,50,0.45);letter-spacing:2px;" id="pdNavEn">Product Detail</div>
@@ -2029,9 +2029,9 @@ hr.divider {
   </div>
 
   <div class="tab-bar">
-    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab active" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab active" onclick="goBack()"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
@@ -2040,7 +2040,7 @@ hr.divider {
 <div class="page wrong-page paper-bg" id="wrongbook">
   <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
   <div class="page-nav">
-    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div class="back-btn" onclick="goBack()">‹</div>
     <div style="flex:1;">
       <div style="font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;color:var(--ink-brown);letter-spacing:2px;">错题本</div>
       <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:rgba(90,66,50,0.45);letter-spacing:2px;margin-top:2px;">错题 · 重新挑战</div>
@@ -2060,7 +2060,7 @@ hr.divider {
   <div id="wrongList" style="display:none;"></div>
 
   <div class="tab-bar">
-    <div class="tab active" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab active" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
     <div class="tab"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
@@ -2071,7 +2071,7 @@ hr.divider {
 <div class="page quiz-page paper-bg" id="review">
   <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
   <div class="page-nav">
-    <div class="back-btn" onclick="goPage('wrongbook')">‹</div>
+    <div class="back-btn" onclick="goBack()">‹</div>
     <div class="quiz-progress-wrap">
       <div class="quiz-bar"><div class="quiz-bar-fill" id="reviewBarFill" style="width:0%"></div></div>
       <div class="quiz-counter"><em id="revCurrent">1</em> / <span id="revTotal">?</span></div>
@@ -2122,7 +2122,7 @@ hr.divider {
 <div class="page quiz-page paper-bg" id="quiz">
   <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
   <div class="page-nav">
-    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div class="back-btn" onclick="goBack()">‹</div>
     <div class="quiz-progress-wrap">
       <div class="quiz-bar"><div class="quiz-bar-fill" id="quizBarFill" style="width:0%"></div></div>
       <div class="quiz-counter"><em id="qCurrent">1</em> / <span id="qTotal">10</span></div>
@@ -2194,7 +2194,7 @@ hr.divider {
 <div class="page chat-page paper-bg" id="chat">
   <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
   <div class="chat-header" style="position:sticky;top:44px;background:var(--paper);z-index:10;border-bottom:1px solid var(--line);">
-    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div class="back-btn" onclick="goBack()">‹</div>
     <div class="chat-title-block">
       <div class="chat-title-ch">小淳 · AI 体质测评</div>
       <div class="chat-title-en">Constitution Assessment · 约 3 分钟</div>
@@ -2206,7 +2206,7 @@ hr.divider {
   </div>
   <div class="chat-msgs" id="chatMsgs"></div>
   <div class="tab-bar">
-    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab active"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
     <div class="tab"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
@@ -2217,7 +2217,7 @@ hr.divider {
 <div class="page result-page paper-bg" id="result">
   <div class="status-bar"><span>9:41</span><span>●●●● 5G</span></div>
   <div class="chat-header" style="position:sticky;top:44px;background:var(--paper);z-index:10;border-bottom:1px solid var(--line);">
-    <div class="back-btn" onclick="goPage('home')">‹</div>
+    <div class="back-btn" onclick="goBack()">‹</div>
     <div class="chat-title-block">
       <div class="chat-title-ch">体质测评报告</div>
       <div class="chat-title-en" style="font-style:italic;font-family:'IM Fell English',serif;font-size:11px;color:rgba(90,66,50,0.45);letter-spacing:2px;" id="resultDate">2026.05.23 · Completed</div>
@@ -2275,9 +2275,9 @@ hr.divider {
   </div>
 
   <div class="tab-bar">
-    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab active"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goBack()"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
@@ -2369,14 +2369,14 @@ hr.divider {
       <span style="width:12px;height:2px;background:var(--crimson);display:inline-block;"></span>快捷入口
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-      <div onclick="goPage('wrongbook')" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+      <div onclick="goBack()" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
         <span style="font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;color:var(--crimson);">錯</span>
         <div>
           <div style="font-family:'Noto Serif SC',serif;font-size:13px;font-weight:600;color:var(--ink-brown);">错题本</div>
           <div style="font-size:10px;color:var(--ink-mid);margin-top:2px;" id="mineWrongCount">暂无错题</div>
         </div>
       </div>
-      <div onclick="goPage('products')" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+      <div onclick="goBack()" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
         <span style="font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;color:var(--crimson);">品</span>
         <div>
           <div style="font-family:'Noto Serif SC',serif;font-size:13px;font-weight:600;color:var(--ink-brown);">产品库</div>
@@ -2401,9 +2401,9 @@ hr.divider {
   </div>
 
   <div class="tab-bar">
-    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goBack()"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab active"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
@@ -4172,7 +4172,7 @@ function startReview(startIdx) {
 
 function renderReviewQuestion() {
   if (reviewIdx >= reviewList.length) {
-    goPage('wrongbook');
+    goBack();
     return;
   }
   const q = reviewList[reviewIdx];
@@ -4252,7 +4252,7 @@ function nextReview() {
   const remaining = getWrongBook();
   if (reviewIdx >= reviewList.length || remaining.length === 0) {
     renderWrongBook();
-    goPage('wrongbook');
+    goBack();
   } else {
     reviewList = getWrongBook();
     if (reviewIdx >= reviewList.length) reviewIdx = 0;
@@ -4528,7 +4528,22 @@ function copyScript() {
 }
 
 // 进入chat页时初始化
+// ============ 页面导航历史记录 ============
+const pageHistory = ['home'];
+let isPopping = false;
+
 function goPage(id, module) {
+  if (id === getCurrentPage()) return;
+  pageHistory.push(id);
+  _doPageSwitch(id, module);
+}
+
+function getCurrentPage() {
+  return pageHistory[pageHistory.length - 1];
+}
+
+function _doPageSwitch(id, module) {
+  isPopping = true;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.getElementById('screen').scrollTop = 0;
@@ -4541,7 +4556,21 @@ function goPage(id, module) {
   if (id === 'result') {
     document.getElementById('resultLoading').style.display = 'none';
   }
+  setTimeout(() => isPopping = false, 100);
 }
+
+function goBack() {
+  if (pageHistory.length > 1) {
+    pageHistory.pop();
+    const prev = pageHistory[pageHistory.length - 1];
+    _doPageSwitch(prev);
+  } else {
+    history.back();
+  }
+}
+
+// 初始化页面时设置初始历史
+history.replaceState({ page: 'home' }, '');
 
 // ============ 用户数据系统 ============
 const USER_KEY = 'yichun_user_data';
