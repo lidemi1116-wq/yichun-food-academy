@@ -4824,11 +4824,15 @@ window.addEventListener('DOMContentLoaded', () => {
   updateWrongEntryBadge();
   refreshHomeUI();
 
-  // Debug: check if click handlers are attached
-  document.querySelectorAll('.tab, .module-item, .wrong-entry-card, .section-more').forEach(el => {
-    const handler = el.getAttribute('onclick');
-    if (handler) {
-      console.log('Element has onclick:', handler, el.className);
+  // Global click debug
+  document.addEventListener('click', (e) => {
+    const el = e.target;
+    console.log('Click at:', el.tagName, el.className, el.id);
+    if (el.onclick) console.log('  onclick:', el.onclick.toString().slice(0, 100));
+    // Walk up
+    let parent = el.parentElement;
+    for (let i = 0; i < 5 && parent; i++, parent = parent.parentElement) {
+      if (parent.onclick) console.log('  parent onclick:', parent.className, parent.onclick.toString().slice(0, 100));
     }
   });
 });
