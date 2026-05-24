@@ -1885,11 +1885,11 @@ hr.divider {
       <div class="section-ch">知识图谱</div>
       <div class="section-en">Knowledge Map</div>
     </div>
-    <div class="section-more">全部 ›</div>
+    <div class="section-more" onclick="goPage('quiz','舌诊入门')">全部 ›</div>
   </div>
 
   <!-- 错题本入口 -->
-  <div class="wrong-entry-card" onclick="goBack()" style="margin-bottom:0;">
+  <div class="wrong-entry-card" onclick="goPage('wrongbook')" style="margin-bottom:0;">
     <div class="wrong-entry-hanzi">錯</div>
     <div class="wrong-entry-info">
       <div class="wrong-entry-title">我的错题本</div>
@@ -1919,7 +1919,7 @@ hr.divider {
       </div>
       <div class="module-arrow">›</div>
     </div>
-    <div class="module-item">
+    <div class="module-item" onclick="goPage('quiz','阴阳五行')">
       <div class="module-no">03</div>
       <div class="module-info">
         <div class="module-ch">阴阳五行</div>
@@ -1942,9 +1942,9 @@ hr.divider {
   </div>
 
   <div class="tab-bar">
-    <div class="tab active"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab active" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab" onclick="goBack()"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
@@ -1973,10 +1973,10 @@ hr.divider {
   <div id="prodList" style="padding: 0 20px;"></div>
 
   <div class="tab-bar">
-    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab active"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
-    <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+    <div class="tab active" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
 
@@ -2029,10 +2029,10 @@ hr.divider {
   </div>
 
   <div class="tab-bar">
-    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab active" onclick="goBack()"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
-    <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
 
@@ -2060,10 +2060,10 @@ hr.divider {
   <div id="wrongList" style="display:none;"></div>
 
   <div class="tab-bar">
-    <div class="tab active" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
-    <div class="tab"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
-    <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+    <div class="tab active" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
 
@@ -2206,10 +2206,10 @@ hr.divider {
   </div>
   <div class="chat-msgs" id="chatMsgs"></div>
   <div class="tab-bar">
-    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab active"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
-    <div class="tab"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
 
@@ -2275,9 +2275,9 @@ hr.divider {
   </div>
 
   <div class="tab-bar">
-    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab active"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab" onclick="goBack()"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
     <div class="tab" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
@@ -2401,10 +2401,10 @@ hr.divider {
   </div>
 
   <div class="tab-bar">
-    <div class="tab" onclick="goBack()"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
+    <div class="tab" onclick="goPage('home')"><span class="tab-icon">家</span><span class="tab-label">学习</span></div>
     <div class="tab" onclick="goPage('chat')"><span class="tab-icon">診</span><span class="tab-label">测评</span></div>
-    <div class="tab" onclick="goBack()"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
-    <div class="tab active"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
+    <div class="tab" onclick="goPage('products')"><span class="tab-icon">品</span><span class="tab-label">产品</span></div>
+    <div class="tab active" onclick="goPage('mine')"><span class="tab-icon">我</span><span class="tab-label">我的</span></div>
   </div>
 </div>
 
@@ -4533,6 +4533,7 @@ const pageHistory = ['home'];
 let isPopping = false;
 
 function goPage(id, module) {
+  console.log('goPage called:', id, 'current:', getCurrentPage());
   if (id === getCurrentPage()) return;
   pageHistory.push(id);
   _doPageSwitch(id, module);
@@ -4822,6 +4823,14 @@ function resetUserData() {
 window.addEventListener('DOMContentLoaded', () => {
   updateWrongEntryBadge();
   refreshHomeUI();
+
+  // Debug: check if click handlers are attached
+  document.querySelectorAll('.tab, .module-item, .wrong-entry-card, .section-more').forEach(el => {
+    const handler = el.getAttribute('onclick');
+    if (handler) {
+      console.log('Element has onclick:', handler, el.className);
+    }
+  });
 });
 </script>
 </body>
