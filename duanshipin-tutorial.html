@@ -3,20 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>短视频内容创作方法论 · 橙皮书</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<title>一淳小养 · 短视频内容创作方法论</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* 一淳小养 品牌 VI 配色（沿用第一版排版，仅换色） */
+  /* 一淳小养 品牌 VI 配色 */
   --paper:        #FBF9F4;   /* 亮纸白 · 主底 */
   --paper-dark:   #F4F0E7;   /* 浅米 · 卡片/次级底 */
   --paper-darker: #ECE5D6;   /* 再深一档纸色 */
   --ink-brown:    #2B2724;   /* 墨 · 标题/重点 */
   --ink-mid:      #6B6259;   /* 软棕灰 · 正文 */
+  --faint:        #A8A094;   /* 浅灰 · 注释 */
   --accent:       #8E2B30;   /* 淳红 · 主色点睛 */
-  --accent-soft:  #C0807C;   /* 退红 · 弱化的红，做装饰/英文 */
+  --accent-soft:  #C0807C;   /* 退红 · 弱化的红 */
   --gold:         #C0807C;
-  --sage:         #7CA36B;   /* 竹青 · 线下课辅助色 */
+  --sage:         #7CA36B;   /* 竹青 · 线下课/辅助色 */
   --line:         rgba(43,39,36,0.13);
   --line-soft:    rgba(43,39,36,0.07);
   --crimson:      #8E2B30;
@@ -24,515 +25,188 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Noto Sans SC', sans-serif;
-  background: #2B2724;
+  font-family: "Songti SC","Source Han Serif SC","Noto Serif SC","Noto Serif CJK SC","PingFang SC",serif;
+  background: #E7E1D5;
   color: var(--ink-brown);
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  padding: 0;
   line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
 }
+.en { font-family: "Cormorant Garamond","Times New Roman",serif; letter-spacing: .12em; }
 
 /* 阅读进度条 */
 .progress-bar {
-  position: fixed;
-  top: 0; left: 0;
-  height: 3px;
-  width: 0%;
-  background: linear-gradient(90deg, var(--accent-soft), var(--accent));
-  z-index: 200;
-  transition: width 0.1s linear;
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0%;
+  background: var(--accent);
+  z-index: 200; transition: width 0.1s linear;
 }
 
 .book {
-  width: 100%;
-  max-width: 720px;
+  width: 100%; max-width: 720px;
   background-color: var(--paper);
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  box-shadow: 0 0 80px rgba(0,0,0,0.5);
-  overflow: hidden;
-  position: relative;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");
+  box-shadow: 0 0 60px rgba(43,39,36,0.18);
+  overflow: hidden; position: relative;
 }
 
 /* ============ 封面 ============ */
-.cover {
-  position: relative;
-  height: 460px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-.cover-bg {
-  position: absolute; inset: 0;
-  background: linear-gradient(160deg, #E6DECB 0%, #CDBF9E 45%, #B4A47F 100%);
-}
+.cover { position: relative; height: 460px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+.cover-bg { position: absolute; inset: 0; background: linear-gradient(162deg, #FBF9F4 0%, #F2ECDF 55%, #E6DECB 100%); }
 .cover-bg::after {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
-  opacity: 0.55;
+  content: ''; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 }
 .cover-seal {
-  position: absolute;
-  right: 28px; top: 28px;
-  width: 64px; height: 64px;
-  border: 1.5px solid var(--accent);
-  border-radius: 4px;
+  position: absolute; right: 28px; top: 28px;
+  width: 60px; height: 60px;
+  border: 1.4px solid var(--accent);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Noto Serif SC', serif;
-  font-weight: 900;
-  font-size: 30px;
-  color: var(--accent);
-  letter-spacing: -2px;
+  font-weight: 700; font-size: 26px; color: var(--accent);
   z-index: 2;
 }
 .cover-watermark {
-  position: absolute;
-  right: -30px; bottom: -60px;
-  font-family: 'Noto Serif SC', serif;
-  font-size: 240px;
-  font-weight: 900;
-  color: rgba(43,39,36,0.06);
-  line-height: 1;
-  z-index: 1;
+  position: absolute; right: -26px; bottom: -56px;
+  font-size: 230px; font-weight: 900;
+  color: rgba(43,39,36,0.045); line-height: 1; z-index: 1;
 }
-.cover-content {
-  position: relative;
-  z-index: 3;
-  padding: 0 36px 44px;
-}
-.cover-kicker {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 13px;
-  font-weight: 300;
-  color: rgba(43,39,36,0.6);
-  letter-spacing: 6px;
-  margin-bottom: 18px;
-}
-.cover-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 44px;
-  font-weight: 900;
-  color: #2B2724;
-  line-height: 1.25;
-  margin-bottom: 16px;
-}
-.cover-en {
-  font-family: 'IM Fell English', serif;
-  font-style: italic;
-  font-size: 14px;
-  color: rgba(43,39,36,0.55);
-  letter-spacing: 2px;
-  margin-bottom: 18px;
-}
-.cover-meta {
-  display: flex;
-  gap: 18px;
-  font-size: 12px;
-  color: rgba(43,39,36,0.6);
-  letter-spacing: 1px;
-}
+.cover-content { position: relative; z-index: 3; padding: 0 36px 44px; }
+.cover-kicker { font-size: 12px; font-weight: 400; color: var(--accent); letter-spacing: .5em; margin-bottom: 18px; }
+.cover-title { font-size: 44px; font-weight: 900; color: var(--ink-brown); letter-spacing: .04em; line-height: 1.3; margin-bottom: 16px; }
+.cover-en { font-size: 13px; color: var(--faint); letter-spacing: .18em; margin-bottom: 20px; text-transform: uppercase; }
+.cover-rule { width: 52px; height: 1px; background: var(--accent); opacity: .85; margin-bottom: 18px; }
+.cover-meta { display: flex; gap: 18px; flex-wrap: wrap; font-size: 11px; color: var(--faint); letter-spacing: .14em; }
 .cover-meta span { display: flex; align-items: center; gap: 6px; }
-.cover-meta span::before { content: '·'; color: rgba(43,39,36,0.4); }
+.cover-meta span::before { content: '·'; color: var(--accent); }
 
 /* ============ 正文容器 ============ */
 .content { padding: 0 0 70px; }
 
 /* 引言 */
-.lead {
-  padding: 40px 36px 30px;
-  position: relative;
-}
-.lead::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 36px; right: 36px;
-  height: 1px; background: var(--line);
-}
-.lead-mark {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 40px;
-  color: var(--accent-soft);
-  line-height: 0.5;
-  margin-bottom: 10px;
-  display: block;
-}
-.lead p {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--ink-mid);
-  line-height: 1.95;
-  margin-bottom: 14px;
-}
+.lead { padding: 44px 36px 30px; position: relative; }
+.lead::after { content: ''; position: absolute; bottom: 0; left: 36px; right: 36px; height: 1px; background: var(--line); }
+.lead-mark { font-size: 34px; color: var(--accent); line-height: .6; margin-bottom: 14px; display: block; }
+.lead p { font-size: 16px; font-weight: 400; color: var(--ink-mid); line-height: 2; margin-bottom: 14px; }
 .lead p strong { color: var(--ink-brown); font-weight: 700; }
 
 /* 目录 */
-.toc {
-  padding: 30px 36px 10px;
-}
-.toc-title {
-  font-family: 'IM Fell English', serif;
-  font-style: italic;
-  font-size: 13px;
-  letter-spacing: 3px;
-  color: var(--accent);
-  margin-bottom: 18px;
-}
-.toc a {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--line-soft);
-  text-decoration: none;
-  color: var(--ink-brown);
-  transition: all 0.2s;
-}
+.toc { padding: 30px 36px 10px; }
+.toc-title { font-size: 12px; letter-spacing: .3em; color: var(--accent); margin-bottom: 18px; text-transform: uppercase; }
+.toc a { display: flex; align-items: baseline; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--line-soft); text-decoration: none; color: var(--ink-brown); transition: all 0.2s; }
 .toc a:hover { padding-left: 6px; color: var(--accent); }
-.toc-no {
-  font-family: 'IM Fell English', serif;
-  font-size: 16px;
-  color: var(--accent);
-  flex-shrink: 0;
-  width: 34px;
-}
-.toc-ch {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-.toc-dots {
-  flex: 1;
-  border-bottom: 1px dotted var(--line);
-  transform: translateY(-4px);
-}
+.toc-no { font-size: 16px; color: var(--accent); flex-shrink: 0; width: 30px; }
+.toc-ch { font-size: 16px; font-weight: 600; letter-spacing: .04em; }
+.toc-dots { flex: 1; border-bottom: 1px dotted var(--line); transform: translateY(-4px); }
 
 /* ============ 章节 ============ */
 .chapter { padding: 44px 36px 10px; scroll-margin-top: 20px; }
 .chapter-head { margin-bottom: 28px; position: relative; }
-.chapter-no {
-  font-family: 'IM Fell English', serif;
-  font-style: italic;
-  font-size: 13px;
-  letter-spacing: 4px;
-  color: var(--accent);
-  margin-bottom: 8px;
-}
-.chapter-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--ink-brown);
-  letter-spacing: 2px;
-  line-height: 1.4;
-}
-.chapter-title::before {
-  content: '';
-  display: block;
-  width: 40px; height: 3px;
-  background: var(--accent);
-  margin-bottom: 16px;
-}
-.chapter-sub {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 15px;
-  color: var(--ink-mid);
-  margin-top: 12px;
-  line-height: 1.9;
-}
+.chapter-no { font-size: 12px; letter-spacing: .3em; color: var(--faint); margin-bottom: 10px; text-transform: uppercase; }
+.chapter-title { font-size: 28px; font-weight: 900; color: var(--ink-brown); letter-spacing: .06em; line-height: 1.4; }
+.chapter-title::before { content: ''; display: block; width: 40px; height: 2px; background: var(--accent); margin-bottom: 16px; }
+.chapter-sub { font-size: 15px; color: var(--ink-mid); margin-top: 14px; line-height: 2; }
+.chapter-sub strong { color: var(--ink-brown); font-weight: 700; }
 
 /* 正文段落 */
-.chapter p.text {
-  font-size: 15px;
-  color: #574E45;
-  line-height: 1.95;
-  margin-bottom: 16px;
-}
+.chapter p.text { font-size: 15px; color: var(--ink-mid); line-height: 2.05; margin-bottom: 16px; }
 .chapter p.text strong { color: var(--ink-brown); font-weight: 700; }
-.hl {
-  background: linear-gradient(transparent 62%, rgba(142,43,48,0.16) 62%);
-  font-weight: 500;
-  color: var(--ink-brown);
-}
+.hl { background: linear-gradient(transparent 62%, rgba(142,43,48,0.14) 62%); font-weight: 700; color: var(--accent); }
 
 /* 小节标题 */
-.sub-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 34px 0 16px;
-}
-.sub-no {
-  font-family: 'IM Fell English', serif;
-  font-size: 22px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-.sub-ch {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 19px;
-  font-weight: 700;
-  color: var(--ink-brown);
-  letter-spacing: 1px;
-}
+.sub-head { display: flex; align-items: center; gap: 12px; margin: 36px 0 16px; }
+.sub-no { font-size: 20px; color: var(--accent); flex-shrink: 0; }
+.sub-ch { font-size: 19px; font-weight: 700; color: var(--ink-brown); letter-spacing: .04em; }
 .sub-ch::before { content: '「'; color: var(--accent); }
 .sub-ch::after  { content: '」'; color: var(--accent); }
 
-.tag {
-  display: inline-block;
-  font-size: 11px;
-  letter-spacing: 1px;
-  padding: 2px 9px;
-  border-radius: 3px;
-  margin-left: 6px;
-  vertical-align: middle;
-  font-weight: 500;
-}
-.tag.easy { background: rgba(124,163,107,0.18); color: var(--sage); }
-.tag.hard { background: rgba(142,43,48,0.10); color: var(--accent); }
+.tag { display: inline-block; font-size: 11px; letter-spacing: .1em; padding: 2px 9px; margin-left: 6px; vertical-align: middle; font-weight: 400; border: 1px solid; }
+.tag.easy { color: var(--sage); border-color: rgba(124,163,107,.55); }
+.tag.hard { color: var(--accent); border-color: rgba(142,43,48,.45); }
 
 /* 卡片 */
-.card {
-  background: var(--paper-dark);
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  padding: 20px 22px;
-  margin: 18px 0;
-}
-.card-label {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 2px;
-  border-bottom: 1px solid var(--accent);
-  padding-bottom: 2px;
-  display: inline-block;
-  margin-bottom: 12px;
-}
-.card p { font-size: 14.5px; color: #574E45; line-height: 1.9; }
+.card { background: var(--paper-dark); border: 1px solid var(--line); padding: 20px 22px; margin: 18px 0; }
+.card-label { font-size: 12px; color: var(--accent); letter-spacing: .2em; border-bottom: 1px solid var(--accent); padding-bottom: 2px; display: inline-block; margin-bottom: 12px; font-weight: 700; }
+.card p { font-size: 14.5px; color: var(--ink-mid); line-height: 2; }
 .card p + p { margin-top: 10px; }
+.card em { font-style: normal; color: var(--ink-brown); }
 
-/* 示例话术（金句卡） */
-.quote {
-  position: relative;
-  background: var(--paper-dark);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 5px 5px 0;
-  padding: 14px 18px 14px 20px;
-  margin: 12px 0;
-}
-.quote .q-text {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 15.5px;
-  font-weight: 500;
-  color: var(--ink-brown);
-  line-height: 1.8;
-}
-.quote .q-text::before { content: '“'; color: var(--accent-soft); font-size: 20px; }
-.quote .q-text::after  { content: '”'; color: var(--accent-soft); font-size: 20px; }
-.quote .q-who {
-  font-size: 12px;
-  color: var(--ink-mid);
-  margin-top: 8px;
-  letter-spacing: 0.5px;
-}
+/* 示例话术 */
+.quote { position: relative; background: var(--paper-dark); border-left: 2px solid var(--accent); padding: 14px 18px 14px 20px; margin: 12px 0; }
+.quote .q-text { font-size: 15.5px; font-weight: 500; color: var(--ink-brown); line-height: 1.85; }
+.quote .q-text::before { content: '“'; color: var(--accent-soft); }
+.quote .q-text::after  { content: '”'; color: var(--accent-soft); }
+.quote .q-who { font-size: 12px; color: var(--faint); margin-top: 8px; letter-spacing: .02em; }
 .quote .q-who::before { content: '→ '; color: var(--accent); }
-
 .quote-group { margin: 16px 0; }
 
-/* 有序/无序列表 */
-ul.bullets, ol.steps { margin: 14px 0 14px; padding-left: 0; list-style: none; }
-ul.bullets li {
-  position: relative;
-  padding: 8px 0 8px 24px;
-  font-size: 14.5px;
-  color: #574E45;
-  line-height: 1.85;
-  border-bottom: 1px solid var(--line-soft);
-}
-ul.bullets li::before {
-  content: '';
-  position: absolute;
-  left: 4px; top: 17px;
-  width: 6px; height: 6px;
-  border: 1px solid var(--accent);
-  transform: rotate(45deg);
-}
+/* 列表 */
+ul.bullets { margin: 14px 0; padding-left: 0; list-style: none; }
+ul.bullets li { position: relative; padding: 9px 0 9px 22px; font-size: 14.5px; color: var(--ink-mid); line-height: 1.95; border-bottom: 1px solid var(--line-soft); }
+ul.bullets li::before { content: '·'; position: absolute; left: 7px; top: 9px; color: var(--accent); font-weight: 700; }
 ul.bullets li:last-child { border-bottom: none; }
 ul.bullets li strong { color: var(--ink-brown); font-weight: 700; }
 
-ol.steps { counter-reset: step; }
-ol.steps li {
-  position: relative;
-  padding: 10px 0 10px 40px;
-  font-size: 14.5px;
-  color: #574E45;
-  line-height: 1.85;
-  border-bottom: 1px solid var(--line-soft);
-}
+ol.steps { margin: 14px 0; padding-left: 0; list-style: none; counter-reset: step; }
+ol.steps li { position: relative; padding: 10px 0 10px 38px; font-size: 14.5px; color: var(--ink-mid); line-height: 1.95; border-bottom: 1px solid var(--line-soft); }
 ol.steps li:last-child { border-bottom: none; }
 ol.steps li::before {
-  counter-increment: step;
-  content: counter(step);
-  position: absolute;
-  left: 0; top: 10px;
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--paper);
-  font-family: 'IM Fell English', serif;
-  font-size: 13px;
-  display: flex; align-items: center; justify-content: center;
+  counter-increment: step; content: counter(step);
+  position: absolute; left: 0; top: 11px;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--accent); color: var(--accent);
+  font-size: 12px; display: flex; align-items: center; justify-content: center;
 }
 ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
 
 /* 提示框 */
-.callout {
-  border-radius: 5px;
-  padding: 16px 18px;
-  margin: 18px 0;
-  font-size: 14px;
-  line-height: 1.85;
-  position: relative;
-}
-.callout .c-title {
-  font-family: 'Noto Serif SC', serif;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-  display: flex; align-items: center; gap: 8px;
-}
-.callout.note  { background: rgba(142,43,48,0.06);  border: 1px solid rgba(142,43,48,0.22); }
+.callout { padding: 16px 18px; margin: 18px 0; font-size: 14px; line-height: 1.95; }
+.callout .c-title { font-weight: 700; font-size: 14px; letter-spacing: .04em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.callout.note { background: rgba(142,43,48,0.05); border: 1px solid rgba(142,43,48,0.18); }
 .callout.note .c-title { color: var(--accent); }
-.callout.bad   { background: rgba(43,39,36,0.03);   border: 1px dashed rgba(107,98,89,0.45); }
+.callout.bad { background: transparent; border: 1px dashed rgba(107,98,89,0.45); }
 .callout.bad .c-title { color: var(--ink-mid); }
-.callout.good  { background: rgba(124,163,107,0.10); border: 1px solid rgba(124,163,107,0.38); }
+.callout.bad .c-title b { color: var(--accent); }
+.callout.good { background: rgba(124,163,107,0.08); border: 1px solid rgba(124,163,107,0.35); }
 .callout.good .c-title { color: var(--sage); }
-.callout p { color: #574E45; }
-.callout strong { color: var(--ink-brown); }
+.callout p { color: var(--ink-mid); }
+.callout strong, .callout b { color: var(--ink-brown); }
+.callout em { font-style: normal; color: var(--ink-brown); }
 
-/* 章节分隔 */
-.divider {
-  text-align: center;
-  padding: 30px 0 10px;
-  color: var(--accent-soft);
-  font-size: 18px;
-  letter-spacing: 8px;
-}
+/* 分隔 */
+.divider { text-align: center; padding: 32px 0 6px; color: var(--accent); font-size: 13px; letter-spacing: .6em; opacity: .75; }
 
-/* 作业卡 */
-.homework {
-  margin: 30px 36px 0;
-  background: var(--ink-brown);
-  border-radius: 8px;
-  padding: 28px 26px;
-  position: relative;
-  overflow: hidden;
-}
-.homework::before {
-  content: '業';
-  position: absolute;
-  right: -16px; bottom: -30px;
-  font-family: 'Noto Serif SC', serif;
-  font-size: 150px;
-  font-weight: 900;
-  color: rgba(242,235,224,0.05);
-  line-height: 1;
-}
-.homework .hw-kicker {
-  font-family: 'IM Fell English', serif;
-  font-style: italic;
-  font-size: 13px;
-  letter-spacing: 3px;
-  color: var(--accent-soft);
-  margin-bottom: 8px;
-}
-.homework .hw-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 24px;
-  font-weight: 900;
-  color: var(--paper);
-  margin-bottom: 18px;
-  position: relative; z-index: 2;
-}
-.homework ul.bullets li,
-.homework ol.steps li {
-  color: rgba(242,235,224,0.85);
-  border-bottom: 1px solid rgba(242,235,224,0.10);
-}
-.homework ul.bullets li strong,
-.homework ol.steps li strong { color: #fff; }
-.homework ul.bullets li::before { border-color: var(--accent-soft); }
-.homework ol.steps li::before { background: var(--accent-soft); color: var(--ink-brown); }
-.homework .hw-q {
-  font-family: 'Noto Serif SC', serif;
-  color: var(--paper);
-  font-size: 15px;
-  position: relative; z-index: 2;
-}
+/* 作业 · 淳红反白 */
+.homework { margin: 36px 36px 0; background: var(--accent); padding: 30px 28px; position: relative; overflow: hidden; }
+.homework::before { content: '養'; position: absolute; right: -14px; bottom: -28px; font-size: 150px; font-weight: 900; color: rgba(251,249,244,0.08); line-height: 1; }
+.homework .hw-kicker { font-size: 12px; letter-spacing: .3em; color: rgba(251,249,244,0.7); margin-bottom: 8px; text-transform: uppercase; }
+.homework .hw-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 6px; position: relative; z-index: 2; letter-spacing: .04em; }
+.homework .hw-rule { width: 46px; height: 1px; background: rgba(251,249,244,0.45); margin: 14px 0 20px; }
+.homework ul.bullets li, .homework ol.steps li { color: rgba(251,249,244,0.85); border-bottom: 1px solid rgba(251,249,244,0.16); }
+.homework ul.bullets li strong, .homework ol.steps li strong { color: #fff; }
+.homework ul.bullets li::before { color: rgba(251,249,244,0.85); }
+.homework ol.steps li::before { border-color: rgba(251,249,244,0.6); color: #fff; }
+.homework .hw-q { color: #fff; font-size: 15px; position: relative; z-index: 2; }
 
 /* 页脚 */
-.colophon {
-  text-align: center;
-  padding: 50px 36px 40px;
-  border-top: 1px solid var(--line);
-  margin-top: 50px;
-}
-.colophon .seal {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--accent);
-  border: 1.5px solid var(--accent);
-  width: 56px; height: 56px;
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 18px;
-}
-.colophon p {
-  font-size: 12px;
-  color: var(--ink-mid);
-  letter-spacing: 1px;
-  line-height: 2;
-}
-.colophon .en {
-  font-family: 'IM Fell English', serif;
-  font-style: italic;
-  color: rgba(124,97,80,0.6);
-  margin-top: 6px;
-}
+.colophon { text-align: center; padding: 50px 36px 40px; border-top: 1px solid var(--line); margin-top: 50px; }
+.colophon .seal { font-size: 22px; font-weight: 700; color: var(--accent); border: 1.4px solid var(--accent); width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; }
+.colophon p { font-size: 12px; color: var(--ink-mid); letter-spacing: .08em; line-height: 2; }
+.colophon .en { color: var(--faint); margin-top: 6px; text-transform: uppercase; }
 
 /* 回到顶部 */
-.top-btn {
-  position: fixed;
-  bottom: 24px; right: 24px;
-  width: 46px; height: 46px;
-  border-radius: 50%;
-  background: var(--ink-brown);
-  color: var(--accent-soft);
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  z-index: 150;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-}
+.top-btn { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--paper); border: none; font-size: 17px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 150; box-shadow: 0 8px 20px rgba(43,39,36,0.22); }
 .top-btn.show { opacity: 1; pointer-events: auto; }
 
 @media screen and (max-width: 500px) {
-  .cover { height: 400px; }
+  body { background: var(--paper); }
+  .book { box-shadow: none; }
+  .cover { height: 410px; }
   .cover-title { font-size: 34px; }
   .chapter, .lead, .toc { padding-left: 24px; padding-right: 24px; }
   .homework { margin-left: 18px; margin-right: 18px; }
@@ -548,14 +222,15 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
   <!-- ============ 封面 ============ -->
   <div class="cover">
     <div class="cover-bg"></div>
-    <div class="cover-seal">短</div>
-    <div class="cover-watermark">創</div>
+    <div class="cover-seal">養</div>
+    <div class="cover-watermark">養</div>
     <div class="cover-content">
-      <div class="cover-kicker">线 下 方 案 班 · 内 部 讲 义</div>
+      <div class="cover-kicker">食 养 团 队 · 内 部 培 训</div>
       <h1 class="cover-title">短视频<br>内容创作方法论</h1>
-      <div class="cover-en">The Craft of Short-Video Content · A Field Manual</div>
+      <div class="cover-en en">Short-Video Content for Wellness</div>
+      <div class="cover-rule"></div>
       <div class="cover-meta">
-        <span>06 / 09 课堂实录整理</span>
+        <span>轻养生 · 食养赛道</span>
         <span>开头 · 内容力</span>
       </div>
     </div>
@@ -565,15 +240,15 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
 
     <!-- 引言 -->
     <div class="lead">
-      <span class="lead-mark">❝</span>
+      <span class="lead-mark">「</span>
       <p>一条短视频能不能成，被两件事决定：<strong>目标客户愿不愿意点开看（开头）</strong>，以及点开之后<strong>愿不愿意看下去（内容力）</strong>。</p>
-      <p>这份小册子把线下课讲的两块内容沉淀下来——前半讲<strong>开头的四种切入方式与原则</strong>，后半讲<strong>内容力</strong>：怎么从客户脑中的事实出发，把话说得口语、有对象感、有情绪。</p>
-      <p>它不提供"填空模板"。模板用多了，客户一眼就看穿，反而觉得你的人群不优质。这里给的是<strong>判断力</strong>——看完，你该知道自己的开头为什么好，或者为什么不好。</p>
+      <p>这份讲义把短视频选题的底层方法沉淀下来，并落到我们自己的赛道——<strong>食养、轻养生、私域调理</strong>。前半讲<strong>开头的四种切入方式与原则</strong>，后半讲<strong>内容力</strong>：怎么从客户脑中的事实出发，把话说得口语、有对象感、有情绪。</p>
+      <p>它不提供"填空模板"。模板用多了，客户一眼看穿，反而觉得你不专业、不值得信任。这里给的是<strong>判断力</strong>——看完，你该知道自己的开头为什么好，或为什么不好。</p>
     </div>
 
     <!-- 目录 -->
     <nav class="toc">
-      <div class="toc-title">CONTENTS · 目 录</div>
+      <div class="toc-title en">Contents · 目录</div>
       <a href="#ch1"><span class="toc-no">壹</span><span class="toc-ch">选题与开头 · 四种切入方式</span><span class="toc-dots"></span></a>
       <a href="#ch2"><span class="toc-no">贰</span><span class="toc-ch">做好开头的原则</span><span class="toc-dots"></span></a>
       <a href="#ch3"><span class="toc-no">叁</span><span class="toc-ch">蹭热点与价值观取舍</span><span class="toc-dots"></span></a>
@@ -585,89 +260,68 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
     <!-- ============ 第一章 ============ -->
     <section class="chapter" id="ch1">
       <div class="chapter-head">
-        <div class="chapter-no">CHAPTER 壹</div>
+        <div class="chapter-no en">Chapter 壹 · Opening</div>
         <h2 class="chapter-title">选题与开头<br>四种切入方式</h2>
-        <p class="chapter-sub">开头只有一个目的：让目标客群愿意给你刷视频的<strong>第一次机会</strong>。下面四种切入方式，从最直接到最讲洞察，可按行业和人群挑用。</p>
+        <p class="chapter-sub">开头只有一个目的：让目标客群愿意给你刷视频的<strong>第一次机会</strong>。下面四种切入方式，从最直接到最讲洞察，可按人群挑用。大部分人只会用"人群痛点"去圈，其实还能用<strong>话题/现象</strong>切，也能用<strong>观点</strong>切。</p>
       </div>
-
-      <p class="text">大部分人圈人群，只会用"人群痛点"去圈。其实还可以用<span class="hl">话题/现象</span>切，也可以用<span class="hl">观点</span>切。难度不同，能调动的好奇心也不同。</p>
 
       <!-- 切入一 -->
-      <div class="sub-head">
-        <span class="sub-no">壹</span>
-        <span class="sub-ch">人群痛点切入</span>
-        <span class="tag easy">最直接</span>
-      </div>
-      <p class="text">用人群、特质、特征直接"圈"出目标客户——这是作业里最常用的半模板开头。上手快，但人人都在用，容易显得套路。它是基本功，不是终点。</p>
+      <div class="sub-head"><span class="sub-no">壹</span><span class="sub-ch">人群痛点切入</span><span class="tag easy">最直接</span></div>
+      <p class="text">用人群、特质、症状直接"圈"出目标客户——最常用的半模板开头。上手快，但人人都在用，容易显得套路。它是基本功，不是终点。比如"<span class="hl">总是手脚冰凉的女生</span>"、"<span class="hl">一到换季就反复感冒的人</span>"，一句话就把人圈出来了。</p>
 
       <!-- 切入二 -->
-      <div class="sub-head">
-        <span class="sub-no">贰</span>
-        <span class="sub-ch">话题 / 现象切入</span>
-        <span class="tag hard">较难 · 靠洞察</span>
-      </div>
-      <p class="text"><strong>定义：</strong>阐述对某个现象或问题、某个角度的好奇、保留或质疑。</p>
-      <p class="text"><strong>为什么难：</strong>这个现象必须是你的目标客户<span class="hl">足够熟知</span>的，并且你的切入角度得有一定<span class="hl">新颖性</span>。它需要你对行业的用户和现象有敏锐洞察——平均一个月也就出五六条，做不到条条都到这个程度。</p>
-      <p class="text">好处是：不像上来就讲痛点那样让人抵触，而是勾起好奇，让人忍不住往下看。</p>
+      <div class="sub-head"><span class="sub-no">贰</span><span class="sub-ch">话题 / 现象切入</span><span class="tag hard">较难 · 靠洞察</span></div>
+      <p class="text"><strong>定义：</strong>阐述对某个现象、某个角度的好奇、保留或质疑。</p>
+      <p class="text"><strong>为什么难：</strong>这个现象必须是你的目标客户<span class="hl">足够熟知</span>的，并且切入角度得有一定<span class="hl">新颖性</span>。它需要你对养生人群的真实状态有敏锐洞察。好处是：不像上来讲痛点那样让人抵触，而是勾起好奇，让人忍不住往下看。</p>
       <div class="quote-group">
-        <div class="quote"><div class="q-text">天哪，我找到反向带货的规律了，终于知道小杨哥、K总这些人是怎么做的了。</div><div class="q-who">圈的人群：直播行业里带货的主播</div></div>
-        <div class="quote"><div class="q-text">看博商、看张琪、看张一武，他们不都是把线下课搬到线上吗？别人的行，凭什么我不行？</div><div class="q-who">圈的人群：在线下讲课、想搬到线上的专家讲师</div></div>
-        <div class="quote"><div class="q-text">现在创业最大的机会，就是搞个茶桌、搞个高大上的沙发、搞个老板椅，后面再挂一个海纳百川。</div><div class="q-who">圈的人群：传统一点的老板</div></div>
-        <div class="quote"><div class="q-text">直播带货，是我见过最容易散播的行业。</div><div class="q-who">圈的人群：做私域/电商的带货主播</div></div>
-        <div class="quote"><div class="q-text">再喜欢一家美容院，我也不可能一个月到店三次。</div><div class="q-who">圈的人群：美容院老板娘</div></div>
-        <div class="quote"><div class="q-text">都是做开门红，有人10天能收100万，有人其实是赔本赚吆喝。</div><div class="q-who">圈的人群：美业老板娘</div></div>
-        <div class="quote"><div class="q-text">打游戏越厉害的孩子，学习或者其他方面也越……</div><div class="q-who">圈的人群：孩子爱打游戏的家长</div></div>
-        <div class="quote"><div class="q-text">打孩子的父母，肯定也惯孩子，百分之百，没有一个例外——因为惯孩子和打孩子是一模一样的事儿。</div><div class="q-who">圈的人群：家长</div></div>
+        <div class="quote"><div class="q-text">我终于搞懂，为什么有人保温杯里泡了十年枸杞，气色还是那么差。</div><div class="q-who">圈的人群：跟风养生、却没效果的人</div></div>
+        <div class="quote"><div class="q-text">现在年轻人养生最大的样子，就是买一抽屉保健品，过期了都没拆封。</div><div class="q-who">圈的人群：囤养生品的亚健康上班族</div></div>
+        <div class="quote"><div class="q-text">你有没有发现，越是天天泡脚、艾灸的人，反而越容易上火。</div><div class="q-who">圈的人群：盲目养生、越调越乱的人</div></div>
+        <div class="quote"><div class="q-text">再爱喝养生茶的人，一个月也坚持不了三次。</div><div class="q-who">圈的人群：三分钟热度、难坚持的调理型人群</div></div>
+        <div class="quote"><div class="q-text">都是做食养，有人客户一个月复购好几次，有人客户买一次就再也不来了。</div><div class="q-who">圈的人群：私域 / 食养同行</div></div>
+        <div class="quote"><div class="q-text">脾胃越虚的人，越爱吃那些"大补"的东西。</div><div class="q-who">圈的人群：脾胃虚弱、爱乱补的人</div></div>
+        <div class="quote"><div class="q-text">手脚一年四季都凉的人，问题往往不在手脚。</div><div class="q-who">圈的人群：气血不足、宫寒的调理型女性</div></div>
+        <div class="quote"><div class="q-text">给爸妈买了一堆补品，最后全堆在阳台上落灰。</div><div class="q-who">圈的人群：为家人选购养生品的子女</div></div>
       </div>
       <div class="callout note">
-        <div class="c-title">⌘ 行业黑话也能圈人</div>
-        <p>电商行业有"平货"这类黑话，只有圈内主播能懂。如果你做的就是主播的生意，用这种词，等于一句话筛掉所有外行。</p>
+        <div class="c-title">行业黑话也能圈人</div>
+        <p>"湿气重""气血两虚""脾虚生痰""虚不受补"——这些词只有关注调理的人才懂。一句行话，就把真正需要食养的人筛出来，把看热闹的外行挡在门外。</p>
       </div>
 
       <!-- 切入三 -->
-      <div class="sub-head">
-        <span class="sub-no">叁</span>
-        <span class="sub-ch">观点切入</span>
-        <span class="tag easy">较简单 · 有要求</span>
-      </div>
-      <p class="text">观点要么是<strong>权威的认知</strong>，要么是<strong>相对反常（反认知）的观点</strong>。不能是"正确的废话"——"争做好青年"这种没人爱看。</p>
+      <div class="sub-head"><span class="sub-no">叁</span><span class="sub-ch">观点切入</span><span class="tag easy">较简单 · 有要求</span></div>
+      <p class="text">观点要么是<strong>权威的认知</strong>，要么是<strong>相对反常（反认知）的观点</strong>。不能是"正确的废话"——"养生要趁早""健康最重要"这种没人爱看。</p>
       <div class="quote-group">
-        <div class="quote"><div class="q-text">高客单的行业做短视频，最重要的不是摆案例，而是吹。</div><div class="q-who">反认知：大家都以为高客单一定要案例</div></div>
-        <div class="quote"><div class="q-text">我非常讨厌我们行业里那句话——"你有病，我有药"。</div><div class="q-who">反行业口头禅</div></div>
-        <div class="quote"><div class="q-text">你帮人解决问题、做公益、又不收钱，那不就等着被白嫖吗？</div><div class="q-who">反"免费连麦/做好人"的惯性</div></div>
-        <div class="quote"><div class="q-text">你只要招的是个编导，这辈子就别想过课了。</div><div class="q-who">说给 IP 和老板听，从不对运营说</div></div>
-        <div class="quote"><div class="q-text">你靠努力发财，绝对不可能。</div><div class="q-who">权威观点：讲的人本身已经实现财富自由，才有资格</div></div>
-        <div class="quote"><div class="q-text">越会技术的老板，越赚不到钱。</div><div class="q-who">反"金砖技术论"，对汽修等技术型老板</div></div>
-        <div class="quote"><div class="q-text">挑客户，是美容院老板娘必须具备的一种核心技能。</div><div class="q-who">反"客户来了我都要"</div></div>
-        <div class="quote"><div class="q-text">女人身上，不能透露着这种操劳感。</div><div class="q-who">对又操劳又想体面的人群</div></div>
-        <div class="quote"><div class="q-text">交易的盈利是不能庆祝的，因为交易本身是零和博弈——你赚的钱，其实就是别人亏的钱。</div><div class="q-who">权威认知 · 反直觉</div></div>
-        <div class="quote"><div class="q-text">爸爸要经常带着孩子去做坏事，然后一起承担做坏事的结果。</div><div class="q-who">反常的教育价值观</div></div>
+        <div class="quote"><div class="q-text">调理身体，最重要的不是猛补，而是先把"堵"的地方通开。</div><div class="q-who">反认知：大家以为养生 = 多补</div></div>
+        <div class="quote"><div class="q-text">我最讨厌养生圈那句话——"是药三分毒，所以食补最安全"。</div><div class="q-who">反行业口头禅</div></div>
+        <div class="quote"><div class="q-text">你天天给身体做加法，吃这个补那个，其实是越补越虚。</div><div class="q-who">反认知：养生其实要先做减法</div></div>
+        <div class="quote"><div class="q-text">怕冷又怕上火的人，缺的根本不是补品，是"平衡"。</div><div class="q-who">对又虚又燥、不敢乱补的人</div></div>
+        <div class="quote"><div class="q-text">挑客户，是做私域调理必须具备的一种核心能力。</div><div class="q-who">反"谁来买都接"，对私域同行</div></div>
+        <div class="quote"><div class="q-text">女人身上，不该有那种"操劳出来的疲惫感"。</div><div class="q-who">对悦颜、想由内调养的女性</div></div>
+        <div class="quote"><div class="q-text">靠意志力坚持养生，绝对坚持不下来。</div><div class="q-who">权威观点：说的人自己得真把人养好过</div></div>
+        <div class="quote"><div class="q-text">补气血这件事，慢，才是最快的。</div><div class="q-who">反速效心态 · 反直觉</div></div>
       </div>
       <div class="callout note">
-        <div class="c-title">⌘ 两条判断标准</div>
-        <p>① <strong>开头的观点不能"一听就认同"</strong>。大家都在讲的，就没意思了。后面的内容你可以转折、可以反着收，但<strong>开头必须先勾住人</strong>。<br>② <strong>权威观点要"有资格"</strong>。讲"靠努力发财不可能"的人，必须自己已经靠风口赚到了钱、不靠努力这套——他讲，大家才爱听。</p>
+        <div class="c-title">两条判断标准</div>
+        <p><strong>① 开头的观点不能"一听就认同"。</strong>大家都在讲的，就没意思了。后面内容可以转折、可以反着收，但<strong>开头必须先勾住人</strong>。<br><strong>② 权威观点要"有资格"。</strong>讲"靠意志力坚持不下来"的人，自己得真的把一批人调理好过、有结果——他讲，大家才信。</p>
       </div>
 
       <!-- 切入四 -->
-      <div class="sub-head">
-        <span class="sub-no">肆</span>
-        <span class="sub-ch">购买理由硬给</span>
-        <span class="tag easy">最好做</span>
-      </div>
-      <p class="text">直接把购买理由"硬给"出来，后面再讲为什么。一般针对<strong>已经关注你的人</strong>，或者<strong>对你完全没概念的人</strong>。</p>
+      <div class="sub-head"><span class="sub-no">肆</span><span class="sub-ch">购买理由硬给</span><span class="tag easy">最好做</span></div>
+      <p class="text">直接把购买理由"硬给"出来，后面再讲为什么。一般针对<strong>已经关注你的人</strong>，或<strong>对你完全没概念的人</strong>。</p>
       <div class="quote-group">
-        <div class="quote"><div class="q-text">你们转化不好，真的不是话术问题，是你的思维逻辑框架有问题。</div><div class="q-who">对主播硬给</div></div>
-        <div class="quote"><div class="q-text">三个月所有项目的经验和思考，就能浓缩成这一场。</div><div class="q-who">发布会/大课的购买理由</div></div>
-        <div class="quote"><div class="q-text">为什么我对自己的培训有无敌的信心？哪怕世界上已经有很多很多流量课了。</div><div class="q-who">硬给信心</div></div>
-        <div class="quote"><div class="q-text">不做预制包，一天卖5000个包子是什么体验？</div><div class="q-who">餐饮 · 用反差硬给</div></div>
+        <div class="quote"><div class="q-text">你调理没效果，真的不是你不够自律，是你的方子根本没对症。</div><div class="q-who">硬给：把锅从客户身上拿下来</div></div>
+        <div class="quote"><div class="q-text">三年踩过的养生坑、试过的所有方子，全浓缩成这一份食养方案。</div><div class="q-who">硬给价值</div></div>
+        <div class="quote"><div class="q-text">为什么我敢说这套食养方法有用？哪怕市面上的养生课已经多到看不过来。</div><div class="q-who">硬给信心</div></div>
+        <div class="quote"><div class="q-text">不靠任何保健品，只用一日三餐把气血养回来，是什么体验？</div><div class="q-who">用反差硬给</div></div>
       </div>
       <div class="callout bad">
-        <div class="c-title">✕ 购买理由也分好坏</div>
-        <p>一旦只会用"<strong>为什么……</strong>"开头（为什么建议你、为什么我的服务……），就很无聊，基本不算好编导了。内容出得好可以偶尔用，但别老用。不是所有行业都这么卷——之前没做过的，先从这种入手也可以。</p>
+        <div class="c-title"><b>禁</b> 购买理由也分好坏</div>
+        <p>一旦只会用"<strong>为什么……</strong>"开头（为什么建议你、为什么我的方子……），就很无聊，基本不算会做开头了。内容出得好可以偶尔用，但别老用——之前没做过的，先从这种入手也可以。</p>
       </div>
       <div class="callout note">
-        <div class="c-title">⌘ 实体老板的爆款模板</div>
-        <p>三四五线、县城的实体老板里最近很火："学理发——到每一个小区停一下，这个小区的人来找我。"开三五个小区，评论区就有人问"怎么没来我小区"。对整个县城的实体辐射很强——但<strong>不一定适合你</strong>，看人群。</p>
+        <div class="c-title">实体养生馆的社区玩法</div>
+        <p>线下中医馆 / 养生馆里有个常见模板："免费帮你看体质——到每个小区门口摆一天。"开三五个小区，评论区就有人问"怎么不来我们小区"。对周边的实体辐射很强——但<strong>不一定适合线上食养</strong>，看你的人群在哪儿。</p>
       </div>
     </section>
 
@@ -676,39 +330,39 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
     <!-- ============ 第二章 ============ -->
     <section class="chapter" id="ch2">
       <div class="chapter-head">
-        <div class="chapter-no">CHAPTER 贰</div>
+        <div class="chapter-no en">Chapter 贰 · Principles</div>
         <h2 class="chapter-title">做好开头的原则</h2>
-        <p class="chapter-sub">同样是开头，有好有坏。下面几条原则，决定客户刷到你时，觉得"这人有东西"还是"又一个套路号"。</p>
+        <p class="chapter-sub">同样是开头，有好有坏。下面几条原则，决定客户刷到你时，觉得"这人懂养生"，还是"又一个卖货的"。</p>
       </div>
 
       <div class="callout bad">
-        <div class="c-title">✕ 先戒掉：被用烂的钩子模板</div>
-        <p>"99%的人都不知道"、"刷到这条千万别划走"、"这条视频价值百万"、"说出来你可能不信"、"大家好我是XX，今天给大家分享……"——这些钩子被过度使用之后，客户一刷到就觉得<strong>这人群不优质、不值得信任</strong>。你的客户人气、审美越高，越不要套模板。</p>
+        <div class="c-title"><b>禁</b> 先戒掉：被用烂的钩子模板</div>
+        <p>"99%的人都不知道"、"刷到这条千万别划走"、"这条视频价值百万"、"说出来你可能不信"、"大家好我是XX，今天给大家分享……"——这些钩子被用滥之后，客户一刷到就觉得<strong>你不优质、不值得信任</strong>。你的客户越成熟、审美越高，越不要套模板。</p>
       </div>
 
       <ol class="steps">
         <li><strong>用短句的组合，不用长句。</strong>不要一个句子长到一口气念不完、逗号都还没到。</li>
-        <li><strong>直接和用户对话。</strong>多用"你"，少说"我们今天来给大家介绍一个……"。一旦有了"你"，你就在对用户说话了。</li>
+        <li><strong>直接和用户对话。</strong>多用"你"，少说"我们今天来给大家介绍一款……"。一旦有了"你"，你就在对用户说话了。</li>
         <li><strong>加入兴趣词 / 情绪词</strong>，让语言更有含义——但适度，不必硬塞"99%"。</li>
       </ol>
 
       <div class="card">
-        <span class="card-label">词 库 · 适当加入</span>
-        <p><strong>领域词：</strong>创业、搞钱、人生……</p>
-        <p><strong>热点词：</strong>名人、国家、大火的明星……</p>
+        <span class="card-label">词库 · 适当加入</span>
+        <p><strong>领域词：</strong>调理、气血、体质、湿气、脾胃、睡眠……</p>
+        <p><strong>时节词：</strong>换季、三伏、入秋、节气、回南天……</p>
         <p><strong>其他：</strong>数字词、否定词、情绪词。</p>
       </div>
 
-      <p class="text">下面几条，感受一下"短句 + 对象感 + 情绪"是什么味道：</p>
+      <p class="text">感受一下"短句 + 对象感 + 情绪"是什么味道：</p>
       <div class="quote-group">
-        <div class="quote"><div class="q-text">你是主播吗？你连控场都不会，你算什么主播？</div></div>
-        <div class="quote"><div class="q-text">谁告诉你直播一定要每天播的？谁告诉你一定要贴片、要搞些花里胡哨的？</div></div>
-        <div class="quote"><div class="q-text">你不好奇吗？申哥在短视频里从来不讲方法，他居然是短视频培训最大的博主。</div></div>
-        <div class="quote"><div class="q-text">天天这么播，也没个长进，有什么意义呢？</div></div>
+        <div class="quote"><div class="q-text">你是不是也这样？保温杯里泡着枸杞，熬夜照样熬到两点。</div></div>
+        <div class="quote"><div class="q-text">谁告诉你养生一定要吃得苦哈哈的？谁告诉你调理就得忌口忌到没法吃饭？</div></div>
+        <div class="quote"><div class="q-text">你不好奇吗？有些人从不吃保健品，气色却比谁都好。</div></div>
+        <div class="quote"><div class="q-text">天天泡脚、天天艾灸，身体也没见好，那有什么意义呢？</div></div>
       </div>
       <div class="callout note">
-        <div class="c-title">⌘ 情绪要和你的性格匹配</div>
-        <p>吐槽、怼，是某些 IP 性格里本来就有的东西，用起来自然。如果你不是这种人，硬怼会很假。<strong>按自己的气质来用。</strong></p>
+        <div class="c-title">情绪要和你的性格匹配</div>
+        <p>吐槽、调侃，是某些人本来就有的表达方式，用起来自然。如果你不是这种人，硬怼会很假。<strong>按自己的气质来用</strong>——食养赛道尤其要稳，温和也是一种风格。</p>
       </div>
     </section>
 
@@ -717,38 +371,35 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
     <!-- ============ 第三章 ============ -->
     <section class="chapter" id="ch3">
       <div class="chapter-head">
-        <div class="chapter-no">CHAPTER 叁</div>
+        <div class="chapter-no en">Chapter 叁 · Trending</div>
         <h2 class="chapter-title">蹭热点与<br>价值观取舍</h2>
-        <p class="chapter-sub">不是所有流量都值得要。蹭得对是放大，蹭得错是消耗自己。</p>
+        <p class="chapter-sub">不是所有流量都值得要。蹭得对是放大，蹭得错是消耗自己——食养尤其要稳。</p>
       </div>
 
-      <p class="text">不要盲目蹭热点，<strong>尤其是和你的人群完全不搭边的时候</strong>。一个大热点下面涌进来的，大多是"旁观者"——他们看你评论这个事，但不会找你做生意，因为他们不是你的用户。</p>
+      <p class="text">不要盲目蹭热点，<strong>尤其是和你的人群完全不搭边的时候</strong>。一个大热点下面涌进来的，大多是"旁观者"——他们看你评论这个事，但不会找你调理身体，因为他们不是你的用户。</p>
 
       <div class="callout bad">
-        <div class="c-title">✕ 反例 · 主动放弃的热点</div>
-        <p>某老师出事时，大量博主抢着拍。我们下飞机第一时间知道，却共同决定：<strong>绝对不蹭</strong>。一是价值观——讲人家的事，好的坏的都不尊重；二是对客户其实没有意义，淹没在一堆同样的视频里，蹭它干嘛？</p>
+        <div class="c-title"><b>反例</b> · 该放弃的热点</div>
+        <p>某位名人因病去世、或某养生品牌"翻车"上了热搜时，很多账号抢着拍。但对食养团队来说要<strong>格外克制</strong>：一是价值观——拿别人的生死、把恐慌当流量，不体面；二是对客户其实没意义，淹没在一堆同样的视频里，蹭它干嘛？</p>
       </div>
       <div class="callout good">
-        <div class="c-title">✓ 正例 · 和人群强相关才蹭</div>
-        <p>邹律师做继承业务。同一个热点，他从"<strong>遗嘱怎么继承</strong>"的角度切入，爆了——因为这正好是他人群关心的事。蹭热点的前提，是热点和你的人群强相关。</p>
+        <div class="c-title"><b>正例</b> · 和人群强相关才蹭</div>
+        <p>食养真正的"热点"，是<strong>节气与换季</strong>：入秋要润燥、三伏要祛湿、回南天湿气重、冬至要进补。这些天然贴合你的人群，又年年都来。把节令做成内容日历，比追娱乐热点稳得多。</p>
       </div>
 
-      <div class="sub-head">
-        <span class="sub-no">※</span>
-        <span class="sub-ch">diss 同行的"度"</span>
-      </div>
-      <p class="text">能不能在视频里表达"看不起同行"，要分两层看：</p>
+      <div class="sub-head"><span class="sub-no">※</span><span class="sub-ch">说同行的"度"</span></div>
+      <p class="text">能不能在视频里表达"看不上某些同行做法"，要分两层看：</p>
       <ul class="bullets">
-        <li><strong>第一层：IP 本人能不能接受这个度。</strong>有的 IP 受不了直说"同行都是骗子"；但很多 IP 可以接受<span class="hl">隐性</span>地说——不点名，用现象来讲。</li>
+        <li><strong>第一层：你本人能不能接受这个度。</strong>有的人受不了直说"那些卖养生品的都是骗子"；但很多人可以接受<span class="hl">隐性</span>地说——不点名，用现象来讲。</li>
         <li><strong>第二层：你对话的客户能不能接受。</strong>这和人群有关，是另一件事。</li>
       </ul>
       <div class="card">
-        <span class="card-label">隐 性 表 达 的 示 范</span>
-        <p>不说"律师都是骗子"，而说：<em>"很多律师就会让你一直等着；但真正合格的律师，不会让你等。"</em>——用一种正在发生的现象，<strong>反向衬托</strong>那种同行不靠谱，而不是上来就骂。</p>
+        <span class="card-label">隐性表达的示范</span>
+        <p>不说"卖养生品的都是割韭菜"，而说：<em>"很多人卖养生品，只管让你买，从不问你是什么体质；但真正负责的，会先看你适不适合。"</em>——用一种正在发生的现象，<strong>反向衬托</strong>那种不负责的做法，而不是上来就骂。</p>
       </div>
       <div class="callout note">
-        <div class="c-title">⌘ 客户的"道德标准"不一样</div>
-        <p>很多高认知/大老板客户的底层是"<strong>只要不违法，我就能干</strong>"——你有自己对金钱、政策的理解，他们反而认同。<br>但越是做<strong>普通人</strong>的生意，你越要"真善美"一点：这类客户需要你讲价值观、讲愿景，才觉得你和他是一路人。<strong>看你的用户是谁，定你 diss 的度。</strong></p>
+        <div class="c-title">越大众，越要"真善美"</div>
+        <p>食养面对的多是普通人，他们需要你<strong>讲安全、讲温和、讲不替代医疗</strong>，才觉得你靠谱、和他是一路人。所以食养赛道的"狠话"要少，<strong>把专业与真诚放在前面</strong>——这既是合规，也是这个赛道最好的人设。</p>
       </div>
     </section>
 
@@ -757,49 +408,43 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
     <!-- ============ 第四章 ============ -->
     <section class="chapter" id="ch4">
       <div class="chapter-head">
-        <div class="chapter-no">CHAPTER 肆</div>
+        <div class="chapter-no en">Chapter 肆 · Substance</div>
         <h2 class="chapter-title">内容力<br>让客户看得下去</h2>
-        <p class="chapter-sub">开头解决"愿意看"，内容力解决"看得下去"。大多数人的短视频让目标客户看不下去，核心是两个病根。</p>
+        <p class="chapter-sub">开头解决"愿意看"，内容力解决"看得下去"。大多数人的短视频让客户看不下去，核心是两个病根。</p>
       </div>
 
-      <div class="sub-head">
-        <span class="sub-no">病一</span>
-        <span class="sub-ch">没从客户脑中的事实出发</span>
-      </div>
-      <p class="text">上来就跟客户讲道理、讲"我是怎么做的"，客户<strong>没法代入</strong>——他不知道自己为什么被吸引来听这套"正确的内容"。</p>
-      <p class="text">要从<span class="hl">客户能理解的事实</span>出发：可以是他的经历、情绪、感受，或者他的关系——不限于某一种。比如"体制内的父母更……"，体制内的父母自然就愿意看一看。让客户理解这件事不费劲，而不是"我来告诉你一二三"。</p>
+      <div class="sub-head"><span class="sub-no">病一</span><span class="sub-ch">没从客户脑中的事实出发</span></div>
+      <p class="text">上来就讲方子、讲成分、讲"我是怎么做的"，客户<strong>没法代入</strong>——他不知道自己为什么要听这套"正确的养生知识"。</p>
+      <p class="text">要从<span class="hl">客户能理解的事实</span>出发：可以是他的经历、情绪、感受，或他的身体状态。比如"久坐办公室的人，一到下午就犯困、手脚发凉，喝多少咖啡都没用"——这类人一听就对号入座，自然愿意往下看，而不是"我来告诉你气血不足的三个表现"。</p>
 
-      <div class="sub-head">
-        <span class="sub-no">病二</span>
-        <span class="sub-ch">听起来太费劲</span>
-      </div>
-      <p class="text">写得像<strong>演讲文、宣传文、科普文</strong>——"我来给你一二三四五"，但那个一二三四五还是照本宣科、说教感重。</p>
+      <div class="sub-head"><span class="sub-no">病二</span><span class="sub-ch">听起来太费劲</span></div>
+      <p class="text">写得像<strong>中医科普、说明书、养生讲座</strong>——"我来给你讲气血津液一二三四五"，照本宣科、说教感重，刷视频的人根本不想听。</p>
       <div class="callout note">
-        <div class="c-title">⌘ 认知高的人，刷短视频也不想费脑子</div>
-        <p>别以为你吸引的是高认知人群，就可以讲复杂。认知再高的人，<strong>刷短视频时也不想动用"最强大脑"</strong>。他既然来刷短视频，就是来放松的。你要让他<strong>觉得有道理，但不费劲</strong>。</p>
+        <div class="c-title">再注重养生的人，刷视频也不想费脑子</div>
+        <p>别以为你吸引的是高认知人群，就可以讲复杂。再爱学习的人，<strong>刷短视频时也不想动用"最强大脑"</strong>。他来刷视频是放松的。你要让他<strong>觉得有道理，但不费劲</strong>。</p>
       </div>
 
-      <p class="text" style="margin-top:24px;"><strong>怎么让人听得下去？核心三化：</strong></p>
+      <p class="text"><strong>怎么让人听得下去？核心三化：</strong></p>
       <ol class="steps">
-        <li><strong>口语化。</strong>你平时怎么说话，就怎么写。写完读一遍自己的文案——是"一看就是短视频文案"的感觉，还是像你平时说话？</li>
-        <li><strong>对象感。</strong>多用"你"。用户觉得你在对他说话，就会给你更多注意力。</li>
-        <li><strong>情绪化。</strong>带着你平时说话的情绪和态度去讲，语言才有感染力。</li>
+        <li><strong>口语化。</strong>你平时怎么说话，就怎么写。写完读一遍——是"一看就是文案"的感觉，还是像你平时跟客户聊天？</li>
+        <li><strong>对象感。</strong>多用"你"。用户觉得你在对他一个人说话，就会给你更多注意力。</li>
+        <li><strong>情绪化。</strong>带着你平时说话的语气和态度去讲，语言才有温度、有感染力。</li>
       </ol>
 
       <div class="callout bad">
-        <div class="c-title">✕ 非口语化的词，别往短视频里写</div>
-        <p>果真、不负所望、附庸、分外美丽、得知、无理取闹……这些是写书面才用的词。<br>长句更要警惕，比如：<em>"当你跌落谷底，但愿每次依旧光彩夺目。"</em>——平时说话没人这么说。</p>
+        <div class="c-title"><b>禁</b> 非口语化的词，别往短视频里写</div>
+        <p>"诸位""不无裨益""佐之以""其性温和"……这些是写说明书才用的词。<br>长句更要警惕，比如：<em>"当身体在四季更迭中渐感乏力，愿你以一餐一饮温养其间。"</em>——平时说话没人这么说。</p>
       </div>
 
       <div class="callout note">
-        <div class="c-title">⌘ 进阶 · 用"语境里的第二句话"开头</div>
-        <p>如果你不太会自然地起头，就把"<strong>一段对话里的第二句</strong>"拎出来当开头，让用户觉得自己<strong>偷偷听到了你谈话的某个片段</strong>。<br>例：<em>"不不不，不是痛点视频不能获客，是你压根不知道什么是痛点。"</em></p>
+        <div class="c-title">进阶 · 用"语境里的第二句话"开头</div>
+        <p>如果你不太会自然地起头，就把"<strong>一段对话里的第二句</strong>"拎出来当开头，让用户觉得自己<strong>偷偷听到了你和别人的对话</strong>。<br>例：<em>"不不不，不是食补没用，是你压根没搞清楚自己是什么体质。"</em></p>
       </div>
 
       <div class="card">
-        <span class="card-label">范 本 · 婚姻家事律师（对象感极强）</span>
-        <p><em>"那些为了孩子而不离婚的女生——当你们做出'为子女保留一个完整家庭'的决定时，能不能先冷静下来，仔细想想我下面要说的这几个问题？哪怕它非常扎心。"</em></p>
-        <p style="margin-top:10px; color:var(--ink-mid);">它向屏幕前的用户传递了非常强烈的对话感：我就是在对"你"说的。口语感和对话感都做得很好——这是一个比较极端的范例，不是要你照搬，而是体会那种"我在对你一个人说话"的力道。</p>
+        <span class="card-label">范本 · 对象感极强的开口</span>
+        <p><em>"那些每天熬到一两点、第二天靠咖啡续命的女生——你有没有发现，最近气色越来越差，姨妈也开始不准了？先别急着买补品，我下面说的这几句，你可能更需要听。"</em></p>
+        <p style="margin-top:10px; color:var(--faint);">它向屏幕前的用户传递了非常强烈的对话感：我就是在对"你"说的。不是要你照搬，而是体会那种"我在对你一个人说话"的力道。</p>
       </div>
     </section>
 
@@ -808,40 +453,31 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
     <!-- ============ 第五章 案例 ============ -->
     <section class="chapter" id="ch5">
       <div class="chapter-head">
-        <div class="chapter-no">CHAPTER 伍</div>
+        <div class="chapter-no en">Chapter 伍 · Case study</div>
         <h2 class="chapter-title">案例拆解<br>从人群到开头</h2>
-        <p class="chapter-sub">一条真实选题——"<em>我的案例谁都能做出来</em>"——看它怎么从人群出发、基于客户脑中的事实落到开头。</p>
+        <p class="chapter-sub">一条常见的养生选题——回应"<em>养生品都是智商税</em>"——看它怎么从人群出发、基于客户脑中的事实，落到一个好开头。</p>
       </div>
 
-      <div class="sub-head">
-        <span class="sub-no">壹</span>
-        <span class="sub-ch">先想人群</span>
-      </div>
+      <div class="sub-head"><span class="sub-no">壹</span><span class="sub-ch">先想人群</span></div>
       <p class="text">这条选题想圈三类人：</p>
       <ul class="bullets">
-        <li><strong>质疑我的编导</strong>——质疑编导的背后，代表着质疑我的客户。</li>
-        <li><strong>找我有顾虑的潜在客户</strong>。</li>
-        <li><strong>不知道该找谁、想找人做账号的客户</strong>。</li>
+        <li><strong>怀疑食养有没有用的人</strong>——被各种养生概念忽悠过，已经不信了。</li>
+        <li><strong>想调理、但怕踩坑的潜在客户</strong>。</li>
+        <li><strong>不知道该信谁、想找个靠谱方向的人</strong>。</li>
       </ul>
 
-      <div class="sub-head">
-        <span class="sub-no">贰</span>
-        <span class="sub-ch">从客户脑中的事实出发</span>
-      </div>
-      <p class="text">客户真实听过的质疑是：<span class="hl">"经纬做的都是头部客户，案例谁做都能做出来。"</span>——把这句客户脑中已经存在的话，原样说出来，再一层层回应。</p>
+      <div class="sub-head"><span class="sub-no">贰</span><span class="sub-ch">从客户脑中的事实出发</span></div>
+      <p class="text">客户脑中早就存在的那句质疑是：<span class="hl">"养生品不就是图个心理安慰，都是智商税。"</span>——把这句他真实想过的话，原样说出来，再一层层回应。</p>
       <div class="quote-group">
-        <div class="quote"><div class="q-text">最大的舆情之一，就是说经纬那些案例毫无含金量，谁做都能做出来。</div><div class="q-who">开头：直接说出客户脑中的质疑</div></div>
-        <div class="quote"><div class="q-text">你说这是你的案例，人家就光给你付钱吗？在座各位，你们也不止给一个人付钱吧。</div><div class="q-who">垫话：用客户的原话往下走</div></div>
+        <div class="quote"><div class="q-text">我知道你心里在想什么：养生品不都是智商税吗，喝个心理安慰。</div><div class="q-who">开头：直接说出客户脑中的质疑</div></div>
+        <div class="quote"><div class="q-text">你是不是也买过一堆，喝几天没感觉就扔抽屉里了？那真不怪你。</div><div class="q-who">垫话：用客户的经历往下走，先接住他</div></div>
       </div>
 
-      <div class="sub-head">
-        <span class="sub-no">叁</span>
-        <span class="sub-ch">内容里要有"你的见解"</span>
-      </div>
-      <p class="text">内容可以罗列"一二三"，但每一条都得是你对这件事的<strong>理解</strong>，不是空排列。比如这条的核心见解是：搞定头部 IP 靠的不是人脉资源，而是<span class="hl">咨询时的两三个问题</span>——10 分钟，对方就能判定你有没有解决问题的能力。</p>
+      <div class="sub-head"><span class="sub-no">叁</span><span class="sub-ch">内容里要有"你的见解"</span></div>
+      <p class="text">内容可以罗列"一二三"，但每一条都得是你对这件事的<strong>理解</strong>，不是空排列。比如这条的核心见解是：食养没效果，多半不是没用，而是<span class="hl">没对症、没坚持、没把"通"和"补"搭配好</span>——把"为什么你之前没效果"讲透，比夸自己的产品有用一百倍。</p>
       <div class="callout good">
-        <div class="c-title">✓ 一句话收住</div>
-        <p>从"人群"到"客户脑中的事实"，再到"一句你独有的见解"——这条线走通，开头就既圈住了人，又立住了观点。这正是今天作业要练的东西。</p>
+        <div class="c-title"><b>一句话收住</b></div>
+        <p>从"人群"到"客户脑中的事实"，再到"一句你独有的见解"——这条线走通，开头就既圈住了人，又立住了专业。这正是今天作业要练的东西。</p>
       </div>
     </section>
 
@@ -849,35 +485,36 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
 
   <!-- ============ 作业 ============ -->
   <div class="homework" id="hw">
-    <div class="hw-kicker">TODAY'S ASSIGNMENT</div>
+    <div class="hw-kicker en">Today's Assignment</div>
     <div class="hw-title">今日作业 · 开头 + 内容力</div>
-    <p class="hw-q" style="margin-bottom:14px;">三个半模板开头，<strong>选一个最有感觉的</strong>套进你的行业（写得快就三个都写）：</p>
+    <div class="hw-rule"></div>
+    <p class="hw-q" style="margin-bottom:14px;">三个半模板开头，<strong>选一个最有感觉的</strong>，套进我们的食养内容（写得快就三个都写）：</p>
     <ul class="bullets">
-      <li>"<strong>……最痛苦的就是 ×× 这个阶段</strong>"（例：打网球最痛苦的就是 2.5 这个阶段）</li>
-      <li>"<strong>××最大的谎言就是 ××，这么做非常容易被 ××</strong>"（例：直播间最大的谎言就是利他，利他的直播间非常容易被白嫖）</li>
-      <li>"<strong>×× 是没有出路的，×× 的尽头真的是 ××</strong>"（例：平播的主播是没有出路的）</li>
+      <li>"<strong>调理 ×× 最难熬的，就是 ×× 这个阶段</strong>"（例：祛湿最难熬的，就是刚开始排湿反应那几天）</li>
+      <li>"<strong>××最大的谎言就是 ××，这么做非常容易 ××</strong>"（例：养生最大的谎言就是"多喝热水"，光靠多喝热水非常容易把脾胃喝虚）</li>
+      <li>"<strong>×× 是没有出路的，×× 的尽头真的是 ××</strong>"（例：靠保健品堆出来的养生是没有出路的）</li>
     </ul>
     <p class="hw-q" style="margin:18px 0 10px;"><strong>这条要同时满足：</strong></p>
     <ol class="steps">
-      <li>开头有<strong>目标人群</strong>在看；</li>
-      <li>内容<strong>基于客户脑中的事实</strong>出发（经历 / 情绪 / 感受 / 关系）；</li>
+      <li>开头有<strong>明确的目标人群</strong>在看；</li>
+      <li>内容<strong>基于客户脑中的事实</strong>出发（经历 / 情绪 / 感受 / 身体状态）；</li>
       <li>加一句你<strong>独特的见解观点</strong>；</li>
       <li>语言做到<strong>口语化、对象感、情绪化</strong>。</li>
     </ol>
-    <p class="hw-q" style="margin:18px 0 6px;"><strong>限制与节奏：</strong></p>
+    <p class="hw-q" style="margin:18px 0 10px;"><strong>限制与节奏：</strong></p>
     <ul class="bullets">
-      <li>本条<strong>不考虑营销</strong>：不植入产品名、公司名，不说"我多专业 / 从业多少年"。</li>
-      <li>时长 <strong>1.5–4 分钟，约 3 分钟</strong>；先自己改一遍，再找操盘手过。</li>
-      <li>底层要求：<strong>一条先打磨好</strong>，过了再走；愿意多写，操盘手也愿意看。</li>
+      <li>本条<strong>不考虑营销</strong>：不报产品名、不报公司名，不说"我多专业 / 从业多少年"。</li>
+      <li>注意合规：<strong>不打包票、不替代医疗</strong>，多讲体质与温和调养。</li>
+      <li>时长 <strong>1.5–4 分钟，约 3 分钟</strong>；先把一条打磨好，再写下一条。</li>
     </ul>
   </div>
 
   <!-- 页脚 -->
   <div class="colophon">
-    <div class="seal">創</div>
-    <p>短视频内容创作方法论 · 线下方案班讲义</p>
+    <div class="seal">養</div>
+    <p>一淳小养 · 食养团队内部讲义</p>
     <p>开头让人愿意看，内容力让人看得下去。</p>
-    <p class="en">Craft over template. — 06 / 09</p>
+    <p class="en">Simple &amp; Pure Nourishment · Field Manual</p>
   </div>
 
 </div>
@@ -885,20 +522,18 @@ ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
 <button class="top-btn" id="topBtn" aria-label="回到顶部">↑</button>
 
 <script>
-  // 阅读进度
-  const progress = document.getElementById('progress');
-  const topBtn = document.getElementById('topBtn');
+  var progress = document.getElementById('progress');
+  var topBtn = document.getElementById('topBtn');
   function onScroll() {
-    const h = document.documentElement;
-    const scrolled = h.scrollTop;
-    const total = h.scrollHeight - h.clientHeight;
-    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    var h = document.documentElement;
+    var total = h.scrollHeight - h.clientHeight;
+    var pct = total > 0 ? (h.scrollTop / total) * 100 : 0;
     progress.style.width = pct + '%';
-    topBtn.classList.toggle('show', scrolled > 600);
+    topBtn.classList.toggle('show', h.scrollTop > 600);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-  topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  topBtn.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
 </script>
 
 </body>
