@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一淳小养 · 让用户买单</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:        #FBF9F4;
+  --paper-dark:   #F4F0E7;
+  --paper-darker: #ECE5D6;
+  --ink-brown:    #2B2724;
+  --ink-mid:      #6B6259;
+  --faint:        #A8A094;
+  --accent:       #8E2B30;
+  --accent-soft:  #C0807C;
+  --gold:         #C0807C;
+  --sage:         #7CA36B;
+  --line:         rgba(43,39,36,0.13);
+  --line-soft:    rgba(43,39,36,0.07);
+  --crimson:      #8E2B30;
+  --crimson-soft: #C0807C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Songti SC","Source Han Serif SC","Noto Serif SC","Noto Serif CJK SC","PingFang SC",serif;
+  background: #E7E1D5;
+  color: var(--ink-brown);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+}
+.en { font-family: "Cormorant Garamond","Times New Roman",serif; letter-spacing: .12em; }
+
+.progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 200; transition: width 0.1s linear; }
+
+.book {
+  width: 100%; max-width: 720px;
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");
+  box-shadow: 0 0 60px rgba(43,39,36,0.18);
+  overflow: hidden; position: relative;
+}
+
+.cover { position: relative; height: 460px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+.cover-bg { position: absolute; inset: 0; background: linear-gradient(162deg, #FBF9F4 0%, #F2ECDF 55%, #E6DECB 100%); }
+.cover-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+.cover-seal { position: absolute; right: 28px; top: 28px; width: 60px; height: 60px; border: 1.4px solid var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 26px; color: var(--accent); z-index: 2; }
+.cover-watermark { position: absolute; right: -26px; bottom: -56px; font-size: 230px; font-weight: 900; color: rgba(43,39,36,0.045); line-height: 1; z-index: 1; }
+.cover-content { position: relative; z-index: 3; padding: 0 36px 44px; }
+.cover-kicker { font-size: 12px; font-weight: 400; color: var(--accent); letter-spacing: .5em; margin-bottom: 18px; }
+.cover-title { font-size: 44px; font-weight: 900; color: var(--ink-brown); letter-spacing: .04em; line-height: 1.3; margin-bottom: 16px; }
+.cover-en { font-size: 13px; color: var(--faint); letter-spacing: .18em; margin-bottom: 20px; text-transform: uppercase; }
+.cover-rule { width: 52px; height: 1px; background: var(--accent); opacity: .85; margin-bottom: 18px; }
+.cover-meta { display: flex; gap: 18px; flex-wrap: wrap; font-size: 11px; color: var(--faint); letter-spacing: .14em; }
+.cover-meta span { display: flex; align-items: center; gap: 6px; }
+.cover-meta span::before { content: '·'; color: var(--accent); }
+
+.content { padding: 0 0 70px; }
+
+.lead { padding: 44px 36px 30px; position: relative; }
+.lead::after { content: ''; position: absolute; bottom: 0; left: 36px; right: 36px; height: 1px; background: var(--line); }
+.lead-mark { font-size: 34px; color: var(--accent); line-height: .6; margin-bottom: 14px; display: block; }
+.lead p { font-size: 16px; font-weight: 400; color: var(--ink-mid); line-height: 2; margin-bottom: 14px; }
+.lead p strong { color: var(--ink-brown); font-weight: 700; }
+
+.toc { padding: 30px 36px 10px; }
+.toc-title { font-size: 12px; letter-spacing: .3em; color: var(--accent); margin-bottom: 18px; text-transform: uppercase; }
+.toc a { display: flex; align-items: baseline; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--line-soft); text-decoration: none; color: var(--ink-brown); transition: all 0.2s; }
+.toc a:hover { padding-left: 6px; color: var(--accent); }
+.toc-no { font-size: 16px; color: var(--accent); flex-shrink: 0; width: 30px; }
+.toc-ch { font-size: 16px; font-weight: 600; letter-spacing: .04em; }
+.toc-dots { flex: 1; border-bottom: 1px dotted var(--line); transform: translateY(-4px); }
+
+.chapter { padding: 44px 36px 10px; scroll-margin-top: 20px; }
+.chapter-head { margin-bottom: 28px; position: relative; }
+.chapter-no { font-size: 12px; letter-spacing: .3em; color: var(--faint); margin-bottom: 10px; text-transform: uppercase; }
+.chapter-title { font-size: 28px; font-weight: 900; color: var(--ink-brown); letter-spacing: .06em; line-height: 1.4; }
+.chapter-title::before { content: ''; display: block; width: 40px; height: 2px; background: var(--accent); margin-bottom: 16px; }
+.chapter-sub { font-size: 15px; color: var(--ink-mid); margin-top: 14px; line-height: 2; }
+.chapter-sub strong { color: var(--ink-brown); font-weight: 700; }
+
+.chapter p.text { font-size: 15px; color: var(--ink-mid); line-height: 2.05; margin-bottom: 16px; }
+.chapter p.text strong { color: var(--ink-brown); font-weight: 700; }
+.hl { background: linear-gradient(transparent 62%, rgba(142,43,48,0.14) 62%); font-weight: 700; color: var(--accent); }
+
+.sub-head { display: flex; align-items: center; gap: 12px; margin: 36px 0 16px; }
+.sub-no { font-size: 20px; color: var(--accent); flex-shrink: 0; }
+.sub-ch { font-size: 19px; font-weight: 700; color: var(--ink-brown); letter-spacing: .04em; }
+.sub-ch::before { content: '「'; color: var(--accent); }
+.sub-ch::after  { content: '」'; color: var(--accent); }
+
+.card { background: var(--paper-dark); border: 1px solid var(--line); padding: 20px 22px; margin: 18px 0; }
+.card-label { font-size: 12px; color: var(--accent); letter-spacing: .2em; border-bottom: 1px solid var(--accent); padding-bottom: 2px; display: inline-block; margin-bottom: 12px; font-weight: 700; }
+.card p { font-size: 14.5px; color: var(--ink-mid); line-height: 2; }
+.card p + p { margin-top: 10px; }
+.card em { font-style: normal; color: var(--ink-brown); }
+
+.quote { position: relative; background: var(--paper-dark); border-left: 2px solid var(--accent); padding: 14px 18px 14px 20px; margin: 12px 0; }
+.quote .q-text { font-size: 15.5px; font-weight: 500; color: var(--ink-brown); line-height: 1.85; }
+.quote .q-text::before { content: '“'; color: var(--accent-soft); }
+.quote .q-text::after  { content: '”'; color: var(--accent-soft); }
+.quote .q-who { font-size: 12px; color: var(--faint); margin-top: 8px; letter-spacing: .02em; }
+.quote .q-who::before { content: '→ '; color: var(--accent); }
+.quote-group { margin: 16px 0; }
+
+ul.bullets { margin: 14px 0; padding-left: 0; list-style: none; }
+ul.bullets li { position: relative; padding: 9px 0 9px 22px; font-size: 14.5px; color: var(--ink-mid); line-height: 1.95; border-bottom: 1px solid var(--line-soft); }
+ul.bullets li::before { content: '·'; position: absolute; left: 7px; top: 9px; color: var(--accent); font-weight: 700; }
+ul.bullets li:last-child { border-bottom: none; }
+ul.bullets li strong { color: var(--ink-brown); font-weight: 700; }
+
+ol.steps { margin: 14px 0; padding-left: 0; list-style: none; counter-reset: step; }
+ol.steps li { position: relative; padding: 10px 0 10px 38px; font-size: 14.5px; color: var(--ink-mid); line-height: 1.95; border-bottom: 1px solid var(--line-soft); }
+ol.steps li:last-child { border-bottom: none; }
+ol.steps li::before {
+  counter-increment: step; content: counter(step);
+  position: absolute; left: 0; top: 11px;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--accent); color: var(--accent);
+  font-size: 12px; display: flex; align-items: center; justify-content: center;
+}
+ol.steps li strong { color: var(--ink-brown); font-weight: 700; }
+
+.callout { padding: 16px 18px; margin: 18px 0; font-size: 14px; line-height: 1.95; }
+.callout .c-title { font-weight: 700; font-size: 14px; letter-spacing: .04em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.callout.note { background: rgba(142,43,48,0.05); border: 1px solid rgba(142,43,48,0.18); }
+.callout.note .c-title { color: var(--accent); }
+.callout.bad { background: transparent; border: 1px dashed rgba(107,98,89,0.45); }
+.callout.bad .c-title { color: var(--ink-mid); }
+.callout.bad .c-title b { color: var(--accent); }
+.callout.good { background: rgba(124,163,107,0.08); border: 1px solid rgba(124,163,107,0.35); }
+.callout.good .c-title { color: var(--sage); }
+.callout p { color: var(--ink-mid); }
+.callout strong, .callout b { color: var(--ink-brown); }
+.callout em { font-style: normal; color: var(--ink-brown); }
+
+.divider { text-align: center; padding: 32px 0 6px; color: var(--accent); font-size: 13px; letter-spacing: .6em; opacity: .75; }
+
+.homework { margin: 36px 36px 0; background: var(--accent); padding: 30px 28px; position: relative; overflow: hidden; }
+.homework::before { content: '信'; position: absolute; right: -14px; bottom: -28px; font-size: 150px; font-weight: 900; color: rgba(251,249,244,0.08); line-height: 1; }
+.homework .hw-kicker { font-size: 12px; letter-spacing: .3em; color: rgba(251,249,244,0.7); margin-bottom: 8px; text-transform: uppercase; }
+.homework .hw-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 6px; position: relative; z-index: 2; letter-spacing: .04em; }
+.homework .hw-rule { width: 46px; height: 1px; background: rgba(251,249,244,0.45); margin: 14px 0 20px; }
+.homework ul.bullets li, .homework ol.steps li { color: rgba(251,249,244,0.85); border-bottom: 1px solid rgba(251,249,244,0.16); }
+.homework ul.bullets li strong, .homework ol.steps li strong { color: #fff; }
+.homework ul.bullets li::before { color: rgba(251,249,244,0.85); }
+.homework ol.steps li::before { border-color: rgba(251,249,244,0.6); color: #fff; }
+.homework .hw-q { color: #fff; font-size: 15px; position: relative; z-index: 2; }
+
+.colophon { text-align: center; padding: 50px 36px 40px; border-top: 1px solid var(--line); margin-top: 50px; }
+.colophon .seal { font-size: 22px; font-weight: 700; color: var(--accent); border: 1.4px solid var(--accent); width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; }
+.colophon p { font-size: 12px; color: var(--ink-mid); letter-spacing: .08em; line-height: 2; }
+.colophon .en { color: var(--faint); margin-top: 6px; text-transform: uppercase; }
+
+.top-btn { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--paper); border: none; font-size: 17px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 150; box-shadow: 0 8px 20px rgba(43,39,36,0.22); }
+.top-btn.show { opacity: 1; pointer-events: auto; }
+
+@media screen and (max-width: 500px) {
+  body { background: var(--paper); }
+  .book { box-shadow: none; }
+  .cover { height: 410px; }
+  .cover-title { font-size: 34px; }
+  .chapter, .lead, .toc { padding-left: 24px; padding-right: 24px; }
+  .homework { margin-left: 18px; margin-right: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="book">
+
+  <!-- 封面 -->
+  <div class="cover">
+    <div class="cover-bg"></div>
+    <div class="cover-seal">信</div>
+    <div class="cover-watermark">信</div>
+    <div class="cover-content">
+      <div class="cover-kicker">食 养 团 队 · 内 部 培 训</div>
+      <h1 class="cover-title">让用户买单<br>价值主张与信任</h1>
+      <div class="cover-en en">Value &amp; Trust · Why They Buy</div>
+      <div class="cover-rule"></div>
+      <div class="cover-meta">
+        <span>轻养生 · 食养赛道</span>
+        <span>获客 · 信任 · 成交</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- 引言 -->
+    <div class="lead">
+      <span class="lead-mark">「</span>
+      <p>很多人以为成交靠"<strong>够专业</strong>"。可专业在成交里，可能只占 <strong>5%</strong>。</p>
+      <p>因为大多数客户，是<strong>迷茫、纠结、没有判断力</strong>的。他们要的不是一份"解决方案"，而是一个<strong>明确的方向</strong>，和一个<strong>可以信的人</strong>。</p>
+      <p>这一册讲三件事：怎么给用户<strong>指引价值方向</strong>、怎么从<strong>多个维度建立信任</strong>，以及怎么从你已经跑出来的<strong>爆款里反推答案</strong>。全部落到我们的食养赛道。</p>
+    </div>
+
+    <!-- 目录 -->
+    <nav class="toc">
+      <div class="toc-title en">Contents · 目录</div>
+      <a href="#ch1"><span class="toc-no">壹</span><span class="toc-ch">别再用专业硬碰</span><span class="toc-dots"></span></a>
+      <a href="#ch2"><span class="toc-no">贰</span><span class="toc-ch">先给方向，再给方案</span><span class="toc-dots"></span></a>
+      <a href="#ch3"><span class="toc-no">叁</span><span class="toc-ch">重新定义价值</span><span class="toc-dots"></span></a>
+      <a href="#ch4"><span class="toc-no">肆</span><span class="toc-ch">多维度建立信任</span><span class="toc-dots"></span></a>
+      <a href="#ch5"><span class="toc-no">伍</span><span class="toc-ch">从爆款里反推答案</span><span class="toc-dots"></span></a>
+      <a href="#hw"><span class="toc-no">课</span><span class="toc-ch">今日作业</span><span class="toc-dots"></span></a>
+    </nav>
+
+    <!-- ============ 第一章 ============ -->
+    <section class="chapter" id="ch1">
+      <div class="chapter-head">
+        <div class="chapter-no en">Chapter 壹 · Not just expertise</div>
+        <h2 class="chapter-title">别再用专业硬碰</h2>
+        <p class="chapter-sub">越是执拗地"讲专业、回答问题"，越会把自己逼进一条<strong>越走越窄</strong>的死胡同。先看清这个陷阱。</p>
+      </div>
+
+      <p class="text">当你执拗地讲专业、不停回答问题，会慢慢形成一种自我暗示："我把问题分析得越透、越专业，客户越认我。"——于是你越钻越深，找各种角度证明自己专业，越走越往死胡同里去。很多人的获客效率就是这样一点点降下来的，自己还不知道。</p>
+      <div class="callout bad">
+        <div class="c-title"><b>✕</b> 那个夸你"最专业"的人，是幸存者</div>
+        <p>偶尔有客户跟你说"我看了很多人，就觉得你最专业"，你会觉得"果然没做错"。但他只是被你<strong>一层层筛剩下</strong>的那一个——他强化了你的错觉，让你继续往窄路上走。</p>
+      </div>
+      <p class="text">专业是一种<span class="hl">非标的信息</span>：只有比你认知低一点的人，才会觉得你专业；比你高的人能判断你，比你低太多的人根本听不懂。所以"靠专业打动人"，本质是要求客户<strong>有认知、有判断力</strong>——这一下就筛掉了绝大多数人。</p>
+      <div class="callout bad">
+        <div class="c-title"><b>✕</b> 只有进攻，没有防守</div>
+        <p>你一味讲"我怎么解决这个问题"，等于全程进攻。可一旦客户萌生退缩——"要不再等等""再问问别家"——你手里<strong>没有一招是防守</strong>，只能眼睁睁看他走。</p>
+      </div>
+    </section>
+
+    <div class="divider">❖ ❖ ❖</div>
+
+    <!-- ============ 第二章 ============ -->
+    <section class="chapter" id="ch2">
+      <div class="chapter-head">
+        <div class="chapter-no en">Chapter 贰 · Direction first</div>
+        <h2 class="chapter-title">先给方向<br>再给方案</h2>
+        <p class="chapter-sub">客户大多是迷茫、纠结的。纠结的时候，他要的不是一个"解决方案"，而是一个<strong>明确的价值方向</strong>。</p>
+      </div>
+
+      <p class="text">一个迷茫的客户，你跟他讲一句有道理，别人讲一句也有道理——他<strong>没有判断力</strong>，只会越听越纠结，能纠结几个月、几年。这时你再给他堆三个专家、五个维度，是给他的认知<span class="hl">加负担</span>，不是减负担。他的唯一选择，就是点个收藏、然后放弃。</p>
+      <div class="callout note">
+        <div class="c-title">解决方案 vs 价值方向</div>
+        <p><strong>解决方案</strong>是"回答问题"；<strong>价值方向</strong>是"指引一条明路"。客户纠结时，你最该做的不是给方案，而是先帮他<strong>认知减负</strong>——告诉他：在你这么多选择里，<strong>哪个方向才是对你最有价值的</strong>。</p>
+      </div>
+
+      <div class="sub-head"><span class="sub-no">※</span><span class="sub-ch">两种开口，差在哪</span></div>
+      <div class="quote-group">
+        <div class="quote"><div class="q-text">这两种调理方案，我从五个维度帮你对比一下：第一是成分，第二是周期……</div><div class="q-who">要求客户有判断力，他只会"我再去别家看看"——筛掉大多数人</div></div>
+        <div class="quote"><div class="q-text">你这些症状，根本不是缺补品，是先得把"堵"的地方通开——方向错了，补再多都白搭。</div><div class="q-who">先给方向、认知减负，他知道接下来该往哪走</div></div>
+      </div>
+      <div class="callout note">
+        <div class="c-title">什么是"价值主张"</div>
+        <p>每个账号都要有一句清楚的价值主张：<strong>做什么 / 吃什么，才能得到什么好处</strong>。明确地说，反复地说。比如——"<em>把脾胃养好，气色、睡眠、情绪都会跟着顺</em>"。先把这句立住，再谈别的。</p>
+      </div>
+    </section>
+
+    <div class="divider">❖ ❖ ❖</div>
+
+    <!-- ============ 第三章 ============ -->
+    <section class="chapter" id="ch3">
+      <div class="chapter-head">
+        <div class="chapter-no en">Chapter 叁 · Redefine value</div>
+        <h2 class="chapter-title">重新定义价值</h2>
+        <p class="chapter-sub">客户对"值不值、该花多少钱"<strong>没有判断力</strong>。价值是你来定义的，不是问出来的。</p>
+      </div>
+
+      <p class="text">有个生活里的例子：一个人买床垫，本来觉得"床能睡就行"，舍不得花钱。销售没有问他预算、也没急着报价，只说了一句——"<span class="hl">人这一辈子，有一半时间在床上，床是最值得投资的</span>"。他记住了这句话，最后买了很贵的床垫。</p>
+      <p class="text">这就是<strong>重新定义价值</strong>。最烂的销售才上来问"你预算多少"——客户要是知道这东西值多少钱，还来找你干嘛？<strong>东西值不值、值多少，得由你向他定义。</strong></p>
+      <div class="card">
+        <span class="card-label">食养版 · 重新定义价值</span>
+        <p>客户觉得"调理身体花这么多钱不值"，你不必报价格、比成分，而是把价值重新立起来：<em>"你的脾胃、气血，是要陪你一辈子的底子。年轻时省下的，老了都得加倍还。把身体养好，是这辈子最划算的投资。"</em></p>
+      </div>
+      <div class="callout note">
+        <div class="c-title">客户一定会"想退缩"，你要接住</div>
+        <p>客户总有退缩性的念头——"太贵了""要不再等等""会不会没用"。他自己<strong>想不清楚</strong>，你得替他想清楚，并且<strong>不断主动地建立价值</strong>，他才不会往后退。能成交的人，都在反复帮客户"想清楚"。</p>
+      </div>
+      <div class="callout note">
+        <div class="c-title">把一个方向，反复地讲</div>
+        <p>真正厉害的人，会把同一个价值方向<strong>重复无数遍</strong>——让你坚信"就该往这条道走"。专业内容是用来<strong>论证这个方向是对的、论证你有资格指引这个方向</strong>，而不是用来打动大众的主角。</p>
+      </div>
+    </section>
+
+    <div class="divider">❖ ❖ ❖</div>
+
+    <!-- ============ 第四章 ============ -->
+    <section class="chapter" id="ch4">
+      <div class="chapter-head">
+        <div class="chapter-no en">Chapter 肆 · Multi-dimensional trust</div>
+        <h2 class="chapter-title">多维度<br>建立信任</h2>
+        <p class="chapter-sub">信任不只来自专业。你能调动的信任维度越多，能打动的人就越多；只在专业一个维度往死里钻，只会让你更晦涩。</p>
+      </div>
+
+      <p class="text">没有判断力的人，靠什么信你？靠<span class="hl">感觉</span>。而感觉来自很多地方。把这些维度都用上，你的吸引力才会变厚。</p>
+      <ol class="steps">
+        <li><strong>专业的"感觉"。</strong>不是讲多深的专业，而是让人<strong>一看就觉得专业</strong>：利落的形象、统一的着装、干净的谈吐。大家对"靠谱"是有刻板印象的。</li>
+        <li><strong>身份。</strong>你是谁的朋友、过往做成过什么、和客户有没有<strong>相似的经历</strong>——"我和你是一类人"，本身就建立信任。</li>
+        <li><strong>团队与环境。</strong>有工厂、有实体店、有靠谱的同事、有人人想加入的团队氛围，都在替你背书。</li>
+        <li><strong>习惯。</strong>每天复盘、坚持钻研、认真对待每一位客户——好的工作与学习习惯，也是一种信任。</li>
+      </ol>
+      <div class="card">
+        <span class="card-label">范本 · 团队介绍视频</span>
+        <p>一条"新成员入职"的视频里，员工说：<em>"我做了六年营养健康，知道这家公司时,那一刻就认定了——能进来工作太难得了。"</em>——它没讲任何专业知识，却传递出"<strong>同行都梦寐以求进这家公司</strong>"，这就是一股很强的信任感。</p>
+      </div>
+      <div class="callout bad">
+        <div class="c-title"><b>✕</b> 只在专业一个维度往死里钻</div>
+        <p>有个只做"专业分析"的养生博主，每条都在拆解病理、分析指标。看似专业，却<strong>后院失火</strong>：客户得有能力听懂、还得自己判断你最对——门槛太高，大多数人转身就去别处了。</p>
+      </div>
+    </section>
+
+    <div class="divider">❖ ❖ ❖</div>
+
+    <!-- ============ 第五章 ============ -->
+    <section class="chapter" id="ch5">
+      <div class="chapter-head">
+        <div class="chapter-no en">Chapter 伍 · Decode your hit</div>
+        <h2 class="chapter-title">从爆款里<br>反推答案</h2>
+        <p class="chapter-sub">你获客最好的那条视频，藏着几乎所有答案。别凭空想——去把它拆开。</p>
+      </div>
+
+      <div class="card">
+        <span class="card-label">真实拆解 · 我们赛道的一条爆款</span>
+        <p>开头是：<em>"当我被告知，身体还不如 56 岁的妈妈，还被下了最后通牒那一刻，我才知道健康有多重要。于是我辞职回老家，一头扎进药食同源……"</em></p>
+      </div>
+      <p class="text">为什么它能获客？拆开看，三件事都做对了：</p>
+      <ol class="steps">
+        <li><strong>锁定一类人。</strong>它对准的是 <span class="hl">30–40 岁、气血不好的宝妈</span>——因为工作、因为生娃，身体垮下来的那批人，一听就感同身受。</li>
+        <li><strong>气色的前后对比。</strong>从"气色差"到"气色好"的画面对比，让人相信：你真的<strong>把这个问题解决了</strong>。</li>
+        <li><strong>呈现你的"来时路"。</strong>跑遍各地药材厂、拆过几百个快递、看过多少医生、试过多少方子——把你踩过的坑摆出来，他相信你<strong>踩过的坑他不想再踩</strong>。</li>
+      </ol>
+      <div class="callout bad">
+        <div class="c-title"><b>✕</b> 爆了一条之后，却再没"复制"它</div>
+        <p>很多人爆了一条，后面却再也没围绕<strong>这批人</strong>说话、再没出现过那组<strong>前后对比</strong>、再没讲过自己的<strong>来时路</strong>——于是再难复制。把爆款里对的东西，反复地做。</p>
+      </div>
+
+      <div class="sub-head"><span class="sub-no">※</span><span class="sub-ch">先把一件事做爆</span></div>
+      <p class="text">想同时做 C 端（自己调理的人）和 B 端（加盟 / 代理），往往两头都做不好。因为 <strong>B 端要先看到你 C 端的结果</strong>，才愿意跟你。就像一个没开过店的人，同时开奶茶店又开餐饮店——结果是一块儿死。</p>
+      <div class="callout note">
+        <div class="c-title">顺序与取舍</div>
+        <p>先把 <strong>C 端做爆</strong>，自然会有溢出的人来找你做代理。一个号、一类人、一个方向，反复打透；<strong>别去蹭和你人群无关的热点</strong>（看高考的家长，注意力都在自己孩子身上，不会有空看你）。</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ 作业 ============ -->
+  <div class="homework" id="hw">
+    <div class="hw-kicker en">Today's Assignment</div>
+    <div class="hw-title">今日作业 · 价值与信任</div>
+    <div class="hw-rule"></div>
+    <p class="hw-q" style="margin-bottom:14px;"><strong>甲 · 拆解你获客最好的一条视频</strong>，回答四个问题：</p>
+    <ol class="steps">
+      <li>它在<strong>对谁</strong>说话？（拆到具体的人群和状态）</li>
+      <li>他处在<strong>哪个认知阶段</strong>？</li>
+      <li>你给了他什么<strong>价值方向</strong>（而不只是解决方案）？</li>
+      <li>你靠哪几个<strong>维度建立了信任</strong>（专业 / 身份 / 经历 / 团队 / 习惯 / 前后对比）？</li>
+    </ol>
+    <p class="hw-q" style="margin:18px 0 10px;"><strong>乙 · 写出你这个号的一句"价值主张"：</strong></p>
+    <ul class="bullets">
+      <li>做什么 / 吃什么 → 能得到什么好处。一句话，明确、能反复讲。</li>
+    </ul>
+    <p class="hw-q" style="margin:18px 0 10px;"><strong>丙 · 列出"专业之外"你能建立信任的维度：</strong></p>
+    <ul class="bullets">
+      <li>你和客户相似的<strong>经历</strong>、你的<strong>来时路</strong>、你的<strong>团队 / 工厂 / 实体店</strong>、你的<strong>日常习惯</strong>……至少写三条。</li>
+    </ul>
+    <p class="hw-q" style="margin:18px 0 0;"><strong>提醒：</strong>合规第一——不打包票、不替代医疗，多讲体质与温和调养。</p>
+  </div>
+
+  <!-- 页脚 -->
+  <div class="colophon">
+    <div class="seal">信</div>
+    <p>一淳小养 · 食养团队内部讲义</p>
+    <p>先给方向，再给信任，专业只是其中一味。</p>
+    <p class="en">Value &amp; Trust · Field Manual</p>
+  </div>
+
+</div>
+
+<button class="top-btn" id="topBtn" aria-label="回到顶部">↑</button>
+
+<script>
+  var progress = document.getElementById('progress');
+  var topBtn = document.getElementById('topBtn');
+  function onScroll() {
+    var h = document.documentElement;
+    var total = h.scrollHeight - h.clientHeight;
+    var pct = total > 0 ? (h.scrollTop / total) * 100 : 0;
+    progress.style.width = pct + '%';
+    topBtn.classList.toggle('show', h.scrollTop > 600);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  topBtn.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
+</script>
+
+</body>
+</html>
